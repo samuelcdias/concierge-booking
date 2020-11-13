@@ -47,7 +47,7 @@ module.exports = app => {
     const getById = (req, res) => {
         app.db('quartos')
             .select('id',  'numero', 'descricao','nro_camas', 'tipo', 'imageUrl', 'cama_extra', 'dt_limpeza', 'dt_manutencao')
-            .where({id: req.params.id}).first()
+            .where({numero: req.params.numero}).first()
             .then(quartos => res.json(quartos))
             .catch(err => res.status(500).send(err))
     }
@@ -67,8 +67,7 @@ module.exports = app => {
         } catch (msg) {
             res.status(500).send(msg)
         }
-    }
-    
+    }    
 
     return { save, get, getById, remove }
 }

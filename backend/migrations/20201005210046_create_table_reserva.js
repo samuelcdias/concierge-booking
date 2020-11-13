@@ -9,7 +9,7 @@ exports.up = function(knex, Promise) {
         table.datetime('hora_saida')
         table.string('forma_pagamento').notNull()
         table.float('tarifa').notNull()
-        table.boolean('no-show').default(true)
+        table.boolean('no_show').default(true)
         table.string('obs')
         table.timestamps()
     })

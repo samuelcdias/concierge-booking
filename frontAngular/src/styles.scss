@@ -1,0 +1,98 @@
+
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@import '~@angular/material/theming';
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat-core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$frontend-primary: mat-palette($mat-indigo);
+$frontend-accent: mat-palette($mat-pink, A200, A100, A400);
+
+// The warn palette is optional (defaults to red).
+$frontend-warn: mat-palette($mat-red);
+
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+$frontend-theme: mat-light-theme((
+  color: (
+    primary: $frontend-primary,
+    accent: $frontend-accent,
+    warn: $frontend-warn,
+  )
+));
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include angular-material-theme($frontend-theme);
+
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+#container {
+    padding: 20px 38px;
+    margin-bottom: 50px;
+}
+.mat-table {
+    width: 100%;
+}
+
+/* Ocultando por padrão os botões nas tabelas de dados */
+.mat-row{
+    .mat-raised-button {
+        visibility: hidden;
+    }
+
+    &:hover {
+        filter: brightness(110%);
+        
+        .mat-raised-button {
+            visibility: visible;
+        }
+    }
+}
+
+.new-item-button-container {
+    margin-bottom: 20px;
+    text-align: right;
+
+    mat_raised-button {
+        font-size: 120%;
+    }
+}
+
+.std-form {
+
+    max-width: 80%;
+    margin: 0 auto;
+
+    mat-form-field {
+        min-width: 150px;
+        max-width: 500px;
+        width: 100%;
+        margin-right: 30px;
+    }
+}
+
+.mat-form-field-prefix {
+    margin-right: 10px;
+}
+
+.form-buttons {
+    
+    background: transparent;
+
+    mat-toolbar-row {
+        display: flex;
+        justify-content:space-around;
+    }
+}

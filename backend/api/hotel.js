@@ -1,12 +1,10 @@
 module.exports = app => {
     const { existsOrError } = app.api.validation
 
-    const { useSNRHos } = app.db('config')
-        .select('useSNRHOs')
-        .where({id: 999}).first()
-
     const save = async (req, res) => {
         const hotel = { ...req.body }
+        const result = await app.db('configs').select('useSNRHos').where({id: 999}).first()
+        const useSNRHos = result == undefined ? false : result.useSNRHos
 
         if (req.params.id) hotel.id = req.params.id
         try {

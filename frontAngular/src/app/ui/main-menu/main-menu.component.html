@@ -1,0 +1,11 @@
+<button mat-button [matMenuTriggerFor]="menu">
+    <mat-icon aria-hidden="false" aria-label="Menu principal">
+        menu
+    </mat-icon>
+</button>
+<mat-menu #menu="matMenu">
+  <a  [routerLink]="['/user']" mat-menu-item>Usuários</a>
+  <a  [routerLink]="['/reserva']" mat-menu-item>Reservas</a>
+  
+</mat-menu>
+

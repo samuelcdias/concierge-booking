@@ -1,12 +1,10 @@
 module.exports = app => {
     const { existsOrError } = app.api.validation
 
-    const { useSNRHos, limit } = app.db('config')
-        .select('useSNRHos', 'limitViewsPage')
-        .where({id: 999}).first()
-
     const save = async (req, res) => {
         const cliente = { ...req.body }
+        const result = await app.db('configs').select('useSNRHos').where({id: 999}).first()
+        const useSNRHos = result.useSNRHos || false
 
         if (req.params.id) cliente.id = req.params.id
         try {
@@ -50,6 +48,8 @@ module.exports = app => {
         const page = req.query.page || 1
         const result = await app.db('clientes').count('id').first()
         const count = parseInt( result.count)
+        const result2 = await app.db('configs').select('limitViewsPage').where({id: 999}).first()
+        const limit = result2 == undefined ? 10 : result2.limitViewsPage
 
         app.db('clientes')
             .select('id', 'nome', 'cpf', 'dt_nascimento')
@@ -58,10 +58,10 @@ module.exports = app => {
             .catch(err => res.status(500).send(err))
     }
 
-    const getById = (req, res) => {
+    const getById = async (req, res) => {
         app.db('clientes')
             .select('id', 'nome', 'cpf', 'dt_nascimento')
-            .where({cpf: req.params.cpf}).first()
+            .where({id: req.params.id}).first()
             .then(clientes => res.json(clientes))
             .catch(err => res.status(500).send(err))
     }
@@ -84,5 +84,5 @@ module.exports = app => {
     }
     
 
-    return { save, get, getById,remove }
+    return { save, get, getById, remove }
 }
