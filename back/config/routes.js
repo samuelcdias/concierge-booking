@@ -1,9 +1,11 @@
 
 module.exports = app => {
-    app.post('/signup', app.api.user.save)
     app.post('/signin', app.api.auth.signin)
     app.post('/validateToken', app.api.auth.validateToken)
     
+    app.route('/config')
+        .get(app.api.config.get)
+
     app.route('/users')
         .post(app.api.user.save)
         .get(app.api.user.get)
@@ -28,6 +30,7 @@ module.exports = app => {
         .delete(app.api.hospede.remove)
 
     app.route('/clientes')
+        .post(app.api.cliente.save)
         .get(app.api.cliente.get)
 
     app.route('/clientes/:id')
