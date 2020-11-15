@@ -1,5 +1,4 @@
 const bcrypt = require('bcrypt-nodejs')
-const { sendDataToProcessId } = require('pm2')
 
 module.exports = app => {
     const { existsOrError, notExistsOrError, equalsOrError } = app.api.validation
