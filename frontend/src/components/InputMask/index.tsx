@@ -10,15 +10,22 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
     className: string;
     textlabel?: string;
     icon?: React.ComponentType<IconBaseProps>;
+    mask: string | Array<(string | RegExp)>;
+    maskChar?: string;
+    alwaysShowMask?: boolean;
+    formatChars?: Record<string, string>;
+    permanents?: number[];
 }
 
 const Input: React.FC<InputProps> = ({icon:Icon, ...rest}) => {
+    const alwaysShowMask = false;
+    rest.alwaysShowMask =  rest.alwaysShowMask == null ? rest.alwaysShowMask  : alwaysShowMask
     
     return (
         <Container>
             <label htmlFor={rest.id}>{rest.textlabel}</label>
             {Icon &&<Icon size={23} color={colors.primary} />}
-            <input{...rest} />
+            <InputMask {...rest} />
         </Container>
             
     );
@@ -29,12 +36,7 @@ const Container = styled.div`
     padding: 16px;
     text-indent: 7px;
     display: flex;
-    flex-direction: row;
-    align-items: center;
-
-    & + div {
-        margin-top: 8px;
-    }
+    flex-direction: column;
 
     input {
         background: transparent;
