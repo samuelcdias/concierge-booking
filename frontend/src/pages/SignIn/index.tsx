@@ -29,7 +29,6 @@ const SigIn: React.FC = () => {
             username: username,
             password: password,
         }
-        console.log(userData);
 
         if (!username || !password) {
             setError("Preencha username e senha para continuar!" );

@@ -37,6 +37,7 @@ const Container = styled.div`
     text-indent: 7px;
     display: flex;
     flex-direction: column;
+    margin: 0;
 
     input {
         background: transparent;

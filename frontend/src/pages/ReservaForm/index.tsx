@@ -1,12 +1,11 @@
 import React, { FormEvent, useState } from "react";
 import { useHistory } from 'react-router-dom';
-import Calendar from 'rc-calendar';
 import api from '../../services/api';
 
 import Button from "../../components/Button";
 import Sidebar from "../../components/SideBar";
 import Input from "../../components/Input";
-import CalendarInterface from "../../components/Calendar/calendar"
+
 
 import { FiPlus } from "react-icons/fi";
 
@@ -46,7 +45,6 @@ export default function CreateUser() {
         <div id="page-create-user">
                 <form className="create-user-form">
                         <legend>Nova reserva</legend>
-                        <Calendar />
 
                         <Input
                             className="input-nome"

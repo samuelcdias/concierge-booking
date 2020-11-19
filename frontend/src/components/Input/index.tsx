@@ -37,7 +37,7 @@ const Container = styled.div`
     }
 
     input {
-        background: transparent;
+        background: transp  arent;
         border-radius: 6px;
         border: 2px solid ${colors.primary};
         color: ${colors.primary};

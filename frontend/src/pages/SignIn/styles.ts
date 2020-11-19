@@ -2,7 +2,7 @@ import styled from "styled-components";
 import colors from '../../styles/colors.json'
 
 export const Container = styled.div`
-  height: 100vh;
+  height: 100vh -70px -30px;
   display: flex;
   align-items: center;
 `;
@@ -20,7 +20,7 @@ export const Content = styled.div`
     text-align: center;
     h1 {
       margin-bottom: 24px;
-      color: ${colors.primary};
+      color: ${colors.textColour};
     }
     div{
       max-width: 100%;

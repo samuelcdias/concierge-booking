@@ -49,11 +49,12 @@ export default function CreateUser() {
         try {
             await api.post("/users", userData);
 
-            history.push("/client/new");
+            history.push("/cliente/new");
         } catch (err) {
             setError(
                 "Houve um problema, verifique se os dados estão corretos.");
         }
+        alert('Cadastro realizado com sucesso!')
     }
 
     return (

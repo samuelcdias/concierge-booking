@@ -1,5 +1,6 @@
 
 import { createGlobalStyle } from 'styled-components';
+import colors from './colors.json'
 
 const GlobalStyle = createGlobalStyle`
     * {
@@ -9,8 +10,8 @@ const GlobalStyle = createGlobalStyle`
     }
 
     body {
-        color: #FFF;
-        background: #EBF2F5;
+        color: ${colors.textColour};
+        background: ${colors.background};
         font-style: normal;
         font-weight: normal;
     }

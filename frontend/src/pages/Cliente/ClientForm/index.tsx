@@ -1,40 +1,22 @@
 import React, { FormEvent, useState } from "react";
 import { useHistory } from 'react-router-dom';
-import api from '../../services/api';
+import api from '../../../services/api';
 
-import Sidebar from "../../components/SideBar";
-import Input from "../../components/Input";
-import InputMask from "../../components/InputMask";
-import Button from "../../components/Button";
+import Sidebar from "../../../components/SideBar";
+import Input from "../../../components/Input";
+import InputMask from "../../../components/InputMask";
+import Button from "../../../components/Button";
+import clienteData from "./interface"
 
-import styled from 'styled-components';
-import colors from '../../styles/colors.json'
-import './styles.css';
+
+import {BlockContent, FormStyle } from "./styles";
 
 export default function CreateClient() {
   const history = useHistory();
 
   async function dataConfigs() {
     const res = await api.get('/config')
-    return  res
-  }
-
-  interface clienteData {
-    nome: string,
-    cpf: string,
-    dt_nascimento: string,
-    num_doc_identidade?: string,
-    tipo_doc_identidade?: string,
-    orgao_doc_identidade?: string,
-    nacionalidade?: string,
-    profissao?: string,
-    dt_identidade?: string,
-    genero?: string,
-    cidade?: string,
-    estado?: string,
-    pais?: string,
-    motivo_viagem?: 'Lazer - Férias' | 'Negócio' | 'Congresso - Feira' | 'Parentes - Amigos' | 'Estudos - Cursos' | 'Religião' | 'Saúde' | 'Compras' | 'Outro',
-    meio_transporte?: 'Avião' | 'Automóvel' | 'Ônibus' | 'Moto'| 'Navio-Barco'| 'Trem'| 'Outro'
+    return  res.data
   }
 
   const [nome, setNome] = useState('');
@@ -65,7 +47,7 @@ export default function CreateClient() {
 
   return (
     <div id="page-create-user">
-      <form className="create-user-form" onSubmit={handleSubmit}>
+      <FormStyle className="create-user-form" onSubmit={handleSubmit}>
         <fieldset>
           <legend>Cadastrar Cliente</legend>
 
@@ -126,28 +108,8 @@ export default function CreateClient() {
 
           <Button type="submit">Cadastrar</Button>
         </fieldset>
-      </form>
+      </FormStyle>
     </div>
   );
 }
 
-const BlockContent = styled.div`
-  background: transparent;
-  padding: 6px 0px;
-  display: flex;
-  flex-direction: row;
-  align-content: center;
-  visibility: ${'hidden'};
-  width: ${0};
-  height: ${0};
-
-  div + div {
-    margin: 0px 4px;
-  }
-
-  div {
-    height: 42px;
-    margin: 0px;
-  }
-  
-`

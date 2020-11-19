@@ -25,7 +25,7 @@ const Container = styled.div`
       padding: 0 16px;
       width: 100%;
       height: 56px;
-      color: ${colors.colour};
+      color: ${colors.background};
       font-weight: bold;
       font-size: 20px;
       margin-top: 16px;

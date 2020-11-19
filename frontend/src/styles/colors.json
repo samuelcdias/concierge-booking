@@ -1,7 +1,9 @@
 {
-    "background": "#F4F4F4",
+    "background": "#CCDDDD",
+    "textColour": "#334455",
     "colour": "#CFFDF8",
-    "primary": "#2C709D",
-    "second": "#65C0BA",
-    "third": "#F76262"
+    "primary": "#116699",
+    "second": "#5599AA",
+    "third": "#889977",
+    "alert": "#F76262"
 }

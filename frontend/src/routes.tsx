@@ -4,7 +4,7 @@ import { isAuthenticated } from "./services/auth";
 
 import SignIn from './pages/SignIn';
 import UserForm from './pages/UserForm'
-import ClientForm from './pages/ClientForm'
+import ClientForm from './pages/Cliente/ClientForm'
 import ReservaForm from './pages/ReservaForm';
 
 interface PrivateRouteProps extends RouteProps {
