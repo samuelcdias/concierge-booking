@@ -1,9 +1,5 @@
 module.exports = app => {
     const { existsOrError } = app.api.validation
-
-    const { limit } = app.db('config')
-        .select('limitViewsPage')
-        .where({id: 999}).first()
     
     const save = async (req, res) => {
         const hopede = { ...req.body }
@@ -35,6 +31,8 @@ module.exports = app => {
         const page = req.query.page || 1
         const result = await app.db('clientes').count('id').first()
         const count = parseInt( result.count)
+        const result2 = await app.db('configs').select('limitViewsPage').where({id: 999}).first()
+        const limit = result2 == undefined ? 10 : result2.limitViewsPage
 
         app.db('hopedes')
             .innerJoin('clientes', 'hospedes.id', 'clientes.id')

@@ -31,7 +31,6 @@ module.exports = app => {
     }
 
     const get = async (req, res) => {
-        console.log(limit)
         const page = req.query.page || 1
         const result = await app.db('reservas').count('id').first()
         const count = parseInt( result.count)

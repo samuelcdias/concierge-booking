@@ -34,6 +34,8 @@ module.exports = app => {
         const page = req.query.page || 1
         const result = await app.db('clientes').count('id').first()
         const count = parseInt( result.count)
+        const result2 = await app.db('configs').select('limitViewsPage').where({id: 999}).first()
+        const limit = result2 == undefined ? 10 : result2.limitViewsPage
         
         app.db('quartos')
             .select('id', 'numero', 'descricao', 'tipo', 'imageUrl')

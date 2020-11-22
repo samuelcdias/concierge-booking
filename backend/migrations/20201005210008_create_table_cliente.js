@@ -15,8 +15,8 @@ exports.up = function(knex, Promise) {
         table.string('cidade')
         table.string('estado')
         table.string('pais')
-        table.enu('motivo_viagem',['Lazer - Férias', 'Negócio','Congresso - Feira', 'Parentes - Amigos', 'Estudos - Cursos', 'Religião', 'Saúde', 'Compras', 'Outro'], { useNative: true, enumName: 'motivos_viagem'})
-        table.enu('meio_transporte', ['Avião', 'Automóvel', 'Ônibus', 'Moto', 'Navio-Barco', 'Trem', 'Outro'], { seNative: true, enumName: 'meios_transporte'})
+        table.enu('motivo_viagem', ['Lazer - Férias', 'Negócio', 'Congresso - Feira', 'Parentes - Amigos', 'Estudos - Cursos', 'Religião', 'Saúde', 'Compras', 'Outro'], { useNative: true, enumName: 'motivos_viagem'})
+        table.enu('meio_transporte', ['Avião', 'Automóvel', 'Ônibus', 'Moto', 'Navio-Barco', 'Trem', 'Outro'], { useNative: true, enumName: 'meios_transporte'})
         table.timestamps()
     })
   
