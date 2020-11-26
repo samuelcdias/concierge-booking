@@ -1,4 +1,5 @@
 export default interface clienteData {
+    id?: string | null,
     nome: string,
     cpf: string,
     dt_nascimento: string,

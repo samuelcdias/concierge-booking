@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import colors from '../../styles/colors.json'
+import colors from '../../pages/styles/colors.json'
 
 const Style = styled.div`aside.sidebar {
     position: fixed;

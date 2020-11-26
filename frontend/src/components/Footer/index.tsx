@@ -1,7 +1,7 @@
 import React,{ HTMLAttributes } from 'react'
 
 import styled from 'styled-components';
-import colors from '../../styles/colors.json'
+import colors from '../../pages/styles/colors.json'
 
 interface FooterProps extends HTMLAttributes<HTMLElement> {
   children?: React.ReactNode
@@ -17,7 +17,7 @@ export default function Footer({ children, title, ...props}: FooterProps) {
 }
 
 const FooterStyle = styled.footer`
-    position: fixed;
+    position: relative;
     bottom: 0;
     height: 30px;
     padding: 4px;

@@ -17,24 +17,14 @@ const SigIn: React.FC = () => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
 
-    interface userData {
-        username: string,
-        password: string,
-      }
-
     async function handleSubmit(event: FormEvent) {
         event.preventDefault();
-
-        const userData: userData = {
-            username: username,
-            password: password,
-        }
 
         if (!username || !password) {
             setError("Preencha username e senha para continuar!" );
           } else {
             try {
-              const response = await api.post("/signin", { username, password });
+              const response = await api.post("/signin", { username: username, password: password});
               login(response.data.token);
 
               history.push("/client/new");
@@ -67,7 +57,7 @@ const SigIn: React.FC = () => {
                         onChange={event => setPassword(event.target.value)}
                     />
 
-                    <Button type="submit"> Acessar </Button>
+                    <Button type="submit" className="div-button"> Acessar </Button>
                 </form>
 
             </Content>

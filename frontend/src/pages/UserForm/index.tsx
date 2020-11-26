@@ -10,8 +10,15 @@ import Input from "../../components/Input";
 import './styles.css';
 import { FiPlus } from "react-icons/fi";
 
+interface userData {
+    name: string,
+    email: string,
+    username: string,
+    password: string,
+    confirmpassword: string
+}
 
-export default function CreateUser() {
+const UserForm: React.FC = () => {
     const history = useHistory();
 
     const [nome, setNome] = useState('');
@@ -20,14 +27,6 @@ export default function CreateUser() {
     const [senha, setSenha] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [error, setError] = useState('');
-
-    interface userData {
-        name: string,
-        email: string,
-        username: string,
-        password: string,
-        confirmpassword: string
-    }
 
     function checkPassword() {
         if (senha != confirmPassword) {
@@ -49,7 +48,7 @@ export default function CreateUser() {
         try {
             await api.post("/users", userData);
 
-            history.push("/cliente/new");
+            history.push("/cliente/novo");
         } catch (err) {
             setError(
                 "Houve um problema, verifique se os dados estão corretos.");
@@ -105,3 +104,5 @@ export default function CreateUser() {
         </div>
     );
 }
+
+export default UserForm;

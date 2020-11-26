@@ -1,5 +1,4 @@
-import styled from "styled-components";
-import colors from "../../../styles/colors.json"
+import styled from 'styled-components';
 
 export const BlockContent = styled.div`
   background: transparent;
@@ -20,9 +19,4 @@ export const BlockContent = styled.div`
     margin: 0px;
   }
   
-`;
-
-export const FormStyle = styled.form`
-  margin: 0 auto;
-  `
-
+`

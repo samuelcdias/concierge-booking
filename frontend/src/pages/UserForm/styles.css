@@ -49,7 +49,10 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin-left: 400px;
   }
   
+  .create-user-form legend{
+    text-align: center;
+    align-items: center;
+  }
   

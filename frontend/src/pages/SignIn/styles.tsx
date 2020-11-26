@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import colors from '../../styles/colors.json'
+import colors from '../styles/colors.json'
 
 export const Container = styled.div`
   height: 100vh -70px -30px;
@@ -8,14 +8,20 @@ export const Container = styled.div`
 `;
 
 export const Content = styled.div`
+
   display: flex;
   flex-direction: column;
   align-items: center;
   place-content: center;
-  width: 100%;
+  width:100%;
+
   
   form {
-    margin: 80px 0;
+    background: white;
+    border-radius: 6px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    padding: 40px 30px;
+    margin-top: 50px;
     width: 340px;
     text-align: center;
     h1 {
@@ -24,6 +30,10 @@ export const Content = styled.div`
     }
     div{
       max-width: 100%;
+    }
+    .div-button{
+      position: relative;
+      bottom: 0;
     }
     a {
       color: #${colors.third};

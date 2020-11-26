@@ -1,4 +1,6 @@
-import React from 'react' //Função que
+import React, { useState }  from 'react' //Função que
+
+import Input from '../components/Input';
 
 import '.styles/pages/user-form.css'
 import { Link } from 'react-router-dom'
@@ -15,13 +17,21 @@ interface User {
 }
 
 const UserForm: React.FC = () => {
+    const [nome, setNome] = useState('');
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
   
     return (
         <form className="userForm">
-            <label>
-                Nome:
-                <input type="text" placeholder="Nome" required name="name" />
-            </label>
+            <Input
+            id="nome"
+            className="input-nome"
+            textlabel="Nome"
+            name="nome"
+            placeholder="Insira seu nome"
+            onChange={event => setNome(event.target.value)}
+          />
         </form>
     )
 }

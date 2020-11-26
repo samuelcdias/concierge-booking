@@ -12,11 +12,10 @@
     "@types/react-dom": "^16.9.9",
     "axios": "^0.21.0",
     "bootstrap": "^4.5.3",
-    "form-data": "^3.0.0",
     "react": "^17.0.1",
     "react-bootstrap": "^1.4.0",
+    "react-datepicker": "^3.3.0",
     "react-dom": "^17.0.1",
-    "react-date-picker":"^6.7.0",
     "react-icons": "^3.11.0",
     "react-input-mask": "^2.0.4",
     "react-router-dom": "^5.2.0",
@@ -50,6 +49,7 @@
     ]
   },
   "devDependencies": {
+    "@types/react-datepicker": "^3.1.1",
     "@types/react-input-mask": "^2.0.5",
     "@types/react-router-dom": "^5.1.6",
     "@types/styled-components": "^5.1.4"

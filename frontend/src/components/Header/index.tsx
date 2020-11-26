@@ -2,7 +2,7 @@ import React, { HTMLAttributes } from 'react'
 
 
 import styled from 'styled-components';
-import colors from '../../styles/colors.json'
+import colors from '../../pages/styles/colors.json'
 import Logo from '../../assets/images/logo.jpeg';
 import { IconBaseProps } from 'react-icons';
 
@@ -31,15 +31,22 @@ export default function Header({ children, icon: Icon, title, ...props }: Header
 }
 
 const HeaderStyle = styled.header`
+    position: fixed;
+    box-sizing: border-box;
     width: 100%;
     height: 70px;
     display: flex;
     align-items: center;
-    background:${colors.background}
-    box-shadow: 5px;
+    background:${colors.background};
+    background-color: ${colors.background};
+    
+    -webkit-box-shadow: 0 3px 5px rgba(57, 63, 72, 0.3);
+    -moz-box-shadow: 0 3px 5px rgba(57, 63, 72, 0.3);
+    box-shadow: 0 3px 5px rgba(57, 63, 72, 0.3);
 
     h1 {
         position: absolute;
+        display: block;
         text-align: center;
         margin: 0 auto;
         left: 42%;
@@ -59,6 +66,7 @@ const HeaderStyle = styled.header`
         border: 1px;
         margin: 5px;
         left: 5%;
+        top: 0;
     }
 
     .login-container{
