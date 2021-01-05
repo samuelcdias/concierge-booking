@@ -13,8 +13,7 @@ import Sidebar from "../../components/SideBar";
 import Input from "../../components/Input";
 
 import { Reserva, Quarto } from "./interface"
-//import { Content } from "./style"
-import { FiPlus } from "react-icons/fi";
+
 import { FormStyle } from "../Cliente/ClientForm/styles";
 
 

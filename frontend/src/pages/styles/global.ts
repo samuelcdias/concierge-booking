@@ -18,7 +18,11 @@ const GlobalStyle = createGlobalStyle`
     
 
     body, input, button, textarea {
-        font: 600 18px Nunito, sans-serif
+        font: 400 14px Nunito, sans-serif
+    }
+    #root > div > div > .container-page-content {
+        min-height: calc(100vh - 95px);
+        background: #FFFFFF;
     }
     `;
 

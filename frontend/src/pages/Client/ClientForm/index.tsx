@@ -2,18 +2,15 @@ import React, { FormEvent, useEffect, useState } from "react";
 import { useHistory, useParams } from 'react-router-dom';
 import api from '../../../services/api';
 
-import Sidebar from "../../../components/SideBar";
 import Input from "../../../components/Input";
 import InputMask from "../../../components/Input/InputMask";
 import Button from "../../../components/Button";
 import { BlockContent, FormStyle, Content } from "./styles";
 
-import clienteData from "./interface"
+import { clienteData, clienteParams } from "./interface"
 
-interface clienteParams {
-    id: string;
-}
 export default function CreateClient() {
+    const key = "clientes"
     const history = useHistory();
 
     const params = useParams<clienteParams>();
@@ -34,7 +31,7 @@ export default function CreateClient() {
         }
         async function getClientData() {
             try {
-                const { data } = await api.get(`/clientes/${params.id}`);
+                const { data } = await api.get(`/${key}/${params.id}`);
                 setNome(data.nome)
                 setCPF(data.cpf)
                 setDtNascimento(data.dt_nascimento)
@@ -47,25 +44,23 @@ export default function CreateClient() {
         if (params.id){ 
             getClientData();
         }
-    });
+    },[params.id]);
   
     async function handleSubmit(event: FormEvent) {
-            event.preventDefault();
+            event.preventDefault()
 
             const clientData: clienteData = {
-                id: params.id ? params.id : null,
+                id: params.id ? params.id : undefined,
                 nome: nome,
                 dt_nascimento: dt_nascimento,
                 cpf: cpf
             }
 
-
-            await api.post('/clientes', clientData)
-
+            await api.post(`/${key}`, clientData)
 
             alert('Cadastro realizado com sucesso!')
-            history.push('/clientes');
-        }
+            history.push(`/${key}`)
+    }
 
     return (
         <Content id="page-create-user">
@@ -79,6 +74,7 @@ export default function CreateClient() {
                         textlabel="Nome"
                         name="nome"
                         placeholder="Insira seu nome"
+                        value={nome}
                         onChange={event => setNome(event.target.value)}
                     />
 
@@ -90,6 +86,7 @@ export default function CreateClient() {
                         mask="99/99/9999"
                         alwaysShowMask={true}
                         placeholder="Data de nascimento"
+                        value={dt_nascimento}
                         onChange={event => setDtNascimento(event.target.value)}
                     />
 
@@ -101,9 +98,11 @@ export default function CreateClient() {
                         mask="999.999.999-99"
                         alwaysShowMask={true}
                         placeholder="CPF"
+                        value={cpf}
                         onChange={event => setCPF(event.target.value)}
                     />
-                    <BlockContent>
+                    {(dataConf) && (
+                        <BlockContent>
                         <legend>  Documento</legend>
                         <div>
                             <Input
@@ -111,6 +110,7 @@ export default function CreateClient() {
                                 className="input-num-doc"
                                 type="text"
                                 placeholder="Número"
+                                value={doc_num}
                                 onChange={event => setDocNum(event.target.value)}
                             />
                             <Input
@@ -129,6 +129,8 @@ export default function CreateClient() {
                             />
                         </div>
                     </BlockContent>
+                    )
+                    }  
 
                     <Button type="submit">Cadastrar</Button>
                 </fieldset>

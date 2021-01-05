@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import colors from "../../styles/colors.json"
 
 const isHidden: boolean = true
 

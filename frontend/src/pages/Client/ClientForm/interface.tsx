@@ -1,4 +1,4 @@
-export default interface clienteData {
+export interface clienteData {
     id?: string | null,
     nome: string,
     cpf: string,
@@ -16,3 +16,7 @@ export default interface clienteData {
     motivo_viagem?: 'Lazer - Férias' | 'Negócio' | 'Congresso - Feira' | 'Parentes - Amigos' | 'Estudos - Cursos' | 'Religião' | 'Saúde' | 'Compras' | 'Outro',
     meio_transporte?: 'Avião' | 'Automóvel' | 'Ônibus' | 'Moto'| 'Navio-Barco'| 'Trem'| 'Outro'
   }
+
+  export interface clienteParams {
+    id: string;
+}

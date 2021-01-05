@@ -5,7 +5,6 @@ import { FiUser, FiLock } from "react-icons/fi";
 import { Container, Content } from './styles';
 
 import Input from '../../components/Input';
-import SideBar from '../../components/SideBar';
 import Button from '../../components/Button';
 import api from '../../services/api';
 import { login } from "../../services/auth";
@@ -25,9 +24,9 @@ const SigIn: React.FC = () => {
           } else {
             try {
               const response = await api.post("/signin", { username: username, password: password});
-              login(response.data.token);
+              login(response.data);
 
-              history.push("/client/new");
+              history.push("/home");
             } catch (err) {
               setError(
                   "Houve um problema com o login, verifique suas credenciais.");
@@ -59,7 +58,6 @@ const SigIn: React.FC = () => {
 
                     <Button type="submit" className="div-button"> Acessar </Button>
                 </form>
-
             </Content>
         </Container>
     )

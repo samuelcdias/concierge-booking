@@ -1,5 +1,4 @@
 import React, { InputHTMLAttributes } from 'react';
-import InputMask from 'react-input-mask';
 
 import { IconBaseProps } from 'react-icons';
 import colors from '../../pages/styles/colors.json'

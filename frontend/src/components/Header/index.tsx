@@ -1,76 +1,55 @@
 import React, { HTMLAttributes } from 'react'
 
+import Container from 'react-bootstrap/Container'
+import Row from 'react-bootstrap/Row'
+import Col from 'react-bootstrap/Col'
+import Image from 'react-bootstrap/Image'
 
-import styled from 'styled-components';
+import styled from 'styled-components'
 import colors from '../../pages/styles/colors.json'
-import Logo from '../../assets/images/logo.jpeg';
-import { IconBaseProps } from 'react-icons';
+import Logo from '../../assets/images/logo.jpeg'
+import { IconBaseProps } from 'react-icons'
+
+import './styles.css';
 
 interface HeaderProps extends HTMLAttributes<HTMLElement> {
-  children?: React.ReactNode
-  title: string
-  icon?: React.ComponentType<IconBaseProps>;
-  nomeUsuario?: string
+    children?: React.ReactNode
+    title: string
+    icon?: React.ComponentType<IconBaseProps>;
+    nomeUsuario?: string
 }
 
-
 export default function Header({ children, icon: Icon, title, ...props }: HeaderProps) {
-  return (
-    <HeaderStyle className="header-content mat-elevation-z5">
-      <img src={Logo} alt="Bell logo" />
-
-      <h1>{title}</h1>
-      <div className="login-container">
-        {Icon && <Icon className="icon-header" size={28} color={colors.textColour} />}
-        {props.nomeUsuario}
-      </div>
-
-
-    </HeaderStyle>
+    return (
+        <Container className="shadow " fluid>
+            <Row>
+                <Col md={2} className="align-content-center">
+                    <Image className="mx-auto d-block" src={Logo} alt="Bell logo" width="64" height="64" rounded/>
+                </Col>
+                <Col md={8} className="d-flex flex-wrap align-content-center">
+                    <Title>{title}</Title>
+                </Col>
+                <Col md={2} className="d-flex flex-wrap align-content-center">
+                    {Icon && <Icon className="icon-header" size={24} color={colors.textColour} />}
+                    <Login>{props.nomeUsuario}{children}</Login>
+                </Col>
+            </Row >
+        </Container >
+   
   );
 }
 
-const HeaderStyle = styled.header`
-    position: fixed;
-    box-sizing: border-box;
-    width: 100%;
-    height: 70px;
-    display: flex;
-    align-items: center;
-    background:${colors.background};
-    background-color: ${colors.background};
-    
-    -webkit-box-shadow: 0 3px 5px rgba(57, 63, 72, 0.3);
-    -moz-box-shadow: 0 3px 5px rgba(57, 63, 72, 0.3);
-    box-shadow: 0 3px 5px rgba(57, 63, 72, 0.3);
-
-    h1 {
-        position: absolute;
-        display: block;
-        text-align: center;
-        margin: 0 auto;
-        left: 42%;
-        font-family: Nunito;
-        font-style: normal;
-        font-weight: 900;
-        font-size: 36px;
-        line-height: 49px;
-        letter-spacing: 0.12em;
-    }
-
-    img {
-        position: absolute;
-        width: 80px;
-        height: 60px;
-        border-radius: 6px;
-        border: 1px;
-        margin: 5px;
-        left: 5%;
-        top: 0;
-    }
-
-    .login-container{
-        position: absolute;
-        right: 5%;
-    }
-    `;
+const Title = styled.h1`
+    font-family: Nunito;
+    font-style: normal;
+    font-weight: 900;
+    font-size: 36px;
+    line-height: 49px;
+    letter-spacing: 0.12em;
+`
+const Login = styled.h1`
+    margin-left: 8px;
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 18px;
+`   
