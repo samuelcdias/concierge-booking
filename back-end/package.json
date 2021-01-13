@@ -1,0 +1,31 @@
+{
+  "name": "concierge_api",
+  "version": "1.0.0",
+  "description": "Api for hotels to manage rooms",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon",
+    "production": "pm2 start index.js --name api-concierge"
+  },
+  "keywords": [],
+  "author": "Samuel Cardoso (samuelcdias)",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "consign": "0.1.6",
+    "cors": "2.8.4",
+    "express": "4.16.3",
+    "helmet": "^4.3.1",
+    "jwt-simple": "^0.5.6",
+    "knex": "^0.21.6",
+    "morgan": "^1.10.0",
+    "node-schedule": "1.3.0",
+    "passport": "0.4.0",
+    "passport-jwt": "4.0.0",
+    "pg": "7.4.3",
+    "pm2": "^4.5.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  }
+}
