@@ -1,9 +1,5 @@
-const room = require("./room")
-
 module.exports = app => {
-    const model = app.config.models.schedule
-    const roomModel = app.config.models.rooms
-    const key = model.tablename + ' AS s'
+    const key = 'schedule AS s'
     const validate = app.api.validations.schedule.validate
 
     const save = async (req, res) => {
@@ -20,8 +16,8 @@ module.exports = app => {
 
         if(schedule.date) {
             app.db(key)
-                .update(model.is_high_season, schedule.is_high_season)
-                .where(model.date, schedule.date)
+                .update('is_high_season', schedule.is_high_season)
+                .where('date_day', schedule.date)
                 .then(_ => res.status(204).send())
                 .catch(err => res.status(500).send(err))
         } else {
@@ -48,18 +44,18 @@ module.exports = app => {
         const page = req.query.page || 1
 
         app.db(key)
-            .innerJoin(roomModel.tablename +  'AS r', 's.' + model.room_id, 'r.id')
-            .select('s.' + model.date, 's.' + model.is_high_season, 'r.' + roomModel.number, 's.' + model.reservation_id)
-            .whereRaw('extract(month from ' + model.date + ') = extract(month from current_date) + ?', [page - 1])
-            .orderBy('s.' + model.date, 'r.' + roomModel.number)
+            .innerJoin('rooms AS r', 's.room_id', 'r.id')
+            .select('s.date', 's.is_high_season', 'r.room_number', 's.reservation_id')
+            .whereRaw('extract(month from date_day) = extract(month from current_date) + ?', [page - 1])
+            .orderBy('s.date_day', 'r.room_number')
             .then(schedule => res.json(schedule))
             .catch(err => res.status(500).send(err))
     }
 
     const getById = (req, res) => {
         app.db(key)
-            .innerJoin(roomModel.tablename +  'AS r', 's.' + model.room_id, 'r.id')
-            .select('s.' + model.date, 's.' + model.is_high_season, 'r.' + roomModel.numero, 's.' + model.reservation_id)
+            .innerJoin('room AS r', 's.room_id', 'r.id')
+            .select('s.date_day', 's.is_high_season', 'r.room_number', 's.reservation_id')
             .where({date_day: req.params.date})
             .then(schedule => res.json(schedule))
             .catch(err => res.status(500).send(err))

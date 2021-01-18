@@ -20,7 +20,6 @@ module.exports = app => {
                 app.db('schedule')
                 .update('status', data.period.status)
                 .where(data.period.up)
-                .debug()
                 .then()
                 .catch(err => res.status(500).send(err))
             }
@@ -31,7 +30,6 @@ module.exports = app => {
                 .then(_ => res.status(204).send())
                 .catch(err => res.status(500).send(err))
         } else {
-            console.log(room)
             app.db(key)
                 .insert(room)
                 .then(_ => res.status(204).send())
@@ -46,9 +44,9 @@ module.exports = app => {
         const limit = await app.api.helpers.config.getLimitViews()
         
         app.db(key)
-            .select('id','number', 'description', 'type_of_room', 'image_url')
+            .select('id','room_number', 'description', 'type_of_room', 'image_url')
             .limit(limit).offset(page * limit - limit)
-            .orderBy('number')
+            .orderBy('room_number')
             .then(rooms => res.json({ data: rooms, count, limit }))
             .catch(err => res.status(500).send(err))
     }
@@ -56,7 +54,7 @@ module.exports = app => {
     const getById = (req, res) => {
         app.db(key)
             .select('id',
-                'number',
+                'room_number',
                 'description',
                 'number_of_beds',
                 'type_of_room',
@@ -64,7 +62,7 @@ module.exports = app => {
                 'number_of_extra_beds',
                 'dt_last_cleaning',
                 'dt_last_maintenance')
-            .where('number', req.params.number).first()
+            .where('room_number', req.params.number).first()
             .then(rooms => res.json(rooms))
             .catch(err => res.status(500).send(err))
 

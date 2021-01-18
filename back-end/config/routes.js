@@ -5,10 +5,10 @@ module.exports = app => {
     app.post('/validateToken', app.api.auth.validateToken)
 
     app.route('/config')
-    .get(app.api.helpers.config.get)
+        .get(app.api.helpers.config.get)
     
     app.route('/users')
-        //.all(app.config.passport.authenticate())
+        .all(app.config.passport.authenticate())
         .post(app.api.user.save)
         .get(app.api.user.get)
 

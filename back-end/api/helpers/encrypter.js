@@ -1,4 +1,4 @@
-const bcrypt = require('bcrypt-nodejs')
+const bcrypt = require('bcryptjs')
 
 module.exports = app => {
   const encrypter = (password) => {
@@ -6,5 +6,9 @@ module.exports = app => {
       return bcrypt.hashSync(password, salt)
   }
 
-  return { encrypter }
+  const compare = (reqPassword, userPassword) => {
+    return bcrypt.compareSync(reqPassword, userPassword)
+  }
+
+  return { encrypter, compare }
 }
