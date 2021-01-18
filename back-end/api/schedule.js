@@ -1,31 +1,31 @@
+const room = require("./room")
+
 module.exports = app => {
-    const key = 'schedule AS s'
-    const validate = app.api.validations.schedule
+    const model = app.config.models.schedule
+    const roomModel = app.config.models.rooms
+    const key = model.tablename + ' AS s'
+    const validate = app.api.validations.schedule.validate
 
     const save = async (req, res) => {
         const schedule = { ...req.body }
 
-        if (req.params.id) {
-            schedule.id = req.params.id
+        if (req.params.date) {
+            schedule.date = req.params.date
         }
 
-        try {         
-            validate(schedule)
-        } catch (msg){
+        const msg = validate(schedule)
+        if (msg) {
             return res.status(400).send(msg)
         }
 
-        if(schedule.id) {
+        if(schedule.date) {
             app.db(key)
-                .update(schedule)
-                .where({id: schedule.id})
+                .update(model.is_high_season, schedule.is_high_season)
+                .where(model.date, schedule.date)
                 .then(_ => res.status(204).send())
                 .catch(err => res.status(500).send(err))
         } else {
-            app.db(key)
-                .insert(schedule)
-                .then(_ => res.status(204).send())
-                .catch(err => res.status(500).send(err))
+            return res.status(400).send('Requisição inválida, use outro método')
         }
     }
 
@@ -36,7 +36,7 @@ module.exports = app => {
         
         if (date_in && date_out) {
             app.db
-                .raw(`SELECT sp_update_schedule(??, ??)`, [date_in, date_out])
+                .raw('SELECT sp_create_schedule(?, ?)', [date_in, date_out])
                 .then(_ => res.status(204).send())
                 .catch(err => res.status(500).send(err))
         } else {
@@ -46,26 +46,22 @@ module.exports = app => {
 
     const get = async (req, res) => {
         const page = req.query.page || 1
-        const result = await app.db(key).count('id').first()
-        const count = parseInt(result.count)
-        const limit = app.api.helpers.config.getLimitViews()
 
         app.db(key)
-            .innerJoin('rooms AS r', 's.id', 'r.id')
-            .select('s.data_dia', 's.is_alta_temporada', 'r.numero', 's.reserva_id')
-            .limit(limit).offset(page * limit - limit)
-            .orderBy('s.data_dia', 'r.numero')
-            .groupBy('s.data_dia')
-            .then(agendas => res.json({ dataDia: agendas, count, limit }))
+            .innerJoin(roomModel.tablename +  'AS r', 's.' + model.room_id, 'r.id')
+            .select('s.' + model.date, 's.' + model.is_high_season, 'r.' + roomModel.number, 's.' + model.reservation_id)
+            .whereRaw('extract(month from ' + model.date + ') = extract(month from current_date) + ?', [page - 1])
+            .orderBy('s.' + model.date, 'r.' + roomModel.number)
+            .then(schedule => res.json(schedule))
             .catch(err => res.status(500).send(err))
     }
 
     const getById = (req, res) => {
         app.db(key)
-            .innerJoin('rooms AS r', 's.id', 'r.id')
-            .select('s.data_dia', 's.is_alta_temporada', 'q.numero', 's.reserva_id')
-            .where({data_dia: req.params.data_dia})
-            .then(agendas => res.json(agendas))
+            .innerJoin(roomModel.tablename +  'AS r', 's.' + model.room_id, 'r.id')
+            .select('s.' + model.date, 's.' + model.is_high_season, 'r.' + roomModel.numero, 's.' + model.reservation_id)
+            .where({date_day: req.params.date})
+            .then(schedule => res.json(schedule))
             .catch(err => res.status(500).send(err))
     }
 
@@ -75,7 +71,7 @@ module.exports = app => {
                 .where({ id: req.params.id }).del()
 
             try {
-                existsOrError(rowsDeleted,'dataDia não encontrada')
+                existsOrError(rowsDeleted,'Data não encontrada')
             } catch(msg) {
                 return res.status(400).send(msg)
             }

@@ -1,5 +1,5 @@
 module.exports = app => {
-    const key = 'guests'
+    const key = 'guests AS g'
     const { existsOrError } = app.api.helpers.validation
     
     
@@ -32,21 +32,23 @@ module.exports = app => {
     }
 
     const get = async (req, res) => {
+        const page = req.query.page || 1
+        const result = await app.db(key).count('id').first()
         const count = parseInt( result.count)
         const limit = await app.api.helpers.config.getLimitViews()
 
         app.db(key)
-            .innerJoin('clientes', 'guests.id', 'clientes.id')
-            .select('guests.id', 'clientes.nome', 'guests.is_responsavel', 'clientes.dt_nascimento')
-            .orderBy('reserva_id')
-            .groupBy('reserva_id')
+            .innerJoin('customers AS c', 'g.id', 'c.id')
+            .select('g.id', 'c.nome', 'g.is_responsavel', 'c.dt_nascimento')
+            .orderBy('g.reserva_id')
+            .limit(limit).offset(page * limit - limit)
             .then(guests => res.json({ data: guests, count, limit }))
             .catch(err => res.status(500).send(err))
     }
 
     const getById = (req, res) => {
         app.db(key)
-            .innerJoin('clientes AS c', 'guests.id', 'clientes.id')
+            .innerJoin('customers AS c', 'g.id', 'c.id')
             .select('guests.id', 'c.nome', 'guests.is_responsavel', 'c.dt_nascimento')
             .orderBy('c.nome')
             .where({reserva_id: req.params.id})

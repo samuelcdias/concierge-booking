@@ -8,10 +8,14 @@ exports.up = function(knex) {
         last_date date;
       BEGIN
         first_date := current_date + integer '1';
-        last_date  := (SELECT MAX(data_dia)
-                        FROM schedule);
+        last_date  := (SELECT MAX(date_day)
+                          FROM schedule);
 
-        INSERT INTO schedule(data_dia, is_alta_temporada, quarto_id)
+        IF ( last_date < first_date OR last_date IS NULL) THEN
+          RETURN NULL;
+        END IF;
+
+        INSERT INTO schedule(date_day, is_high_season, room_id)
           SELECT date_insert, false, NEW.id
               FROM generate_series(first_date, last_date, interval '1 day') AS date_insert;
               

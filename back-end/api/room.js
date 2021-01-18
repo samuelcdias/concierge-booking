@@ -1,29 +1,38 @@
 module.exports = app => {
+    const key = 'rooms'
     const { existsOrError } = app.api.helpers.validation
+    const validate = app.api.validations.room.validate
+    const setChangesInRoom = app.api.helpers.changeSave.changeRoom
+
 
     const save = async (req, res) => {
         const room = { ...req.body }
-
-        if (req.params.id) room.id = req.params.id
-        try {
             
-            existsOrError(room.numero, 'Nome não informado')
-            existsOrError(room.descricao, 'Descrição não informada')
-            existsOrError(room.nro_camas, 'Número de camas não informado')
-            existsOrError(room.tipo, 'Tipo de room não informado')
-
-        } catch (msg){
+        const msg = await validate(room, key)
+        if (msg) {
             return res.status(400).send(msg)
         }
 
-        if(room.id) {
-            app.db('quartos')
-                .update(room)
+        if (room.id) {
+            const data = setChangesInRoom(room)
+
+            if (room.settings) {
+                app.db('schedule')
+                .update('status', data.period.status)
+                .where(data.period.up)
+                .debug()
+                .then()
+                .catch(err => res.status(500).send(err))
+            }
+
+            app.db(key)
+                .update(data.room_data)
                 .where({id: room.id})
                 .then(_ => res.status(204).send())
                 .catch(err => res.status(500).send(err))
         } else {
-            app.db('quartos')
+            console.log(room)
+            app.db(key)
                 .insert(room)
                 .then(_ => res.status(204).send())
                 .catch(err => res.status(500).send(err))
@@ -32,32 +41,39 @@ module.exports = app => {
 
     const get = async (req, res) => {
         const page = req.query.page || 1
-        const result = await app.db('clientes').count('id').first()
+        const result = await app.db(key).count('id').first()
         const count = parseInt( result.count)
-        const result2 = await app.db('configs').select('limitViewsPage').where({id: 999}).first()
-        const limit = result2 == undefined ? 10 : result2.limitViewsPage
+        const limit = await app.api.helpers.config.getLimitViews()
         
-        app.db('quartos')
-            .select('id', 'numero', 'descricao', 'tipo', 'image_url')
+        app.db(key)
+            .select('id','number', 'description', 'type_of_room', 'image_url')
             .limit(limit).offset(page * limit - limit)
-            .orderBy('numero')
-            .then(quartos => res.json({ data: quartos, count, limit }))
+            .orderBy('number')
+            .then(rooms => res.json({ data: rooms, count, limit }))
             .catch(err => res.status(500).send(err))
     }
 
     const getById = (req, res) => {
-        app.db('quartos')
-            .select('id',  'numero', 'descricao','nro_camas', 'tipo', 'image_url', 'cama_extra', 'dt_limpeza', 'dt_manutencao')
-            .where({numero: req.params.numero}).first()
-            .then(quartos => res.json(quartos))
+        app.db(key)
+            .select('id',
+                'number',
+                'description',
+                'number_of_beds',
+                'type_of_room',
+                'image_url',
+                'number_of_extra_beds',
+                'dt_last_cleaning',
+                'dt_last_maintenance')
+            .where('number', req.params.number).first()
+            .then(rooms => res.json(rooms))
             .catch(err => res.status(500).send(err))
 
     }
 
     const remove = async (req, res) => {
         try {
-            const rowsDeleted = await app.db('quartos')
-                .where({ id: req.params.id }).del()
+            const rowsDeleted = await app.db(key)
+                .where(number, req.params.number).del()
 
             try {
                 existsOrError(rowsDeleted,'Quarto não encontrado')

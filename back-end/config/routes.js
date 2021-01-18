@@ -8,7 +8,7 @@ module.exports = app => {
     .get(app.api.helpers.config.get)
     
     app.route('/users')
-        .all(app.config.passport.authenticate())
+        //.all(app.config.passport.authenticate())
         .post(app.api.user.save)
         .get(app.api.user.get)
 
@@ -49,29 +49,24 @@ module.exports = app => {
     app.route('/schedule')
         .all(app.config.passport.authenticate())
         .get(app.api.schedule.get)
-        .post(admin(app.api.schedule.save))
 
     app.route('/schedule/config')
         .all(app.config.passport.authenticate())
         .post(admin(app.api.schedule.saveMany))
 
-    app.route('/schedule/:data')
+    app.route('/schedule/:date')
         .all(app.config.passport.authenticate())
         .get(app.api.schedule.getById)
         .put(admin(app.api.schedule.save))
-        .delete(admin(app.api.schedule.remove))
     
     app.route('/rooms')
         .all(app.config.passport.authenticate())
         .get(app.api.room.get)
         .post(admin(app.api.room.save))
 
-    app.route('/rooms/:numero')
+    app.route('/rooms/:number')
         .all(app.config.passport.authenticate())
         .get(app.api.room.getById)
- 
-    app.route('/rooms/:id')
-        .all(app.config.passport.authenticate())
         .put(admin(app.api.room.save))
         .delete(admin(app.api.room.remove))
 

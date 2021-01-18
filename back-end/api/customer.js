@@ -1,5 +1,6 @@
 module.exports = app => {
-    const key = 'customers'
+    const model = app.config.models.customers
+    const key = model.tablename
     const { existsOrError } = app.api.helpers.validation
 
     const save = async (req, res) => {
@@ -11,7 +12,7 @@ module.exports = app => {
             customer.id = req.params.id
         }
 
-        const msg = validate(customer, useSNRHos)
+        const msg = await validate(customer, useSNRHos)
         if (msg) {
             return res.status(400).send(msg)
         }
@@ -37,15 +38,16 @@ module.exports = app => {
         const limit = await app.api.helpers.config.getLimitViews()
 
         app.db(key)
-            .select('id', 'nome', 'cpf', 'dt_nascimento')
+            .select('id', model.name, model.cpf, model.dt_birth)
             .limit(limit).offset(page * limit - limit)
+            .orderBy(model.dt_name)
             .then(customers => res.json({ data: customers, count, limit }))
             .catch(err => res.status(500).send(err))
     }
 
     const getById = async (req, res) => {
         app.db(key)
-            .select('id', 'nome', 'cpf', 'dt_nascimento')
+            .select('id', model.name, model.cpf, model.dt_birth)
             .where({id: req.params.id}).first()
             .then(customers => res.json(customers))
             .catch(err => res.status(500).send(err))
