@@ -1,74 +1,49 @@
-import React, { FormEvent, useEffect, useState } from "react";
+import React, { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import { useHistory, useParams } from 'react-router-dom';
-import api from '../../../services/api';
+import { useDataFetch, handleSubmitClick, handleInputChange} from '../../../services/helpers'
 
 import { Col, Form, Row }from 'react-bootstrap'
 import Button from "../../../components/Button";
-import { roomInterface, roomParams } from "../interface"
+import { roomModel, roomParams } from "../interface"
 
 import styled from "styled-components";
 import colors from "../../styles/colors.json"
 
 
 export default function CreateClient() {
+    const key = "rooms"
     const history = useHistory();
 
     const params = useParams<roomParams>();
-    const [id, setID] = useState();
-    const [numero, setNumero] = useState('');
-    const [descricao, setDescricao] = useState('');
-    const [nro_camas, setNroCamas] = useState(1);
-    const [tipo, setTipo] = useState('');
-    const [image_url, setImageUrl] = useState('');
-    const [cama_extra, setCamaExtra] = useState(0);
-    const [dt_limpeza, setDtLimpeza] = useState<Date>();
-    const [dt_manutencao, setDtManutencao] = useState<Date>();
-    const [status, setStatus] = useState('');
+    const [state, setState] = useState<roomModel>({
+        id: params.id ? params.id : undefined,
+        room_number: params.numero ? params.numero : '',
+        description: '',
+        number_of_beds: 0,
+        type_of_room: '',
+        image_url: '',
+        number_of_extra_beds: 0,
+        dt_last_cleaning: undefined,
+        dt_last_maintenance: undefined,
+      })
+    let promise: any = useRef(null)
 
-
-    useEffect(() => {
-        async function getRoomData() {
-            try {
-                const { data } = await api.get(`/quartos/${params.numero}`);
-                setID(data.id);
-                setNumero(data.numero);
-                setDescricao(data.descricao);
-                setNroCamas(data.nro_camas);
-                setTipo(data.tipo);
-                setImageUrl(data.image_url);
-                setCamaExtra(data.cama_extra);
-                setDtLimpeza(data.dt_limpeza);
-                setDtManutencao(data.dt_manutencao);
-                setStatus(data.status);
-            } catch (error) {
-                alert("Ocorreu um erro, tente novamente mais tarde!")
-            }
+    useEffect(() => {       
+        async function CallData(){
+            return await useDataFetch(`${key}/${params.id}`)
         }
-        if (params.numero) {
-            getRoomData();
+        if (params.id){ 
+            promise.current = CallData()
+            setState(promise.data)
         }
-    });
+    },[params.id]);
+  
+    function handleChange(event: ChangeEvent<HTMLInputElement>) {
+        handleInputChange(event,setState, state)
+    }
 
     async function handleSubmit(event: FormEvent) {
-        event.preventDefault();
-
-        const RoomData: roomInterface = {
-            id: id,
-            numero: numero,
-            descricao: descricao,
-            nro_camas: nro_camas,
-            tipo: tipo,
-            image_url: image_url,
-            cama_extra: cama_extra,
-            dt_limpeza: dt_limpeza,
-            dt_manutencao: dt_manutencao,
-            status: status
-        }
-
-        await api.post('/quartos', RoomData)
-
-        alert('Cadastro realizado com sucesso!')
-        history.push('/quartos');
+        handleSubmitClick(event, state, key, history)
     }
 
     return (
@@ -81,8 +56,9 @@ export default function CreateClient() {
                     <Form.Control 
                         type="text"
                         placeholder="Número do quarto"
-                        onChange={event => setNumero(event.target.value)}
-                        value={numero}
+                        name="room_number"
+                        value={state.room_number}
+                        onChange={handleChange}
                         required
                     />  
                     </InputDiv>
@@ -98,9 +74,10 @@ export default function CreateClient() {
                     as="textarea"
                     cols={30}
                     rows={3}
-                    value={descricao}
                     placeholder="Descreva o quarto"
-                    onChange={event => setDescricao(event.target.value)}
+                    name="description"
+                    value={state.description}
+                    onChange={handleChange}
                     required
                 />
                 </InputDiv>
@@ -126,8 +103,9 @@ export default function CreateClient() {
                         <Form.Control 
                             type="number"
                             min="1"
-                            value={nro_camas}
-                            onChange={event => setNroCamas(Number(event.target.value))}
+                            name="number_of_beds"
+                            value={state.number_of_beds}
+                            onChange={handleChange}
                             required
                         />
                         </InputDiv>
@@ -143,8 +121,9 @@ export default function CreateClient() {
                         <InputDiv>
                         <Form.Control 
                             type="text"
-                            value={tipo}
-                            onChange={event => setTipo(event.target.value)}
+                            name="type_of_room"
+                            value={state.type_of_room}
+                            onChange={handleChange}
                             required
                         />
                         </InputDiv>
@@ -163,8 +142,9 @@ export default function CreateClient() {
                         <Form.Control 
                             type="number"
                             min="0"
-                            value={cama_extra}
-                            onChange={event => setCamaExtra(Number(event.target.value))}
+                            name="number_of_extra_beds"
+                            value={state.number_of_extra_beds}
+                            onChange={handleChange}
                         />
                         </InputDiv>
                         <Form.Text className="text-muted">
@@ -173,16 +153,15 @@ export default function CreateClient() {
                     </Form.Group>
                 </Col>
 
-                <Col md="9">
+                {/*<Col md="9">
                     <Form.Group>
-                        {/*<Form.Label>Status</Form.Label>*/}
                         <InputDiv>
                         <Form.Control
                             as="select"
                             className="my-1 mr-sm-2"
                             id="inlineFormCustomSelectPref"
                             custom
-                            value={status   }
+                            value={}
                             onChange={event => setStatus(event.target.value)}
                         >
                             <option value="Disponível">Disponível</option>
@@ -196,7 +175,7 @@ export default function CreateClient() {
                             Status.
                         </Form.Text>
                     </Form.Group>
-                </Col>
+                </Col>*/}
             </Row>
 
             {/*<Form.Group controlId="formRoomDateCleaning">

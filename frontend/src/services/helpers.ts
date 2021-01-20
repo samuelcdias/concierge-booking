@@ -1,6 +1,6 @@
 import api from "./api"
 import { History } from 'history'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, FormEvent, ChangeEvent } from 'react'
 
 export function useDataFetch(key: string) {
   const [data, setData] = useState<any>()
@@ -53,4 +53,27 @@ export function deleteClick(event: React.MouseEvent<HTMLButtonElement>, key: Str
   }
   deleteData()
   history.push(`/${key}/`)
+}
+
+export async function handleSubmitClick(event: FormEvent, data: any, key: string, history: History) {
+  event.preventDefault()
+  try {
+    await api.post(`/${key}`, data)
+
+    alert('Cadastro realizado com sucesso!')
+    history.push(`/${key}`)
+  } catch (err) {
+    alert("Houve um problema, verifique se os dados estão corretos.");
+  }
+}
+
+export  function handleInputChange(event: ChangeEvent<HTMLInputElement>, setState: any, state: any) {
+  const target = event.target;
+  const value = target.type === 'checkbox' ? target.checked : target.value;
+  const name = target.name;
+
+  setState({
+    ...state,
+    [name]: value
+  });
 }

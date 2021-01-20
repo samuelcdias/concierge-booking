@@ -1,65 +1,55 @@
-import React, { FormEvent, useEffect, useState } from "react";
+import React, { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import { useHistory, useParams } from 'react-router-dom';
-import api from '../../../services/api';
+import { useDataFetch, handleSubmitClick, handleInputChange} from '../../../services/helpers'
 
 import Input from "../../../components/Input";
 import InputMask from "../../../components/Input/InputMask";
 import Button from "../../../components/Button";
 import { BlockContent, FormStyle, Content } from "./styles";
 
-import { clienteData, clienteParams } from "./interface"
+import { customerModel, customerParams } from "../interface"
 
 export default function CreateClient() {
-    const key = "clientes"
+    const key = "customers"
     const history = useHistory();
 
-    const params = useParams<clienteParams>();
-    const [dataConf, setDataConf] = useState(false);
-    const [nome, setNome] = useState('');
-    const [dt_nascimento, setDtNascimento] = useState('');
-    const [cpf, setCPF] = useState('');
-    const [doc_num, setDocNum] = useState('');
+    const params = useParams<customerParams>();
+    const [state, setState] = useState<customerModel>({
+        id: params.id ? Number(params.id) : undefined,
+		nome: '',
+		cpf: '',
+		dt_nascimento: '',
+		num_doc_identidade: '',
+		tipo_doc_identidade: '',
+		orgao_doc_identidade: '',
+		nacionalidade: '',
+		profissao: '',
+		dt_identidade: '',
+		genero: '',
+		cidade: '',
+		estado: '',
+		pais: '',
+		motivo_viagem: undefined,
+		meio_transporte: undefined 
+      })
+    let promise: any = useRef(null)
 
-    useEffect(() => {
-        async function getdataConfigs() {
-            try {
-                const { data } = await api.get('/config');
-                setDataConf(data.useSNRHOs);
-            } catch (error) {
-                alert("Ocorreu um erro, tente novamente mais tarde!")
-            }
+    useEffect(() => {       
+        async function CallData(){
+            return await useDataFetch(`${key}/${params.id}`)
         }
-        async function getClientData() {
-            try {
-                const { data } = await api.get(`/${key}/${params.id}`);
-                setNome(data.nome)
-                setCPF(data.cpf)
-                setDtNascimento(data.dt_nascimento)
-            } catch (error) {
-                alert("Ocorreu um erro, tente novamente mais tarde!")
-            }
-        }
-        getdataConfigs();
-
         if (params.id){ 
-            getClientData();
+            promise.current = CallData()
+            setState(promise.data)
         }
     },[params.id]);
   
+    function handleChange(event: ChangeEvent<HTMLInputElement>) {
+        handleInputChange(event,setState, state)
+    }
+
     async function handleSubmit(event: FormEvent) {
-            event.preventDefault()
-
-            const clientData: clienteData = {
-                id: params.id ? params.id : undefined,
-                nome: nome,
-                dt_nascimento: dt_nascimento,
-                cpf: cpf
-            }
-
-            await api.post(`/${key}`, clientData)
-
-            alert('Cadastro realizado com sucesso!')
-            history.push(`/${key}`)
+        handleSubmitClick(event, state, key, history)
     }
 
     return (
@@ -74,20 +64,20 @@ export default function CreateClient() {
                         textlabel="Nome"
                         name="nome"
                         placeholder="Insira seu nome"
-                        value={nome}
-                        onChange={event => setNome(event.target.value)}
+                        value={state.nome}
+                        onChange={handleChange}
                     />
 
                     <InputMask
                         id="dt_nascimento"
                         className="input-dt-nascimento"
                         textlabel="Data de nascimento"
-                        name="dtofbirth"
+                        name="dt_nascimento"
                         mask="99/99/9999"
                         alwaysShowMask={true}
                         placeholder="Data de nascimento"
-                        value={dt_nascimento}
-                        onChange={event => setDtNascimento(event.target.value)}
+                        value={state.dt_nascimento}
+                        onChange={handleChange}
                     />
 
                     <InputMask
@@ -98,34 +88,36 @@ export default function CreateClient() {
                         mask="999.999.999-99"
                         alwaysShowMask={true}
                         placeholder="CPF"
-                        value={cpf}
-                        onChange={event => setCPF(event.target.value)}
+                        value={state.cpf}
+                        onChange={handleChange}
                     />
-                    {(dataConf) && (
+                    {(promise.hasData) && (
                         <BlockContent>
-                        <legend>  Documento</legend>
+                        <legend>Documento</legend>
                         <div>
                             <Input
-                                name="num_doc"
+                                name="num_doc_identidade"
                                 className="input-num-doc"
                                 type="text"
                                 placeholder="Número"
-                                value={doc_num}
-                                onChange={event => setDocNum(event.target.value)}
+                                value={state.num_doc_identidade}
+                                onChange={handleChange}
                             />
                             <Input
-                                name="org_doc"
+                                name="orgao_doc_identidade"
                                 className="input-org-doc"
                                 type="text"
                                 placeholder="Org. exp."
-                                onChange={event => setDocNum(event.target.value)}
+                                value={state.orgao_doc_identidade}
+                                onChange={handleChange}
                             />
                             <Input
-                                name="tipo_doc"
+                                name="tipo_doc_identidade"
                                 className="input-tipo-doc"
                                 type="text"
                                 placeholder="Tipo"
-                                onChange={event => setDocNum(event.target.value)}
+                                value={state.tipo_doc_identidade}
+                                onChange={handleChange}
                             />
                         </div>
                     </BlockContent>

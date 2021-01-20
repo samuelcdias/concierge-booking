@@ -1,5 +1,10 @@
-export default interface clienteData {
-	data: [{
+export interface customerData {
+	data: customerModel[],
+	count: number,
+	limit: number,
+}
+
+export interface customerModel {
 		id?: number,
 		nome: string,
 		cpf: string,
@@ -16,7 +21,8 @@ export default interface clienteData {
 		pais?: string,
 		motivo_viagem?: 'Lazer - Férias' | 'Negócio' | 'Congresso - Feira' | 'Parentes - Amigos' | 'Estudos - Cursos' | 'Religião' | 'Saúde' | 'Compras' | 'Outro',
 		meio_transporte?: 'Avião' | 'Automóvel' | 'Ônibus' | 'Moto' | 'Navio-Barco' | 'Trem' | 'Outro'
-	}],
-	count: number,
-	limit: number,
+}
+
+export interface customerParams {
+    id: string;
 }

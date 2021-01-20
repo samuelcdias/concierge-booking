@@ -1,22 +1,16 @@
 export interface userData {
-	data: [{
-		id?: string | undefined,
-        name: string,
-        username: string,
-        email: string,
-        admin: boolean,   
-	}],
+	data: userModel[],
 	count: number,
 	limit: number,
 }
 
-export interface userInterface {
+export interface userModel {
     id?: string | undefined,
     name: string,
     username: string,
     email: string,
     password: string,
-    confirmpassword: string,
+    confirmpassword?: string,
     admin?: boolean,      
   }
 

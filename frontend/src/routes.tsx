@@ -2,13 +2,13 @@ import React from 'react'
 import { Switch, Route, Redirect, RouteProps } from 'react-router-dom'
 import { isAuthenticated } from "./services/auth";
 
-import SignIn from './pages/SignIn';
-import UserForm from './pages/User/UserForm'
-import UserList from './pages/User/UserList';
-import ClientForm from './pages/Cliente/ClientForm'
-import ClientList from './pages/Cliente/ClientList';
-import RoomForm from './pages/Quarto/RoomForm';
-import RoomList from './pages/Quarto/RoomList';
+import SignIn from './pages/signin';
+import UserForm from './pages/user/form'
+import UserList from './pages/user/list';
+import ClientForm from './pages/customer/form'
+import ClientList from './pages/customer/list';
+import RoomForm from './pages/room/form';
+import RoomList from './pages/room/list';
 import ReservaForm from './pages/ReservaForm';
 
 interface PrivateRouteProps extends RouteProps {
@@ -27,13 +27,13 @@ function Routes() {
                     <PrivateRoute isSignedIn={isSignedIn} exact path="/users" component={UserList} />
                     <PrivateRoute isSignedIn={isSignedIn} path="/users/novo" component={UserForm} />
                     <PrivateRoute isSignedIn={isSignedIn} path="/users/:id" component={UserForm} />
-                    <PrivateRoute isSignedIn={isSignedIn} exact path="/clientes" component={ClientList} />
-                    <PrivateRoute isSignedIn={isSignedIn} path="/clientes/novo" component={ClientForm} />
-                    <PrivateRoute isSignedIn={isSignedIn} path="/clientes/:id" component={ClientForm} />
+                    <PrivateRoute isSignedIn={isSignedIn} exact path="/customers" component={ClientList} />
+                    <PrivateRoute isSignedIn={isSignedIn} path="/customers/novo" component={ClientForm} />
+                    <PrivateRoute isSignedIn={isSignedIn} path="/customers/:id" component={ClientForm} />
                     <PrivateRoute isSignedIn={isSignedIn} path="/reservas/novo" component={ReservaForm} />
-                    <PrivateRoute isSignedIn={isSignedIn} exact path="/quartos" component={RoomList} />
-                    <PrivateRoute isSignedIn={isSignedIn} path="/quartos/novo" component={RoomForm} />
-                    <PrivateRoute isSignedIn={isSignedIn} path="/quartos/:numero" component={RoomForm} />
+                    <PrivateRoute isSignedIn={isSignedIn} exact path="/rooms" component={RoomList} />
+                    <PrivateRoute isSignedIn={isSignedIn} path="/rooms/novo" component={RoomForm} />
+                    <PrivateRoute isSignedIn={isSignedIn} path="/rooms/:numero" component={RoomForm} />
                     <Redirect to='/home' />
             </Switch>
     )
