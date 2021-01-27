@@ -1,7 +1,7 @@
 const app = require('express')()
 const consign = require('consign')
 const db = require('./config/db')
-const { apiPort } = require('./.env')
+const apiPort = process.env.PORT || 3150
 
 app.db = db
 
@@ -15,5 +15,5 @@ consign()
     .into(app)
 
 app.listen(apiPort, () => {
-    console.log('Backend listening in port ' + apiPort)
+    console.log('Back-end listening in port ' + apiPort)
 })
