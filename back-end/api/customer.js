@@ -1,5 +1,5 @@
 module.exports = app => {
-    const key = 'customer'
+    const key = 'customers'
     const { existsOrError } = app.api.helpers.validation
 
     const save = async (req, res) => {
@@ -11,7 +11,7 @@ module.exports = app => {
             customer.id = req.params.id
         }
 
-        const msg = await validate(customer, useSNRHos)
+        const msg = await validate(customer, useSNRHos, key)
         if (msg) {
             return res.status(400).send(msg)
         }

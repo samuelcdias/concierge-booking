@@ -12,11 +12,15 @@ module.exports = app => {
             .where({ username: req.body.username })
             .first()
         
-        if(!user) return res.status(400).send('Usuário não encontrado')
+        if (!user) {
+            return res.status(400).send('Usuário não encontrado')
+        } 
 
         const isMatch = compare(req.body.password, user.password)
-        if(!isMatch) return res.status(40).send('username/senha inválidos')
-
+        if (!isMatch) {
+            return res.status(400).send('username/senha inválidos')
+        }
+        const usesnrhos = await app.api.helpers.config.getSNRHos()
         const now = Math.floor(Date.now() / 1000)
 
         const payload = {
@@ -24,6 +28,7 @@ module.exports = app => {
             name: user.name,
             username: user.username,
             admin: user.admin,
+            usesnrhos: usesnrhos,
             iat: now, 
             exp: now + (60 * 60 * 24 * 3)
         }
