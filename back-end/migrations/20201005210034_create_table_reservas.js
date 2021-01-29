@@ -18,5 +18,9 @@ exports.up = function(knex, Promise) {
 }
 
 exports.down = function(knex, Promise) {
-  return knex.schema.dropTable('reservas')
+  return knex.schema.dropTable('reservas').raw(`
+    DROP TYPE meios_transporte;
+    DROP TYPE motivos_viagem;
+  `)
+          
 }

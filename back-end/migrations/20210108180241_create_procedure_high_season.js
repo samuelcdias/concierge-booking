@@ -1,6 +1,16 @@
 
 exports.up = function(knex) {
   return knex.raw(`
+    CREATE TRIGGER set_updated_timestamp
+    BEFORE UPDATE ON high_season
+    FOR EACH ROW
+    EXECUTE PROCEDURE trigger_set_updated_timestamp();
+
+    CREATE TRIGGER set_created_timestamp
+    BEFORE INSERT ON high_season
+    FOR EACH ROW
+    EXECUTE PROCEDURE trigger_set_created_timestamp();
+
     CREATE OR REPLACE FUNCTION trigger_sp_update_schedule()
     RETURNS trigger AS
     $BODY$
@@ -88,6 +98,8 @@ exports.up = function(knex) {
 
 exports.down = function(knex) {
   return knex.raw(`
+    DROP TRIGGER set_updated_timestamp ON high_season;
+    DROP TRIGGER set_created_timestamp ON high_season;
     DROP FUNCTION trigger_sp_update_schedule();
   `)
 }
