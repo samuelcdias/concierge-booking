@@ -1,21 +1,20 @@
-import React, { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
+import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { useHistory, useParams } from 'react-router-dom';
 import { useDataFetch, handleSubmitClick, handleInputChange} from '../../../services/helpers'
 
 import { Col, Form, Row }from 'react-bootstrap'
 import Button from "../../../components/Button";
-import { roomModel, roomParams } from "../interface"
+import { RoomModel, RoomParams } from "../interface"
+import { FormStyle, InputDiv } from "../../../styles/form";
 
-import styled from "styled-components";
-import colors from "../../styles/colors.json"
 
 
 export default function CreateClient() {
     const key = "rooms"
-    const history = useHistory();
+    const history = useHistory()
 
-    const params = useParams<roomParams>();
-    const [state, setState] = useState<roomModel>({
+    const params = useParams<RoomParams>()
+    const [state, setState] = useState<RoomModel>({
         id: params.id ? params.id : undefined,
         room_number: params.numero ? params.numero : '',
         description: '',
@@ -25,18 +24,17 @@ export default function CreateClient() {
         number_of_extra_beds: 0,
         dt_last_cleaning: undefined,
         dt_last_maintenance: undefined,
-      })
-    let promise: any = useRef(null)
+    })
 
-    useEffect(() => {       
-        async function CallData(){
-            return await useDataFetch(`${key}/${params.id}`)
+    useEffect(() => { 
+          async function CallData(){
+            const data = await useDataFetch(`${key}/${params.numero}`)
+            setState(data.data)
+          }
+        if (params.numero){ 
+            CallData()
         }
-        if (params.id){ 
-            promise.current = CallData()
-            setState(promise.data)
-        }
-    },[params.id]);
+    },[])
   
     function handleChange(event: ChangeEvent<HTMLInputElement>) {
         handleInputChange(event,setState, state)
@@ -196,70 +194,3 @@ export default function CreateClient() {
         </FormStyle>
     );
 }
-
-const InputDiv = styled.div`
-    input {
-        background: transparent;
-        border-radius: 6px;
-        border: 2px solid ${colors.primary};
-        color: ${colors.primary};
-        outline-width: 0;
-        fill-opacity:0;
-        flex: 1;
-        text-indent: 3px;
-        padding: 2px;
-        font-family: Nunito;
-        font-style: normal;
-        font-weight: normal;
-        font-size: 16px;
-        line-height: 25px;
-        align-items: center;  
-        max-width: 350px;      
-    }
-    
-    textarea{
-        background: transparent;
-        border-radius: 6px;
-        border: 2px solid ${colors.primary};
-        color: ${colors.primary};
-        outline-width: 0;
-        fill-opacity:0;
-        flex: 1;
-        text-indent: 3px;
-        padding: 2px;
-        font-family: Nunito;
-        font-style: normal;
-        font-weight: normal;
-        font-size: 16px;
-        line-height: 25px;
-        align-items: center;   
-    }
-
-    select {
-        background: transparent;
-        border-radius: 6px;
-        border: 2px solid ${colors.primary};
-        color: ${colors.primary};
-        outline-width: 0;
-        fill-opacity:0;
-        flex: 1;
-        text-indent: 3px;
-        padding: 2px;
-        font-family: Nunito;
-        font-style: normal;
-        font-weight: normal;
-        font-size: 16px;
-        line-height: 25px;
-        align-items: center;   
-    }
-    `
-
-const FormStyle = styled.div`
-
-  box-sizing: border-box;
-  padding: 40px 30px;
-  margin-top: 50px;
-  margin: 0 auto;
-  width: 100%;
-  max-width: 350px;
-  `

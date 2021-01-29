@@ -1,10 +1,16 @@
-export interface userData {
-	data: userModel[],
+export interface UserFetch {
+	data: UserData,
+	hasData: boolean,
+	dataConf: boolean
+}
+
+export interface UserData {
+	data: UserModel[],
 	count: number,
 	limit: number,
 }
 
-export interface userModel {
+export interface UserModel {
     id?: string | undefined,
     name: string,
     username: string,
@@ -14,6 +20,6 @@ export interface userModel {
     admin?: boolean,      
   }
 
-export interface userParams {
+export interface UserParams {
 	id?: string;
 }

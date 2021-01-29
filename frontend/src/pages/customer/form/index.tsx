@@ -1,48 +1,53 @@
-import React, { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
+import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { useHistory, useParams } from 'react-router-dom';
-import { useDataFetch, handleSubmitClick, handleInputChange} from '../../../services/helpers'
+import { useDataFetch, handleSubmitClick, handleInputChange } from '../../../services/helpers'
 
 import Input from "../../../components/Input";
 import InputMask from "../../../components/Input/InputMask";
 import Button from "../../../components/Button";
 import { BlockContent, FormStyle, Content } from "./styles";
 
-import { customerModel, customerParams } from "../interface"
+// eslint-disable-next-line
+import DatePicker from 'react-date-picker'
+
+import { CustomerModel, CustomerParams } from "../interface"
 
 export default function CreateClient() {
     const key = "customers"
-    const history = useHistory();
+    const history = useHistory()
 
-    const params = useParams<customerParams>();
-    const [state, setState] = useState<customerModel>({
+    const params = useParams<CustomerParams>()
+    const [dataConf, setDataConf] = useState<boolean>()
+    const [dataInicial, setDataInicial] = useState(new Date())
+    const [state, setState] = useState<CustomerModel>({
         id: params.id ? Number(params.id) : undefined,
-		nome: '',
-		cpf: '',
-		dt_nascimento: '',
-		num_doc_identidade: '',
-		tipo_doc_identidade: '',
-		orgao_doc_identidade: '',
-		nacionalidade: '',
-		profissao: '',
-		dt_identidade: '',
-		genero: '',
-		cidade: '',
-		estado: '',
-		pais: '',
-		motivo_viagem: undefined,
-		meio_transporte: undefined 
-      })
-    let promise: any = useRef(null)
+        nome: '',
+        cpf: '',
+        dt_nascimento: '',
+        num_doc_identidade: '',
+        tipo_doc_identidade: '',
+        orgao_doc_identidade: '',
+        nacionalidade: '',
+        profissao: '',
+        dt_identidade: '',
+        genero: '',
+        cidade: '',
+        estado: '',
+        pais: '',
+        motivo_viagem: undefined,
+        meio_transporte: undefined
+    })
 
-    useEffect(() => {       
+    useEffect(() => { 
         async function CallData(){
-            return await useDataFetch(`${key}/${params.id}`)
+            const data = await useDataFetch(`${key}/${params.id}`)
+            setState(data.data)
+            setDataConf(data.dataConf)
         }
         if (params.id){ 
-            promise.current = CallData()
-            setState(promise.data)
+            CallData()
         }
-    },[params.id]);
+    },[])
   
     function handleChange(event: ChangeEvent<HTMLInputElement>) {
         handleInputChange(event,setState, state)
@@ -68,14 +73,15 @@ export default function CreateClient() {
                         onChange={handleChange}
                     />
 
+
                     <InputMask
                         id="dt_nascimento"
                         className="input-dt-nascimento"
                         textlabel="Data de nascimento"
-                        name="dt_nascimento"
                         mask="99/99/9999"
                         alwaysShowMask={true}
                         placeholder="Data de nascimento"
+                        name="dt_nascimento"
                         value={state.dt_nascimento}
                         onChange={handleChange}
                     />
@@ -91,7 +97,7 @@ export default function CreateClient() {
                         value={state.cpf}
                         onChange={handleChange}
                     />
-                    {(promise.hasData) && (
+                    {(dataConf) && (
                         <BlockContent>
                         <legend>Documento</legend>
                         <div>
@@ -126,7 +132,7 @@ export default function CreateClient() {
 
                     <Button type="submit">Cadastrar</Button>
                 </fieldset>
-            </FormStyle>
+            </FormStyle>                                                    
         </Content>
     );
 }

@@ -1,56 +1,40 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from 'react-router-dom';
-import api from '../../../services/api';
+import { deleteClick, editClick, useDataFetch } from "../../../services/helpers";
 
 import { Container, Row, Col, Table, Button  } from 'react-bootstrap'
 import { FiPlus } from "react-icons/fi";
 
-import colors from '../../styles/colors.json'
 import './styles.css';
 
-import { userData } from "../interface"
+import { UserFetch, UserModel } from "../interface"
 
-export default function ClientList() {
-    const history = useHistory();
-    const routeName = '/users';
-
-    const [users, setUsers] = useState<userData>();
-    const [hasData, setHasData] = useState(false);
-
-    useEffect(() => {
-        async function getEntitieList() {
-            try {
-                const { data } = await api.get(routeName);
-                setUsers(data);
-                console.log(users)
-                setHasData(true);
-            } catch (error) {
-                alert("Ocorreu um erro, tente novamente mais tarde!")
-            }
-        }
-        getEntitieList();
-    }, []);
+export default function List() {
+    const key = 'users'
+    const history = useHistory()
+    const [users, setUsers] = useState<UserFetch>({
+        data: { 
+            data: [],
+            count: 0,
+            limit: 10
+        },
+        hasData: false,
+        dataConf: false
+    })
+    useEffect (() => {
+        //useDataFetch(key, users, setUsers)
+    }, [])
 
     function handleEditClick(event: React.MouseEvent<HTMLButtonElement>) {
-        const index = event.currentTarget.getAttribute('value');
-        history.push(`${routeName}/${index}`);
+        editClick(event, key, history)
     }
 
-    function handleRemoveClick(event: React.MouseEvent<HTMLButtonElement>) {
-        async function removeEntitie() {
-            const index = event.currentTarget.getAttribute('value');
-            try {
-                await api.delete(`${routeName}/${index}`);
-            } catch (error) {
-                alert("Ocorreu um erro, tente novamente mais tarde!")
-            }
-        }
-        removeEntitie()
-        history.push(routeName);
+    function handleDeleteClick(event: React.MouseEvent<HTMLButtonElement>) {
+        deleteClick(event, key, history)
     }
 
     function List() {
-        if (hasData) {
+        if (users.hasData) {
             return (<>
                 <Table striped borderless hover size="sm" responsive="lg" >
                     <thead>
@@ -62,7 +46,7 @@ export default function ClientList() {
                         </tr>
                     </thead>
                     <tbody>
-                        {users!.data.map((user) => (
+                        {users.data.data.map((user: UserModel) => (
                             <tr key={user.id}>
                                 <td >{user.name}</td>
                                 <td >{user.username}</td>
@@ -77,7 +61,7 @@ export default function ClientList() {
                                         type="button"
                                         variant="danger"
                                         value={user.id}
-                                        onClick={handleRemoveClick}
+                                        onClick={handleDeleteClick}
                                     >excluir</Button>
                                 </td>
                             </tr>

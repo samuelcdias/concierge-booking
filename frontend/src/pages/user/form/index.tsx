@@ -5,7 +5,7 @@ import { useDataFetch, handleSubmitClick, handleInputChange} from '../../../serv
 import { Form } from "react-bootstrap";
 import Button from "../../../components/Button";
 import Input from "../../../components/Input";
-import { userModel, userParams } from "../interface"
+import { UserModel, UserParams } from "../interface"
 
 import './styles.css';
 import styled from "styled-components";
@@ -14,8 +14,8 @@ const UserForm: React.FC = () => {
     const key = "rooms"
     const history = useHistory();
 
-    const params = useParams<userParams>();
-    const [state, setState] = useState<userModel>({
+    const params = useParams<UserParams>();
+    const [state, setState] = useState<UserModel>({
         id: params.id ? params.id : undefined,
         name: '',
         username: '',
@@ -23,15 +23,18 @@ const UserForm: React.FC = () => {
         password: '',
         confirmpassword: ''
       })
-    let promise: any = useRef(null)
+      const [data, setData] = useState({
+        data: {},
+        hasData: false,
+        dataConf: false
+    })     
 
-    useEffect(() => {       
+    useEffect(() => { 
         async function CallData(){
-            return await useDataFetch(`${key}/${params.id}`)
+           // return await useDataFetch(`${key}/${params.id}`, data, setData)
         }
         if (params.id){ 
-            promise.current = CallData()
-            setState(promise.data)
+            CallData()
         }
     },[params.id]);
   

@@ -1,10 +1,12 @@
-export interface roomData {
-	data: roomModel[],
-	count: number,
+export interface RoomFetch {
+	data: RoomModel[],
+	hasData: boolean,
+  dataConf: boolean,
+  count: number,
 	limit: number,
 }
 
-export interface roomModel {
+export interface RoomModel {
     id?: string | undefined,
     room_number: string,
     description: string,
@@ -16,7 +18,7 @@ export interface roomModel {
     dt_last_maintenance?: Date | undefined,
   }
 
-export interface roomParams {
+export interface RoomParams {
 	id?: string;
-    numero?: string;
+  numero?: string;
 }

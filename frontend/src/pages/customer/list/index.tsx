@@ -1,7 +1,7 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { useHistory } from 'react-router-dom'
 import { useDataFetch, editClick, deleteClick } from '../../../services/helpers'
-import { customerModel} from '../interface'
+import { CustomerFetch, CustomerModel} from '../interface'
 import { Container, Row, Col, Table, Button }from 'react-bootstrap'
 
 import { FiPlus } from "react-icons/fi";
@@ -11,7 +11,25 @@ import './styles.css';
 export default function ClientList() {
     const key: string = 'customers'
     const history = useHistory()
-    const customers = useDataFetch(key)
+    const [customers, setCustomers] = useState<CustomerFetch>({
+        data: [{
+            nome: '',
+	        cpf: '',
+	        dt_nascimento: '',
+            }],
+        count: 0,
+        limit: 10,
+        hasData: false,
+        dataConf: false
+    })
+
+    useEffect(() => { 
+        async function CallData(){
+            const data = await useDataFetch(`${key}`)
+            setCustomers(data)
+        }
+        CallData()
+    },[])
 
     function handleEditClick(event: React.MouseEvent<HTMLButtonElement>) {
         editClick(event, key, history)
@@ -34,7 +52,7 @@ export default function ClientList() {
                         </tr>
                     </thead>
                     <tbody>
-                        {customers!.data.map((customer: customerModel) => (
+                        {customers.data && customers.data.map((customer: CustomerModel) => (
                             <tr key={customer.id}>
                                 <td >{customer.nome}</td>
                                 <td >{customer.dt_nascimento}</td>

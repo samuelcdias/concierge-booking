@@ -18,22 +18,23 @@ interface PrivateRouteProps extends RouteProps {
 }   
 
 function Routes() {
-    const isSignedIn: boolean = isAuthenticated();
+    const isSignedIn: boolean = isAuthenticated()
+    
 
     return (
             <Switch>
                     <Route exact path="/" component={SignIn} />
-                    <Route path="/home" component={RoomList} />
+                    <Route path="/home" component={SignIn} />
                     <PrivateRoute isSignedIn={isSignedIn} exact path="/users" component={UserList} />
                     <PrivateRoute isSignedIn={isSignedIn} path="/users/novo" component={UserForm} />
                     <PrivateRoute isSignedIn={isSignedIn} path="/users/:id" component={UserForm} />
                     <PrivateRoute isSignedIn={isSignedIn} exact path="/customers" component={ClientList} />
                     <PrivateRoute isSignedIn={isSignedIn} path="/customers/novo" component={ClientForm} />
                     <PrivateRoute isSignedIn={isSignedIn} path="/customers/:id" component={ClientForm} />
-                    <PrivateRoute isSignedIn={isSignedIn} path="/reservas/novo" component={ReservaForm} />
                     <PrivateRoute isSignedIn={isSignedIn} exact path="/rooms" component={RoomList} />
                     <PrivateRoute isSignedIn={isSignedIn} path="/rooms/novo" component={RoomForm} />
                     <PrivateRoute isSignedIn={isSignedIn} path="/rooms/:numero" component={RoomForm} />
+                    <PrivateRoute isSignedIn={isSignedIn} path="/reservas/novo" component={ReservaForm} />
                     <Redirect to='/home' />
             </Switch>
     )

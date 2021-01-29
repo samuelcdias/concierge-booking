@@ -1,39 +1,39 @@
 import api from "./api"
 import { History } from 'history'
 import { useState, useEffect, FormEvent, ChangeEvent } from 'react'
+import { isAuthenticated, getToken, logout } from "./auth"
 
-export function useDataFetch(key: string) {
-  const [data, setData] = useState<any>()
-  const [dataConf, setDataConf] = useState()
-  const [hasData, setHasData] = useState(false)
+interface Data {
+  dataConf: boolean,
+  hasData: boolean,
+  data: any,
+  count: number,
+  limit: number
+}
 
-  useEffect(() => {
-    async function getdataConfigs() {
-        try {
-            const { data } = await api.get('/config')
-            setDataConf(data)
-        } catch (error) {
-            alert("Ocorreu um erro, tente novamente mais tarde!")
-        }
-    }
-    
-    async function getDataList() {
-        try {
-            const { data } = await api.get(`/${key}`)
-            setData(data)
-            setHasData(true)
-        } catch (error) {
-            alert("Ocorreu um erro, tente novamente mais tarde!")
-        }
-    }
-    getdataConfigs()
-    getDataList()
-  }, [key])
+export async function useDataFetch(key: string):Promise<Data> {
+  let hasData: boolean = false
+  let dataConf = JSON.parse(getToken() || '{}').usesnrhos || false
+  let data = {}
+  let count = 0
+  let limit = 10
+  
+  try {
+    const response = await api.get(`/${key}`)
+    data = response.data.data
+    count = response.data.count
+    limit = response.data.limit
+    hasData = (count == 0 ? false : true)
+  } catch (e) {
+    alert("Ocorreu um erro, tente novamente mais tarde!")
+  }
 
   return {
-    data,
-    dataConf,
-    hasData
+    data: data,
+    hasData: hasData,
+    dataConf: dataConf,
+    count: count,
+    limit: limit
   }
 }
 
@@ -63,17 +63,40 @@ export async function handleSubmitClick(event: FormEvent, data: any, key: string
     alert('Cadastro realizado com sucesso!')
     history.push(`/${key}`)
   } catch (err) {
-    alert("Houve um problema, verifique se os dados estão corretos.");
+    alert("Houve um problema, verifique se os dados estão corretos.")
   }
 }
 
 export  function handleInputChange(event: ChangeEvent<HTMLInputElement>, setState: any, state: any) {
-  const target = event.target;
-  const value = target.type === 'checkbox' ? target.checked : target.value;
-  const name = target.name;
+  const target = event.target
+  const value = target.type === 'checkbox' ? target.checked : target.value
+  const name = target.name
 
   setState({
     ...state,
     [name]: value
-  });
+  })
 }
+export  function isLoggedIn() {
+  const [auth, setAuth] = useState(false)
+  
+  function validate(){
+    try {
+      const is_valid =  JSON.parse(getToken()|| '{}').exp > Math.floor(Date.now() / 1000)
+      return is_valid
+    } catch (err) {
+      return false
+    }
+  }
+
+  if (!validate()) {
+    logout()
+  }
+
+  useEffect(() => {
+      setAuth(isAuthenticated())
+  },[auth])
+  return auth
+}
+
+

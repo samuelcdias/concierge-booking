@@ -1,18 +1,37 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { useHistory } from 'react-router-dom'
 import { useDataFetch, editClick, deleteClick } from '../../../services/helpers'
 
 import { Table, Button, Container, Row, Col } from 'react-bootstrap'
 import { FiPlus } from "react-icons/fi"
 
-import colors from '../../styles/colors.json'
+import colors from '../../../styles/colors.json'
 import './styles.css';
-import { roomModel } from "../interface"
+import { RoomFetch, RoomModel } from "../interface"
 
 export default function RoomList() {
     const key = 'rooms'
     const history = useHistory()
-    const rooms = useDataFetch(key)
+    const [rooms, setRooms] = useState<RoomFetch>({
+        data:  [{
+            room_number: '',
+            description: '',
+            number_of_beds: 0,
+            type_of_room: ''
+        }],
+        count: 0,
+        limit: 10,
+        hasData: false,
+        dataConf: false
+    })
+    
+    useEffect(() => { 
+        async function CallData(){
+            const data = await useDataFetch(`${key}`)
+            setRooms(data)
+        }
+        CallData()
+    },[])
 
     function handleEditClick(event: React.MouseEvent<HTMLButtonElement>) {
         editClick(event, key, history)
@@ -35,7 +54,7 @@ export default function RoomList() {
                         </tr>
                     </thead>
                     <tbody>
-                        {rooms!.data.map((room:roomModel) => (
+                        {rooms.data.map((room: RoomModel) => (
                             <tr key={room.id}>
                                 <td >{room.room_number}</td>
                                 <td >{room.description}</td>
@@ -58,7 +77,8 @@ export default function RoomList() {
                     </tbody>
                 </Table>
             </>)
-        } else return (<div> <p>Nenhum dado encontrado</p></div>)
+        
+        } else return (<div> <p>Nenhum dado encontrado</p> </div>)
     }
 
     return (

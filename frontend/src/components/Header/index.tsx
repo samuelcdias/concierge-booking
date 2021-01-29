@@ -1,25 +1,23 @@
 import React, { HTMLAttributes } from 'react'
+import { getToken } from "../../services/auth";
 
-import Container from 'react-bootstrap/Container'
-import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
-import Image from 'react-bootstrap/Image'
+import { Container,Row, Col, Image } from 'react-bootstrap'
 
-import styled from 'styled-components'
-import colors from '../../pages/styles/colors.json'
+import colors from '../../styles/colors.json'
 import Logo from '../../assets/images/logo.jpeg'
 import { IconBaseProps } from 'react-icons'
 
 import './styles.css';
 
 interface HeaderProps extends HTMLAttributes<HTMLElement> {
-    children?: React.ReactNode
-    title: string
-    icon?: React.ComponentType<IconBaseProps>;
-    nomeUsuario?: string
+    children?: React.ReactNode,
+    title: string,
+    icon?: React.ComponentType<IconBaseProps>,
+    auth: boolean
 }
 
-export default function Header({ children, icon: Icon, title, ...props }: HeaderProps) {
+export default function Header({ children, icon: Icon, title, auth}: HeaderProps) {
+    
     return (
         <Container className="shadow " fluid>
             <Row>
@@ -27,29 +25,14 @@ export default function Header({ children, icon: Icon, title, ...props }: Header
                     <Image className="mx-auto d-block" src={Logo} alt="Bell logo" width="64" height="64" rounded/>
                 </Col>
                 <Col md={8} className="d-flex flex-wrap align-content-center">
-                    <Title>{title}</Title>
+                    <h1 className="title">{title}</h1>
                 </Col>
                 <Col md={2} className="d-flex flex-wrap align-content-center">
                     {Icon && <Icon className="icon-header" size={24} color={colors.textColour} />}
-                    <Login>{props.nomeUsuario}{children}</Login>
+                    <h1 className='login-name'>{auth ? JSON.parse(getToken() || '{}').name : 'Login'}{children}</h1>
                 </Col>
             </Row >
         </Container >
    
   );
 }
-
-const Title = styled.h1`
-    font-family: Nunito;
-    font-style: normal;
-    font-weight: 900;
-    font-size: 36px;
-    line-height: 49px;
-    letter-spacing: 0.12em;
-`
-const Login = styled.h1`
-    margin-left: 8px;
-    margin-top: 0;
-    margin-bottom: 0;
-    font-size: 18px;
-`   

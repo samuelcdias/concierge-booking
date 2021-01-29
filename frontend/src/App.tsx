@@ -1,32 +1,32 @@
-import React from 'react';
-import { getToken, isAuthenticated, logout } from "./services/auth";
-import { BrowserRouter, Link } from 'react-router-dom';
+import React from 'react'
+import { BrowserRouter } from 'react-router-dom'
+import { isLoggedIn } from './services/helpers'
 
-import {Container, Row, Col} from 'react-bootstrap';
-import Footer from './components/Footer';
-import Header from './components/Header';
-import Sidebar from './components/SideBar';
-import Routes from './routes';
+import {Container, Row, Col} from 'react-bootstrap'
+import Footer from './components/Footer'
+import Header from './components/Header'
+import Sidebar from './components/SideBar'
+import Routes from './routes'
 
-import GlobalStyle from './pages/styles/global'
 import { FiLogIn, FiUser } from 'react-icons/fi'
+import GlobalStyle from './styles/global'
 
-export default function App() {
+function App() {
 
     return (
         <div className="App">
-            <BrowserRouter>     
+            <BrowserRouter>
                 <Container fluid>
-                    <Row >
-                        <Header 
+                    <Row>
+                        <Header
                             title="Concierge"
-                            icon={isAuthenticated() ? FiUser : FiLogIn}
-                            nomeUsuario={isAuthenticated() ? JSON.parse(getToken()!).name : 'Login'}
+                            icon={isLoggedIn() ? FiUser : FiLogIn}
+                            auth={isLoggedIn() }
                         />
                     </Row>
                     <Row className="container-page-content">
                         <Col md={1}>
-                            <Sidebar />
+                            {isLoggedIn() ? <Sidebar /> : <Row> </Row>}
                         </Col>
                         <Col>
                             <Routes />
@@ -41,5 +41,7 @@ export default function App() {
             </BrowserRouter>
             <GlobalStyle />
         </div>
-    );
+    )
 }
+
+export default App

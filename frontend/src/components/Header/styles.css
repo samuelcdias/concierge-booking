@@ -1,4 +1,22 @@
-h1 {
+
+
+img {
+    padding: 4px;
+}
+.shadow {
+    -webkit-box-shadow: 0 3px 5px rgba(57, 63, 72, 0.3);
+    -moz-box-shadow: 0 3px 5px rgba(57, 63, 72, 0.3);
+    box-shadow: 0 3px 5px rgba(57, 63, 72, 0.3);
+}
+.login-name {
+    margin-left: 8px;
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size: 18px;
+    font-weight: normal;
+}
+
+.title {
     display: block;
     text-align: center;
     margin: 0 auto;
@@ -8,13 +26,4 @@ h1 {
     font-size: 36px;
     line-height: 49px;
     letter-spacing: 0.12em;
-}
-
-img {
-    padding: 4px;
-}
-.shadow {
-    -webkit-box-shadow: 0 3px 5px rgba(57, 63, 72, 0.3);
-    -moz-box-shadow: 0 3px 5px rgba(57, 63, 72, 0.3);
-    box-shadow: 0 3px 5px rgba(57, 63, 72, 0.3);
 }
