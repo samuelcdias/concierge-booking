@@ -11,22 +11,22 @@ module.exports = app => {
 
     const getSNRHos  = async () => {
         const result = await app.db(key).select('useSNRHos').first()
-        return result.useSNRHos || false
+        return result === undefined ? false : result.useSNRHos
     }
 
     const getLimitViews = async () => {
         const result = await app.db(key).select('limitViewsPage').first()
-        return result.limitViewsPage || 10
+        return result === undefined ? 10 : result.limitViewsPage 
     }
 
     const getExpirationTime = async () => {
         const result = await app.db(key).select('expirationTimeInHours').first()
-        return result.expirationTimeInHours || 24
+        return result === undefined ? 24 : result.expirationTimeInHours
     }
 
     const getScheduleTimeInMonths = async () => {
         const result = await app.db(key).select('scheduleTimeInMonths').first()
-        return result.scheduleTimeInMonths || 18
+        return result == undefined? 18 : result.scheduleTimeInMonths || 18
     }
 
     return { get, getSNRHos, getLimitViews, getExpirationTime, getScheduleTimeInMonths }
