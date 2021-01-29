@@ -3,7 +3,7 @@ import InputMask from 'react-input-mask';
 
 import { IconBaseProps } from 'react-icons';
 import { Container } from '../styles'
-import colors from '../../../pages/styles/colors.json'
+import colors from '../../../styles/colors.json'
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
     name: string;

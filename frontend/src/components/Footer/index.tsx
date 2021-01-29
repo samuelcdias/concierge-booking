@@ -1,7 +1,6 @@
 import React,{ HTMLAttributes } from 'react'
 
 import styled from 'styled-components';
-import colors from '../../pages/styles/colors.json'
 
 interface FooterProps extends HTMLAttributes<HTMLElement> {
   children?: React.ReactNode
@@ -10,9 +9,9 @@ interface FooterProps extends HTMLAttributes<HTMLElement> {
 
 export default function Footer({ children, title, ...props}: FooterProps) {
     return(
-    <FooterStyle className="footer-content">
-        <p>Desenvolvido por <strong>Samuel Cardoso</strong></p>
-    </FooterStyle >
+        <FooterStyle className="footer-content">
+            <p>Desenvolvido por <strong>Samuel Cardoso</strong></p>
+        </FooterStyle >
     )
 }
 

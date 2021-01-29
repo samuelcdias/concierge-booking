@@ -1,7 +1,7 @@
 import React, { InputHTMLAttributes } from 'react';
 
 import { IconBaseProps } from 'react-icons';
-import colors from '../../pages/styles/colors.json'
+import colors from '../../styles/colors.json'
 import { Container } from './styles'
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {

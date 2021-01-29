@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import colors from "../../styles/colors.json"
+import colors from "../../../styles/colors.json"
 
 const isHidden: boolean = true
 
@@ -33,13 +33,8 @@ export const BlockContent = styled.fieldset`
   
 `;
 
-export const FormStyle = styled.div`
-  box-sizing: border-box;
-  padding: 40px 30px;
-  margin-top: 50px;
-  margin: 0 auto;
-  width: 100%;
-  `
+
 export const Content = styled.div`
   height: 100%;
 `
+  

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import colors from '../../pages/styles/colors.json'
+import colors from '../../styles/colors.json'
 
 export const Container = styled.div`
     background: transparent

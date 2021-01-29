@@ -1,7 +1,7 @@
 import React, { ButtonHTMLAttributes } from 'react';
 
 import styled from 'styled-components';
-import colors from '../../pages/styles/colors.json'
+import colors from '../../styles/colors.json'
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode
