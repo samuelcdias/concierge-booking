@@ -40,6 +40,10 @@ export const FormStyle = styled.form`
   margin: 0 auto;
   width: 100%;
 
+  div {
+    margin-top: 20 px;
+  }
+
   .react-datepicker-wrapper .react-datepicker__input-container input{
     background: transparent;
       border-radius: 6px;
@@ -55,7 +59,8 @@ export const FormStyle = styled.form`
       font-weight: normal;
       font-size: 16px;
       line-height: 25px;
-      align-items: center; 
+      align-items: center;
+      z-index: 2;
   }
   `
 export const Content = styled.div`
