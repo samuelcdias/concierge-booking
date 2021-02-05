@@ -1,14 +1,11 @@
-import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import React, { ChangeEvent, FormEvent, useEffect, useState } from "react"
 import { useHistory, useParams } from 'react-router-dom';
 import { useDataFetch, handleSubmitClick, handleInputChange } from '../../../services/helpers'
 
-import Input from "../../../components/Input";
-import InputMask from "../../../components/Input/InputMask";
-import Button from "../../../components/Button";
-import { BlockContent, FormStyle, Content } from "./styles";
-
-// eslint-disable-next-line
-import DatePicker from 'react-date-picker'
+import Input from "../../../components/Input"
+import Button from "../../../components/Button"
+import { BlockContent, FormStyle, Content } from "./styles"
+import CustomerForm from "./basicform"
 
 import { CustomerModel, CustomerParams } from "../interface"
 
@@ -18,7 +15,6 @@ export default function CreateClient() {
 
     const params = useParams<CustomerParams>()
     const [dataConf, setDataConf] = useState<boolean>()
-    const [dataInicial, setDataInicial] = useState(new Date())
     const [state, setState] = useState<CustomerModel>({
         id: params.id ? Number(params.id) : undefined,
         nome: '',
@@ -57,46 +53,16 @@ export default function CreateClient() {
         handleSubmitClick(event, state, key, history)
     }
 
+    
+
     return (
         <Content id="page-create-user">
             <FormStyle className="create-user-form" onSubmit={handleSubmit}>
                 <fieldset>
                     <legend>Cadastrar Cliente</legend>
 
-                    <Input
-                        id="nome"
-                        className="input-nome"
-                        textlabel="Nome"
-                        name="nome"
-                        placeholder="Insira seu nome"
-                        value={state.nome}
-                        onChange={handleChange}
-                    />
+                    <CustomerForm handleChangeFunction={handleChange} state={state}/>
 
-
-                    <InputMask
-                        id="dt_nascimento"
-                        className="input-dt-nascimento"
-                        textlabel="Data de nascimento"
-                        mask="99/99/9999"
-                        alwaysShowMask={true}
-                        placeholder="Data de nascimento"
-                        name="dt_nascimento"
-                        value={state.dt_nascimento}
-                        onChange={handleChange}
-                    />
-
-                    <InputMask
-                        id="cpf"
-                        className="input-cpf"
-                        textlabel="CPF"
-                        name="cpf"
-                        mask="999.999.999-99"
-                        alwaysShowMask={true}
-                        placeholder="CPF"
-                        value={state.cpf}
-                        onChange={handleChange}
-                    />
                     {(dataConf) && (
                         <BlockContent>
                         <legend>Documento</legend>

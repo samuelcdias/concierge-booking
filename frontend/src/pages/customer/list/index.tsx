@@ -86,7 +86,7 @@ export default function ClientList() {
                 <Row>
                     <Col sm={10}></Col>
                     <Col sm={2}>
-                        <Button type="button" onClick={() => history.push(`/${key}/novo`)}>
+                        <Button type="button" onClick={() => history.push(`/${key}/new`)}>
                             <FiPlus size={23} color="#FFF" />
                         </Button>
                     </Col>
