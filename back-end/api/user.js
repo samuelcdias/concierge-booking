@@ -59,7 +59,7 @@ module.exports = app => {
         const page = req.query.page || 1
         const result = await app.db(key).count('id').first()
         const count = parseInt( result.count)
-        const limit = await app.api.helpers.config.getLimitViews()
+        const limit = await app.api.config.getLimitViews()
 
         app.db(key)
             .select('id', 'username', 'name', 'email', 'admin')

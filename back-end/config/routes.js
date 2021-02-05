@@ -5,7 +5,7 @@ module.exports = app => {
     app.post('/validateToken', app.api.auth.validateToken)
 
     app.route('/config')
-        .get(app.api.helpers.config.get)
+        .get(app.api.config.get)
     
     app.route('/users')
         .all(app.config.passport.authenticate())
@@ -70,19 +70,19 @@ module.exports = app => {
         .put(admin(app.api.room.save))
         .delete(admin(app.api.room.remove))
 
-    app.route('/reservas')
-        .post(app.api.reserva.save)
+    app.route('/reservations')
+        .post(app.api.reservation.save)
     
-    app.route('/reservas')
+    app.route('/reservations')
         .all(app.config.passport.authenticate())
-        .get(app.api.reserva.get)   
+        .get(app.api.reservation.get)   
+  
+    app.route('/reservations/available-rooms')
+        .get(app.api.reservation.filterByDate)
 
-    app.route('/reservas/:data')
+    app.route('/reservations/:data')
         .all(app.config.passport.authenticate())
-        .get(app.api.reserva.getById)
-        .put(admin(app.api.reserva.save))
-        .delete(admin(app.api.reserva.remove))
-    
-    app.route('/reservasf')
-        .get(app.api.reserva.filterByDate)
+        .get(app.api.reservation.getById)
+        .put(admin(app.api.reservation.save))
+        .delete(admin(app.api.reservation.remove))
 }

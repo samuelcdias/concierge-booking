@@ -3,10 +3,12 @@ module.exports = app => {
 
     const save = async (req, res) => {
         const hotel = { ...req.body }
-        const result = await app.db('configs').select('useSNRHos').where({id: 999}).first()
-        const useSNRHos = result == undefined ? false : result.useSNRHos
+        const useSNRHos = await app.api.config.getSNRHos(req.headers.authorization)
 
-        if (req.params.id) hotel.id = req.params.id
+        if (req.params.id) {
+            hotel.id = req.params.id
+        }
+
         try {
             
             existsOrError(hotel.nome_fantasia, 'Nome não informado')

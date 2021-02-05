@@ -1,5 +1,6 @@
 module.exports = app => {
     const key = 'configs'
+    const decode = app.api.helpers.tokenizator.decode
 
     const get = async (req, res) => {
         app.db(key)
@@ -9,8 +10,9 @@ module.exports = app => {
         .catch(err => res.status(500).send(err))
     }
 
-    const getSNRHos  = async () => {
-        const result = await app.db(key).select('useSNRHos').first()
+    const getSNRHos  = async (authorization) => {
+        const token = authorization.split(' ')[1]
+        const result = decode(token)
         return result === undefined ? false : result.useSNRHos
     }
 

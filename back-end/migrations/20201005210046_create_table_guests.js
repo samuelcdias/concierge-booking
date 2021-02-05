@@ -4,7 +4,7 @@ exports.up = function(knex, Promise) {
       table.increments('id').primary()
       table.boolean('is_responsavel').notNull().default(false)
       table.integer('customer_id').references('id').inTable('customers').notNull()
-      table.integer('reserva_id').references('id').inTable('reservas').notNull()
+      table.integer('reservation_id').references('id').inTable('reservations').notNull()
       table.timestamps()
   })
 }

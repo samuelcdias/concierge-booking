@@ -22,8 +22,16 @@ exports.up = function(knex) {
                     INSERT INTO users(name, username, password, email, admin)
                         VALUES('Admin User', 'admin', '123456', 'email@email.com', true);
                     
-                    PERFORM sp_create_schedule( current_date, (current_date + interval '1 year' * 18)::date );
-        
+                    PERFORM sp_create_schedule( current_date, (current_date + interval '1 month' * 18)::date );
+                    
+                    UPDATE schedule
+                        SET
+                            status = 'Indisponível'
+                        WHERE room_id = (
+                            SELECT id
+                                FROM rooms
+                                WHERE room_number = '10');
+                                
                     RETURN true;     
                 ELSE
                     RETURN false;

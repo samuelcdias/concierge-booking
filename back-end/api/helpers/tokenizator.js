@@ -7,7 +7,7 @@ module.exports = app => {
   }
 
   const decode = (token) => {
-    return jwt.decode(decode, authSecret)
+    return jwt.decode(token, authSecret)
   }
 
   return { encode, decode }

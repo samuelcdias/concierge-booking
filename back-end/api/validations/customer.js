@@ -1,7 +1,7 @@
 module.exports  = app => {
   const { existsOrError, notExistsOrError } = app.api.helpers.validation
 
-  const validate = async (customer, useSNRHos, key) => {
+  const validate = async (customer, useSNRHos, key, checkDB) => {
     try {    
       existsOrError(customer.nome, 'Nome não informado')
       existsOrError(customer.cpf, 'CPF não informado')
@@ -17,16 +17,17 @@ module.exports  = app => {
           existsOrError(customer.cidade, 'Cidade de origem não informada')
           existsOrError(customer.estado, 'Estado de origem não informado')
           existsOrError(customer.pais, 'País de origem não informado')
-          existsOrError(customer.motivo_viagem, 'Motivo de viagem não informado')
-          existsOrError(customer.meio_transporte, 'Meio de transporte não informado')
       }
-
-      const customerFromDB = await app.db(key)
+      
+      if(checkDB) {
+        const customerFromDB = await app.db(key)
           .where({ cpf: customer.cpf }).first()
 
-      if (!customer.id) {
+        if (!customer.id) {
           notExistsOrError(customerFromDB, 'Cliente já cadastrado')
+        }
       }
+      
     } catch (msg){
       return msg
     } 

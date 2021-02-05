@@ -15,8 +15,8 @@ exports.up = function(knex) {
           RETURN NULL;
         END IF;
 
-        INSERT INTO schedule(date_day, is_high_season, room_id)
-          SELECT date_insert, false, NEW.id
+        INSERT INTO schedule(date_day, is_high_season, room_id, status)
+          SELECT date_insert, false, NEW.id, 'Disponível'
               FROM generate_series(first_date, last_date, interval '1 day') AS date_insert;
               
         RETURN NULL;

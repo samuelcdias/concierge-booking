@@ -4,14 +4,14 @@ module.exports = app => {
 
     const save = async (req, res) => {
         const customer = { ...req.body }
-        const useSNRHos = await app.api.helpers.config.getSNRHos()
+        const useSNRHos = await app.api.config.getSNRHos(req.headers.authorization)
         const validate = app.api.validations.customer.validate
 
         if (req.params.id) {
             customer.id = req.params.id
         }
 
-        const msg = await validate(customer, useSNRHos, key)
+        const msg = await validate(customer, useSNRHos, key, true)
         if (msg) {
             return res.status(400).send(msg)
         }
@@ -34,7 +34,7 @@ module.exports = app => {
         const page = req.query.page || 1
         const result = await app.db(key).count('id').first()
         const count = parseInt(result.count)
-        const limit = await app.api.helpers.config.getLimitViews()
+        const limit = await app.api.config.getLimitViews()
 
         app.db(key)
             .select('id', 'nome', 'cpf', 'dt_nascimento')
