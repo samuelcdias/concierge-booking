@@ -20,10 +20,10 @@ export async function useDataFetch(key: string):Promise<Data> {
   
   try {
     const response = await api.get(`/${key}`)
-    data = response.data.data
-    count = response.data.count
-    limit = response.data.limit
-    hasData = (count == 0 ? false : true)
+    data = response.data.data === undefined ? response.data : response.data.data
+    count = response.data.count === undefined ? 0 : parseInt(response.data.count)
+    limit = response.data.limit === undefined ? 10 : response.data.limit
+    hasData = (count === 0 ? false : true)
   } catch (e) {
     alert("Ocorreu um erro, tente novamente mais tarde!")
   }
@@ -77,7 +77,7 @@ export  function handleInputChange(event: ChangeEvent<HTMLInputElement>, setStat
     [name]: value
   })
 }
-export  function isLoggedIn() {
+export  function useLoggedIn() {
   const [auth, setAuth] = useState(false)
   
   function validate(){

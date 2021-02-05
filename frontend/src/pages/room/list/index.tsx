@@ -89,7 +89,7 @@ export default function RoomList() {
                 <Row>
                     <Col sm={11}></Col>
                     <Col sm={1}>
-                        <Button type="button" onClick={() => history.push(`/${key}/novo`)}>
+                        <Button type="button" onClick={() => history.push(`/${key}/new`)}>
                             <FiPlus size={23} color={colors.background} />
                         </Button>
                     </Col>

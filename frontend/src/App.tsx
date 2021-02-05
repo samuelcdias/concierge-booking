@@ -1,6 +1,6 @@
 import React from 'react'
 import { BrowserRouter } from 'react-router-dom'
-import { isLoggedIn } from './services/helpers'
+import { useLoggedIn } from './services/helpers'
 
 import {Container, Row, Col} from 'react-bootstrap'
 import Footer from './components/Footer'
@@ -20,13 +20,13 @@ function App() {
                     <Row>
                         <Header
                             title="Concierge"
-                            icon={isLoggedIn() ? FiUser : FiLogIn}
-                            auth={isLoggedIn() }
+                            icon={useLoggedIn() ? FiUser : FiLogIn}
+                            auth={useLoggedIn() }
                         />
                     </Row>
                     <Row className="container-page-content">
                         <Col md={1}>
-                            {isLoggedIn() ? <Sidebar /> : <Row> </Row>}
+                            {useLoggedIn() ? <Sidebar /> : <Row> </Row>}
                         </Col>
                         <Col>
                             <Routes />

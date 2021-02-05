@@ -12,6 +12,7 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
     icon?: React.ComponentType<IconBaseProps>;
     mask: string | Array<(string | RegExp)>;
     maskChar?: string;
+    maskPlaceholder?: string;
     alwaysShowMask?: boolean;
     formatChars?: Record<string, string>;
     permanents?: number[];
