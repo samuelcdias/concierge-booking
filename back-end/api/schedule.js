@@ -54,7 +54,7 @@ module.exports = app => {
 
     const getById = (req, res) => {
         app.db(key)
-            .innerJoin('room AS r', 's.room_id', 'r.id')
+            .innerJoin('rooms AS r', 's.room_id', 'r.id')
             .select('s.date_day', 's.is_high_season', 'r.room_number', 's.reservation_id')
             .where({date_day: req.params.date})
             .then(schedule => res.json(schedule))
