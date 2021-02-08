@@ -2,7 +2,7 @@
 exports.up = function(knex, Promise) {
   return knex.schema.createTable('reservations', table => {
       table.increments('id').primary()
-      table.string('codigo').notNull()
+      table.string('codigo').notNull().unique()
       table.date('dt_entrada_reserva').notNull()
       table.date('dt_saida_reserva').notNull()
       table.datetime('hora_entrada')

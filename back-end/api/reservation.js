@@ -1,5 +1,5 @@
 module.exports = app => {
-    const key = 'reservations'
+    const key = 'vreservations'
     const { existsOrError } = app.api.helpers.validation
     
     const save = async (req, res) => {
@@ -27,7 +27,7 @@ module.exports = app => {
 
         const msg = await validateReservation(reservation, room_type, useSNRHos)
         if (msg) {
-            return res.status(400).send(msg1 ? msg1 : msg2)
+            return res.status(400).send(msg)
         }
 
         if(reservation.id) {
@@ -38,7 +38,14 @@ module.exports = app => {
                 .catch(err => res.status(500).send(err))
         } else {
             app.db.raw('SELECT sp_make_reservation FROM sp_make_reservation(?,?,?);', [JSON.stringify(reservation), room_type, JSON.stringify(customers_list)])
-                .then(result => res.status(200).send(result.row.sp_make_reservation))
+                .then(result => {
+                    console.log(result)
+                    if(result.rows[0].sp_make_reservation) {
+                        res.status(204).end()
+                    } else {
+                        res.status(400).send('Código inválido! Tente novamente.')
+                    }
+                })
                 .catch(err => res.status(500).send(err))
         }
     }
@@ -50,18 +57,19 @@ module.exports = app => {
         const limit = await app.api.config.getLimitViews()
 
         app.db(key)
-            .select('id', 'codigo', 'dt_entrada_reserva', 'dt_saida_reserva', 'hora_entrada','hora_saida', 'obs', )
+            .select('codigo', 'dt_entrada_reserva', 'dt_saida_reserva', 'hora_entrada','hora_saida', 'obs')
+            .distinct()
             .limit(limit).offset(page * limit - limit)
-            .then(reservations => res.json({ data: reservations, count, limit }))
+            .debug().then(reservations => res.json({ data: reservations, count, limit }))
             .catch(err => res.status(500).send(err))
     }
 
     const getById = (req, res) => {
-        app.db('reservations AS r')
+        app.db(key)
             .innerJoin('hospedes AS h', 'r.id', 'h.id')
             .innerJoin('clientes AS c', 'h.id', 'c.id')
             .select('r.id', 'r.codigo', 'r.dt_entrada_reserva','r.dt_saida_reserva', 'r.tarifa','r.obs','c.nome', 'c.dt_nascimento')
-            .where({id: req.params.id}).first()
+            .where({codigo: req.params.id}).first()
             .then(reservation => res.json(reservation))
             .catch(err => res.status(500).send(err))
     }

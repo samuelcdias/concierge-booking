@@ -20,7 +20,7 @@ module.exports = app => {
         if (!isMatch) {
             return res.status(400).send('username/senha inválidos')
         }
-        const usesnrhos = await app.api.helpers.config.getSNRHos()
+        const result = await app.db('configs').select('useSNRHos').first()
         const now = Math.floor(Date.now() / 1000)
 
         const payload = {
@@ -28,7 +28,7 @@ module.exports = app => {
             name: user.name,
             username: user.username,
             admin: user.admin,
-            usesnrhos: usesnrhos,
+            usesnrhos: result.useSNRHos,
             iat: now, 
             exp: now + (60 * 60 * 24 * 3)
         }

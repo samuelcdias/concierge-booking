@@ -30,7 +30,15 @@ exports.up = function(knex) {
             id_reservation integer;
             date_in date;
             date_out date;
+			id_room int;
         BEGIN
+        -- Return false for invalid code
+            IF ((SELECT codigo
+                    FROM json_populate_record(null::reservation_type, $1::json))
+                IN (SELECT codigo FROM reservations)) THEN
+                RETURN false;
+            END IF;
+
         -- Save reservation
         INSERT INTO reservations(
 				codigo,
@@ -60,15 +68,7 @@ exports.up = function(knex) {
                     FROM json_populate_record(null::reservation_type, $1::json));
         date_out := (SELECT dt_saida_reserva 
                     FROM json_populate_record(null::reservation_type, $1::json));
-                    
-        -- Update schedule with reservation data and select an available room
-        UPDATE schedule AS s
-            SET reservation_id = id_reservation, status = 'OCUPADO'
-            WHERE id IN (
-                SELECT s.id
-                    FROM schedule AS s
-                    WHERE room_id = (
-                        SELECT r.id
+		id_room :=  (SELECT r.id
                             FROM rooms AS r
                             WHERE id IN (
                                 (SELECT room_id
@@ -85,27 +85,35 @@ exports.up = function(knex) {
                                             AND reservation_id IS NOT NULL)
                                     )
                             AND type_of_room = $2
-                            LIMIT 1))
+                            LIMIT 1);
+        -- Return false for not valid room
+            IF (id_room IS null) THEN
+				DELETE FROM reservations where id = id_reservation;
+                RETURN false;
+            END IF;            
+        -- Update schedule with reservation data and select an available room
+        UPDATE schedule AS s
+            SET reservation_id = id_reservation, status = 'OCUPADO'
+            WHERE id IN (
+                SELECT s.id
+                    FROM schedule AS s
+                    WHERE room_id = id_room)
             AND s.date_day BETWEEN date_in AND date_out;
             
             -- Insert new customers
             INSERT INTO customers(nome, cpf, dt_nascimento)
-                VALUES(
-                    (SELECT nome, cpf, dt_nascimento
+                SELECT nome, cpf, dt_nascimento
                     FROM json_populate_recordset(null::customer_type, $3::json)
-                    WHERE cpf NOT IN (SELECT cpf FROM customers))
-                );
+                    WHERE cpf NOT IN (SELECT cpf FROM customers);
 
             -- Vinculate customers with reservation
             INSERT INTO guests(customer_id, reservation_id)
-                VALUES(
-                    (SELECT id, id_reservation
+                SELECT id, id_reservation
                         FROM customers
                         WHERE cpf IN (
                             SELECT cpf
                                 FROM json_populate_recordset(null::customer_type, $3::json)
-                        ))
-                );
+                        );
             RETURN TRUE;	
         END
         $BODY$
