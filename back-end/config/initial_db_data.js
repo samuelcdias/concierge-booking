@@ -1,10 +1,11 @@
 module.exports = async (app) => {  
-    
+    console.log('Checking database')
     const result = await app.db('users').count('id').first()
 
     if (parseInt(result.count) === 0) {
         console.log('Iniciando cadastro de dados')
-        const password = require('../.env').authSecret.split('').splice(0,10).reverse().join('')
+        const requirePassword = process.env.AUTHSECRET
+        const password = requirePassword.split('').splice(0,10).reverse().join('') 
 
         const user = {
             id: 1,
