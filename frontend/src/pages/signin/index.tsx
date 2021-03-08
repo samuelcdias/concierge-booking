@@ -1,6 +1,6 @@
-import React, { ChangeEvent, FormEvent, useState } from 'react'
+import React, { ChangeEvent, FormEvent, useContext, useState } from 'react'
 import { useHistory, withRouter } from 'react-router-dom'
-import { handleInputChange } from '../../services/helpers'
+import { handleInputChange } from '../../context/FormContext'
 
 import { FiUser, FiLock } from "react-icons/fi"
 import { Container, Content } from './styles'
@@ -9,9 +9,11 @@ import Input from '../../components/Input'
 import Button from '../../components/Button'
 import api from '../../services/api'
 import { login } from '../../services/auth'
+import { UserContext } from '../../context/UserContext'
 
 const SignIn: React.FC = () => {
     const history = useHistory()
+    const { setAuth } = useContext(UserContext)
 
     const [state, setState] = useState({
         username: '',
@@ -26,9 +28,10 @@ const SignIn: React.FC = () => {
         event.preventDefault()
         const data = state
         try {
-            const response = await api.post(`/signin`, data)
+            const response = await api.post("/signin", data)
             login(response.data)
-            history.push(`/rooms`)
+            setAuth(true)
+            history.push("/home")
         } catch (err) {
             alert("Houve um problema, verifique se os dados estão corretos.")
         }
@@ -59,7 +62,7 @@ const SignIn: React.FC = () => {
                         onChange={handleChange}
                     />
 
-                    <Button type="submit" className="div-button"> Acessar </Button>
+                    <Button type="submit" > Acessar </Button>
                 </form>
             </Content>
         </Container>

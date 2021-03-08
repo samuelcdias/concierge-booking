@@ -1,0 +1,9 @@
+.sideBar div > a {
+  color: var(--primary);
+  margin-top: 15px;
+  font-weight: bold;
+}
+
+.sideBar div > a:hover {
+  color: var(--primary);
+}

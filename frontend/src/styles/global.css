@@ -1,0 +1,58 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  color: var(--text);
+  background: var(--background);
+  font-style: normal;
+  font-weight: normal;
+}
+
+body,
+input,
+button,
+textarea {
+  font: 400 1rem "Nunito", sans-serif;
+}
+
+button {
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+#root > div > div > .container-page-content {
+  min-height: calc(100vh - 95px);
+  background: #ffffff;
+}
+
+.btn-group-vertical > .btn.active {
+  z-index: auto;
+}
+
+.form-group {
+  margin-top: 20px;
+}
+
+.container {
+  margin-top: 30px;
+  height: 100%;
+}
+
+:root {
+  --background: #f4f4f4;
+  --text: #334455;
+  --colour: #cffdf8;
+  --primary: #116699;
+  --second: #5599aa;
+  --third: #558b2f;
+  --alert: #f76262;
+  --red: #e83f5b;
+  --green: #4cd62b;
+}

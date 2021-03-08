@@ -1,0 +1,16 @@
+.footerContent {
+  position: relative;
+  bottom: 0;
+  height: 30px;
+  padding: 4px;
+  width: 100%;
+}
+
+.footerContent > p {
+  position: relative;
+  font-size: 70%;
+  text-align: center;
+  width: 100%;
+  padding: 4px;
+  margin: 0;
+}

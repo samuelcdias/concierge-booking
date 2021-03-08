@@ -1,15 +1,19 @@
 import React from 'react'
 import { Switch, Route, Redirect, RouteProps } from 'react-router-dom'
-import { isAuthenticated } from "./services/auth";
+import { isAuthenticated } from "./services/auth"
 
-import SignIn from './pages/signin';
-import UserForm from './pages/user/form'
-import UserList from './pages/user/list';
-import ClientForm from './pages/customer/form'
-import ClientList from './pages/customer/list';
-import RoomForm from './pages/room/form';
-import RoomList from './pages/room/list';
-import ReservaForm from './pages/ReservaForm';
+import SignIn from './pages/signin'
+import ReservaForm from './pages/ReservaForm'
+
+import CustomerForm from './pages/CustomerFormBuilder'
+import CustomerList from './pages/CustomerListBuilder'
+import RoomForm from './pages/RoomFormBuilder'
+import RoomList from './pages/RoomListBuilder'
+import UserForm from './pages/UserFormBuilder'
+import UserList from './pages/UserListBuilder'
+
+import Home from './pages/Home'
+import { RoutesProvider } from './context/RoutesContext'
 
 interface PrivateRouteProps extends RouteProps {
     // tslint:disable-next-line:no-any
@@ -22,21 +26,23 @@ function Routes() {
     
 
     return (
+        <RoutesProvider>
             <Switch>
-                    <Route exact path="/" component={SignIn} />
-                    <Route path="/home" component={SignIn} />
-                    <PrivateRoute isSignedIn={isSignedIn} exact path="/users" component={UserList} />
-                    <PrivateRoute isSignedIn={isSignedIn} path="/users/new" component={UserForm} />
-                    <PrivateRoute isSignedIn={isSignedIn} path="/users/:id" component={UserForm} />
-                    <PrivateRoute isSignedIn={isSignedIn} exact path="/customers" component={ClientList} />
-                    <PrivateRoute isSignedIn={isSignedIn} path="/customers/new" component={ClientForm} />
-                    <PrivateRoute isSignedIn={isSignedIn} path="/customers/:id" component={ClientForm} />
-                    <PrivateRoute isSignedIn={isSignedIn} exact path="/rooms" component={RoomList} />
-                    <PrivateRoute isSignedIn={isSignedIn} path="/rooms/new" component={RoomForm} />
-                    <PrivateRoute isSignedIn={isSignedIn} path="/rooms/:numero" component={RoomForm} />
-                    <PrivateRoute isSignedIn={isSignedIn} path="/reservations/new" component={ReservaForm} />
-                    <Redirect to='/home' />
+                <Route exact path="/" component={SignIn} />
+                <Route path="/home" component={Home} />
+                <PrivateRoute isSignedIn={isSignedIn} exact path="/users" component={UserList} />
+                <PrivateRoute isSignedIn={isSignedIn} path="/users/new" component={UserForm} />
+                <PrivateRoute isSignedIn={isSignedIn} path="/users/:id" component={UserForm} />
+                <PrivateRoute isSignedIn={isSignedIn} exact path="/customers" component={CustomerList} />
+                <PrivateRoute isSignedIn={isSignedIn} path="/customers/new" component={CustomerForm} />
+                <PrivateRoute isSignedIn={isSignedIn} path="/customers/:id" component={CustomerForm} />
+                <PrivateRoute isSignedIn={isSignedIn} exact path="/rooms" component={RoomList} />
+                <PrivateRoute isSignedIn={isSignedIn} path="/rooms/new" component={RoomForm} />
+                <PrivateRoute isSignedIn={isSignedIn} path="/rooms/:numero" component={RoomForm} />
+                <PrivateRoute isSignedIn={isSignedIn} path="/reservations/new" component={ReservaForm} />
+                <Redirect to='/home' />
             </Switch>
+        </RoutesProvider>
     )
 }
 

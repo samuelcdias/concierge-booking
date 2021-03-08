@@ -1,0 +1,51 @@
+input,
+textarea,
+select,
+button {
+  background: transparent;
+  border-radius: 6px;
+  border: 2px solid var(--primary);
+  color: var(--primary);
+  outline-width: 0;
+  fill-opacity: 0;
+  flex: 1;
+  text-indent: 3px;
+  padding: 2px;
+  font-family: Nunito;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 25px;
+  align-items: center;
+  max-width: 350px;
+}
+
+form {
+  box-sizing: border-box;
+  padding: 40px 30px;
+  margin-top: 50px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.blockContent {
+  background: transparent;
+  padding: 6px 0px;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+}
+
+.blockContent > legend {
+  font-size: 1rem;
+}
+
+.blockContent > div + div {
+  margin: 0px 8px;
+}
+
+.blockContent > div {
+  display: flex;
+  flex-direction: row;
+  margin: 0px;
+}
