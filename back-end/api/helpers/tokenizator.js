@@ -1,5 +1,5 @@
 const jwt = require('jwt-simple')
-const authSecret = process.env.AUTHSECRET
+const authSecret = process.env.AUTH_SECRET
 
 module.exports = app => {
   const encode = (payload) => {
