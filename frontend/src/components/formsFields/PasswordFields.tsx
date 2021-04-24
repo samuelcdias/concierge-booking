@@ -1,9 +1,6 @@
-import { ChangeEvent } from "react";
 import Input from "../Input";
 
 export default function PasswordsFields({ state, params, handleChange }: any) {
-
-
     return (
         <>
             {(params.id === undefined) && (<>

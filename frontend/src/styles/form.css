@@ -1,7 +1,6 @@
 input,
 textarea,
-select,
-button {
+select {
   background: transparent;
   border-radius: 6px;
   border: 2px solid var(--primary);
@@ -14,8 +13,8 @@ button {
   font-family: Nunito;
   font-style: normal;
   font-weight: normal;
-  font-size: 16px;
-  line-height: 25px;
+  font-size: 1rem;
+  line-height: 1.625rem;
   align-items: center;
   max-width: 350px;
 }

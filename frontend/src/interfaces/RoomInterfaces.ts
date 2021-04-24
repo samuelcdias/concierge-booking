@@ -22,3 +22,8 @@ export interface RoomParams {
 	id?: string,
   numero?: string,
 }
+export interface roomProps {
+  type_of_room: string,
+  description: string,
+  image_url: string
+}

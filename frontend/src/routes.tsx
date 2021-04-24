@@ -1,8 +1,7 @@
-import React from 'react'
 import { Switch, Route, Redirect, RouteProps } from 'react-router-dom'
 import { isAuthenticated } from "./services/auth"
 
-import SignIn from './pages/signin'
+import SignIn from './pages/SignIn'
 import ReservaForm from './pages/ReservaForm'
 
 import CustomerForm from './pages/CustomerFormBuilder'
@@ -19,11 +18,11 @@ interface PrivateRouteProps extends RouteProps {
     // tslint:disable-next-line:no-any
     component: any;
     isSignedIn: boolean;
-}   
+}
 
 function Routes() {
     const isSignedIn: boolean = isAuthenticated()
-    
+
 
     return (
         <RoutesProvider>
@@ -33,7 +32,7 @@ function Routes() {
                 <PrivateRoute isSignedIn={isSignedIn} exact path="/users" component={UserList} />
                 <PrivateRoute isSignedIn={isSignedIn} path="/users/new" component={UserForm} />
                 <PrivateRoute isSignedIn={isSignedIn} path="/users/:id" component={UserForm} />
-                <PrivateRoute isSignedIn={isSignedIn} exact path="/customers" component={CustomerList} />
+                <PrivateRoute isSignedIn={isSignedIn} exact path="/customers/" component={CustomerList} />
                 <PrivateRoute isSignedIn={isSignedIn} path="/customers/new" component={CustomerForm} />
                 <PrivateRoute isSignedIn={isSignedIn} path="/customers/:id" component={CustomerForm} />
                 <PrivateRoute isSignedIn={isSignedIn} exact path="/rooms" component={RoomList} />
@@ -56,12 +55,12 @@ const PrivateRoute = (props: PrivateRouteProps) => {
                 isSignedIn ? (
                     <Component {...props} />
                 ) : (
-                        <Redirect to={{
-                            pathname: "/",
-                            state: { from: props.location }
-                        }}
-                        />
-                    )
+                    <Redirect to={{
+                        pathname: "/",
+                        state: { from: props.location }
+                    }}
+                    />
+                )
             }
         />
     )

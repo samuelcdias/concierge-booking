@@ -1,6 +1,6 @@
 import { CustomerModel } from './CustomerInterfaces'
 
-export interface ReservationForm {
+export interface ReservationFormProps {
     reservation: ReservationModel
     roomSelected: string
     customerList: CustomerModel[]

@@ -1,30 +1,28 @@
-import React, { ChangeEvent, FormEvent, useEffect, useState } from "react"
+import { ChangeEvent, FormEvent, useEffect, useState } from "react"
 import { useHistory } from 'react-router-dom'
-import { handleInputChange, handleSubmitClick } from '../../context/FormContext'
+import { Form, Col, Container } from "react-bootstrap"
 
-import api from '../../services/api'
-
-// eslint-disable-next-line
-import DatePicker from "react-datepicker"
-import "react-datepicker/dist/react-datepicker.css"
-
-import { ReservationForm } from "../../interfaces/ReservationInterfaces"
-
-import { Button, ButtonGroup, Form, ToggleButton, Col, Row, Container } from "react-bootstrap"
-import CustomerForm from "../../components/formsFields/CustomerBaseFields"
+import { ReservationFormProps } from "../../interfaces/ReservationInterfaces"
 import { CustomerModel } from "../../interfaces/CustomerInterfaces"
 
+import api from '../../services/api'
+import { handleInputChange, handleSubmitClick } from '../../context/FormContext'
+import Button from "../../components/Button"
+import CustomerForm from "../../components/formsFields/CustomerBaseFields"
+import PickIntervalDate from "../../components/PickIntervalDate"
+import RadioButtons from "../../components/RadioButtons"
+import ShowImg from "../../components/ShowImg"
 
-export default function ReservaForm() {
+export default function ReservationForm() {
     const key = 'reservations'
     const history = useHistory();
     const [today, setToday] = useState(new Date())
     const [dataInicial, setDataInicial] = useState(new Date())
     const [dataFinal, setDataFinal] = useState(new Date())
     const [hasData, setHasData] = useState(false)
-    const [state, setState] = useState<ReservationForm>({
+    const [state, setState] = useState<ReservationFormProps>({
         reservation: {
-            codigo: String(today.getFullYear()) + String(today.getMonth()) + String(today.getDate()) + 'RS' + String(today.getTime()),
+            codigo: generateCodeByDate(today),
             dt_entrada_reserva: dataInicial,
             dt_saida_reserva: dataFinal,
             hora_entrada: null,
@@ -54,26 +52,37 @@ export default function ReservaForm() {
 
     useEffect(() => {
         async function handlePeriod() {
-            const dataReq = [String(dataInicial.toJSON()).split('T')[0], String(dataFinal.toJSON()).split('T')[0]];
-            const response = await api.get('/reservations/available-rooms', { params: { in: dataReq[0], out: dataReq[1] } });
+            const dataReq = [String(getDate(dataInicial)),
+            String(getDate(dataFinal))];
+
+            const response = await api
+                .get('/reservations/available-rooms',
+                    { params: { in: dataReq[0], out: dataReq[1] } });
 
             setRooms(response.data)
             if (rooms.length > 0) {
                 setHasData(true)
-                console.log(rooms)
             }
         }
-        if (dataFinal.toJSON().split('T')[0] !== today.toJSON().split('T')[0]) {
+        if (getDate(dataFinal) !== getDate(today)) {
             handlePeriod()
         }
         setToday(new Date())
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dataFinal])
+    useEffect(() => {
+        const reservation = state.reservation
+        reservation.dt_entrada_reserva = dataInicial
+        reservation.dt_saida_reserva = dataFinal
+        setState({
+            ...state,
+            reservation: reservation
+        })
+    }, [dataInicial, dataFinal])
 
 
     async function handleSubmit(event: FormEvent) {
         setState({ ...state, customerList: [customer] })
-        console.log(state)
         handleSubmitClick(event, state, key, history)
     }
 
@@ -85,32 +94,12 @@ export default function ReservaForm() {
         handleInputChange(event, setCustomer, customer)
 
     }
-
-    function List() {
-        if (hasData) {
-            return (<>
-                <Form.Group className="justify-content-center">
-                    <Form.Text className="text-muted">
-                        Escolha o quarto
-                    </Form.Text>
-                    <ButtonGroup toggle vertical>
-                        {rooms.map((room, idx) => (
-                            <ToggleButton
-                                key={idx}
-                                type="radio"
-                                variant="outline-primary"
-                                name='roomSelected'
-                                value={room.type_of_room}
-                                checked={state.roomSelected === room.type_of_room}
-                                onChange={handleChange}
-                            >
-                                {room.description}
-                            </ToggleButton>
-                        ))}
-                    </ButtonGroup>
-                </Form.Group>
-            </>)
-        } else return (<></>)
+    function handleChoiceClick(event: any) {
+        console.log(event.target)
+        setState({
+            ...state,
+            roomSelected: event.target.value
+        })
     }
 
     return (
@@ -118,45 +107,59 @@ export default function ReservaForm() {
             <Container className="text-center align-content-center" >
                 <Form onSubmit={handleSubmit}>
                     <legend>Nova reserva</legend>
-                    <Row lg={4} md={2}>
-                        <Col className="text-center" lg={{ span: 3, offset: 3 }}>
+                    <p className="text-muted">
+                        Escolha um período de estadia
+                    </p>
 
-                            <DatePicker
-                                selected={dataInicial}
-                                dateFormat="dd/MM/yyyy"
-                                selectsStart
-                                minDate={new Date()}
-                                startDate={dataInicial}
-                                endDate={dataFinal}
-                                onChange={(date: Date) => setDataInicial(date)}
-                            />
+                    <PickIntervalDate
+                        startDate={dataInicial}
+                        endDate={dataFinal}
+                        setStartDate={setDataInicial}
+                        setEndDate={setDataFinal}
+                    />
 
-                        </Col>
+                    <RadioButtons
+                        hasData={hasData}
+                        state={state}
+                        rooms={rooms}
+                        handleChange={handleChoiceClick}
+                    />
 
-                        <Col className="text-center" lg={{ span: 3 }}>
-                            <DatePicker
-                                selected={dataFinal}
-                                dateFormat="dd/MM/yyyy"
-                                selectsEnd
-                                startDate={dataInicial}
-                                endDate={dataFinal}
-                                minDate={dataInicial}
-                                onChange={(date: Date) => setDataFinal(date)}
-                            />
-                        </Col>
-                    </Row>
-
-                    <List />
+                    <ShowImg
+                        condition={state.roomSelected}
+                        listOf={rooms}
+                        selected={state.roomSelected}
+                    />
 
                     {(state.roomSelected !== "") &&
-                        <Col lg={6} md={4} className="text-center align-content-center">
-                            <CustomerForm handleChangeFunction={handleChangeCustomer} state={customer} />
+
+                        <Col lg={6} md={4} className="customerForm">
+                            <CustomerForm
+                                handleChangeFunction={handleChangeCustomer}
+                                state={customer} />
                         </Col>
                     }
 
-                    <Button type="submit">Cadastrar</Button>
+                    <Button
+                        type="submit"
+                        padding={false}
+                        width="7rem"
+                        height="2.5rem"
+                    > Cadastrar</Button>
                 </Form>
             </Container>
         </>
     )
 }
+
+function getDate(date: Date): string {
+    return date.toJSON().split('T')[0]
+}
+
+function generateCodeByDate(date: Date): string {
+    return String(date.getFullYear()) +
+        String(date.getMonth()) +
+        String(date.getDate()) + 'RS' +
+        String(date.getTime())
+}
+

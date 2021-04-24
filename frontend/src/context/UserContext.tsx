@@ -1,6 +1,6 @@
 import { createContext, ReactNode, useEffect, useState } from "react"
 import { useHistory } from "react-router-dom"
-import { getToken, logout } from "../services/auth"
+import { getToken, isAuthenticated, logout } from "../services/auth"
 
 interface UserContextProps {
     auth: boolean
@@ -13,7 +13,7 @@ interface UserContextProps {
 export const UserContext = createContext({} as UserContextProps)
 
 export function UserProvider({ children }: { children: ReactNode }) {
-    const [auth, setAuth] = useState<boolean>(true)
+    const [auth, setAuth] = useState<boolean>(isAuthenticated())
     const history = useHistory()
     const [name, setName] = useState<string>("Login")
     const [admin, setAdmin] = useState<boolean>(false)

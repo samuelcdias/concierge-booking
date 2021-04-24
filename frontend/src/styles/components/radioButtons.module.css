@@ -1,0 +1,44 @@
+.content {
+  position: relative;
+  display: inline-block;
+  justify-content: center;
+  align-items: flex-start;
+  flex-direction: row;
+  margin: 0 auto;
+  width: 250px;
+}
+.content + div {
+  margin: 0 8px;
+}
+
+.label {
+  display: block;
+  background: var(--background);
+  color: var(--primary);
+  font-weight: 700;
+  font-size: 1.25rem;
+
+  border-radius: 5px;
+  padding: 10px 20px;
+  border: 2px solid var(--primary);
+  margin-bottom: 5px;
+  cursor: pointer;
+}
+
+.radioButtonInput {
+  display: none;
+  position: absolute;
+  width: 100%;
+  appearance: none;
+}
+.radioButtonInput:checked + label {
+  background: var(--primary);
+  color: var(--background);
+}
+.radioButtonInput:checked + label:after {
+  background: var(--primary);
+}
+.radioButtonInput:checked + label:before {
+  width: 20px;
+  height: 20px;
+}

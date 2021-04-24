@@ -1,18 +1,23 @@
 import { CustomerFetch, CustomerModel } from "../../interfaces/CustomerInterfaces"
-import { Button, Table } from 'react-bootstrap'
+import { Table } from 'react-bootstrap'
+import { FiEdit, FiTrash2 } from "react-icons/fi"
+import colors from "../../styles/colors.json"
+import styles from "../../styles/list.module.css"
+
+import Button from "../Button"
 
 interface CustomerTableListItems {
     state: CustomerFetch
-    handleDeleteClick: (event:React.MouseEvent<HTMLButtonElement>) => void
-    handleEditClick: (event:React.MouseEvent<HTMLButtonElement>) => void
+    handleDeleteClick: (event: React.MouseEvent<HTMLButtonElement>) => void
+    handleEditClick: (event: React.MouseEvent<HTMLButtonElement>) => void
 }
 
-export default function CustomerTableList({state, handleDeleteClick, handleEditClick}: CustomerTableListItems ) {
+export default function CustomerTableList({ state, handleDeleteClick, handleEditClick }: CustomerTableListItems) {
 
 
     if (state.hasData) {
         return (<>
-            <Table striped borderless hover size="sm" responsive="lg">
+            <Table className={styles.table} striped borderless hover size="sm" responsive="md">
                 <thead>
                     <tr>
                         <th>Nome</th>
@@ -30,15 +35,26 @@ export default function CustomerTableList({state, handleDeleteClick, handleEditC
                             <td >
                                 <Button
                                     type="button"
+                                    variant="second"
                                     value={customer.id}
+                                    padding={false}
+                                    width="2.25rem"
+                                    height="2.25rem"
                                     onClick={handleEditClick}
-                                >editar</Button>{' '}
+                                >
+                                    <FiEdit size={19} color={colors.background} />
+                                </Button>
                                 <Button
                                     type="button"
                                     variant="danger"
+                                    padding={false}
+                                    width="2.25rem"
+                                    height="2.25rem"
                                     value={customer.id}
                                     onClick={handleDeleteClick}
-                                >excluir</Button>
+                                >
+                                    <FiTrash2 size={19} color={colors.background} />
+                                </Button>
                             </td>
                         </tr>
                     ))}

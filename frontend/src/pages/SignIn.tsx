@@ -1,17 +1,18 @@
-import React, { ChangeEvent, FormEvent, useContext, useState } from 'react'
+import { ChangeEvent, FormEvent, useContext, useState } from 'react'
 import { useHistory, withRouter } from 'react-router-dom'
-import { handleInputChange } from '../../context/FormContext'
 
 import { FiUser, FiLock } from "react-icons/fi"
-import { Container, Content } from './styles'
+import Input from '../components/Input'
+import Button from '../components/Button'
+import styles from '../styles/signIn.module.css'
 
-import Input from '../../components/Input'
-import Button from '../../components/Button'
-import api from '../../services/api'
-import { login } from '../../services/auth'
-import { UserContext } from '../../context/UserContext'
 
-const SignIn: React.FC = () => {
+import api from '../services/api'
+import { login } from '../services/auth'
+import { handleInputChange } from '../context/FormContext'
+import { UserContext } from '../context/UserContext'
+
+function SignIn() {
     const history = useHistory()
     const { setAuth } = useContext(UserContext)
 
@@ -30,16 +31,17 @@ const SignIn: React.FC = () => {
         try {
             const response = await api.post("/signin", data)
             login(response.data)
-            setAuth(true)
-            history.push("/home")
+
         } catch (err) {
             alert("Houve um problema, verifique se os dados estão corretos.")
         }
+        setAuth(true)
+        history.push("/home")
     }
 
     return (
-        <Container>
-            <Content>
+        <div className="container">
+            <div className={styles.content}>
                 <form onSubmit={handleSubmit}>
                     <h1> Faça seu login</h1>
                     <Input
@@ -62,10 +64,14 @@ const SignIn: React.FC = () => {
                         onChange={handleChange}
                     />
 
-                    <Button type="submit" > Acessar </Button>
+                    <Button
+                        type="submit"
+                        width="15.75rem"
+                        height="3.5rem"
+                    > Acessar </Button>
                 </form>
-            </Content>
-        </Container>
+            </div>
+        </div>
     )
 }
 

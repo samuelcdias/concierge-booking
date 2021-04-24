@@ -43,7 +43,7 @@ module.exports = async (app) => {
         console.log('Inserindo dados de amostra')
         await app.db.raw('SELECT sp_first_use()')
             .then(res => console.log('is_first_use: ' + (res.rows[0].sp_first_use ? 'yes' : 'no')))
-            .catch(res => console.log)
+            .catch(res => console.log(res))
              
         await app.api.user.save(req, make_res())
             .then(() => console.log('Cadastro finalizado'))

@@ -1,0 +1,8 @@
+.customerForm {
+  display: flex;
+  justify-content: center;
+}
+.roomButtons {
+  display: flex;
+  justify-content: center;
+}

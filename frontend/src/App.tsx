@@ -29,10 +29,8 @@ function App() {
                             <Col md={1}>
                             </Col>
                         </Row>
-                        <Row>
-                            <Footer />
-                        </Row>
                     </Container>
+                    <Footer />
                 </UserProvider>
             </BrowserRouter>
         </div>

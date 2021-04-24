@@ -1,5 +1,10 @@
 import { UserFetch, UserModel } from "../../interfaces/UserInterfaces"
-import { Button, Table } from 'react-bootstrap'
+
+import Button from "../Button"
+import { Table } from 'react-bootstrap'
+import { FiTrash2, FiEdit } from "react-icons/fi"
+import colors from "../../styles/colors.json"
+import styles from "../../styles/list.module.css"
 
 interface UserTableListItems {
     state: UserFetch
@@ -11,7 +16,7 @@ export default function UserTableList({ state, handleDeleteClick, handleEditClic
 
     if (state.hasData) {
         return (<>
-            <Table striped borderless hover size="sm" responsive="lg" >
+            <Table className={styles.table} striped borderless hover size="sm" responsive="md" >
                 <thead>
                     <tr>
                         <th>Nome</th>
@@ -29,15 +34,26 @@ export default function UserTableList({ state, handleDeleteClick, handleEditClic
                             <td >
                                 <Button
                                     type="button"
+                                    variant="second"
                                     value={user.id}
+                                    padding={false}
+                                    width="2.25rem"
+                                    height="2.25rem"
                                     onClick={handleEditClick}
-                                >editar</Button>{' '}
+                                >
+                                    <FiEdit size={19} color={colors.background} />
+                                </Button>
                                 <Button
                                     type="button"
                                     variant="danger"
+                                    padding={false}
+                                    width="2.25rem"
+                                    height="2.25rem"
                                     value={user.id}
                                     onClick={handleDeleteClick}
-                                >excluir</Button>
+                                >
+                                    <FiTrash2 size={19} color={colors.background} />
+                                </Button>
                             </td>
                         </tr>
                     ))}

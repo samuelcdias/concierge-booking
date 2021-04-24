@@ -1,0 +1,40 @@
+.title {
+  display: flex;
+  justify-content: center;
+}
+
+.tabl > tbody {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.table > thead > tr > th {
+  text-align: center;
+}
+
+.tabl > thead > tr > #button {
+  width: 160px;
+}
+
+.tabl > tbody > tr {
+  display: flex;
+  text-align: center;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-around;
+}
+
+.table > tbody > tr > td:last-child {
+  display: flex;
+  flex-direction: row;
+}
+
+.table > tbody > tr > td {
+  vertical-align: middle;
+}
+
+.table > tbody > tr > td:last-child > div {
+  margin: 0px 4px;
+}

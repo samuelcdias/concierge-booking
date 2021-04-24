@@ -9,7 +9,7 @@ import RoomFormEntries from "../components/formsFields/RoomFormEntries"
 
 import "../styles/form.css"
 
-export default function CustomerForm(){
+export default function RoomForm() {
     const {
         params,
         routeKey,
@@ -18,21 +18,21 @@ export default function CustomerForm(){
     } = useContext(RoutesContext)
     const paramsProvided = useParams<ParamsType>()
 
-    useEffect(() =>{
-        setRouteKey(enumParams.ROOMS)  
+    useEffect(() => {
+        setRouteKey(enumParams.ROOMS)
         setParams(paramsProvided)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [routeKey, params])
-    
+
     const { state, handleChange, handleSubmit } = useContext(FormContext)
 
-    return(
+    return (
         <div className="container">
             <Form onSubmit={handleSubmit}>
                 <legend> Cadastrar Quartos </legend>
-                
+
                 <RoomFormEntries state={state} handleChange={handleChange} />
-    
+
                 <Button type="submit">
                     Cadastrar
                 </Button>

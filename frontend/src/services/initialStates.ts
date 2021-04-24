@@ -1,17 +1,20 @@
 import { CustomerModel, CustomerParams } from "../interfaces/CustomerInterfaces"
+import { ReservationFormProps } from "../interfaces/ReservationInterfaces"
 import { RoomModel, RoomParams } from "../interfaces/RoomInterfaces"
 import { UserModel, UserParams } from "../interfaces/UserInterfaces"
 
 export interface ParamsType {
-	id?: string,
-    numero?: undefined
+    id?: string,
+    numero?: undefined,
+    pageNumber?: string
 }
 
 export enum enumParams {
-    ROOMS= 'rooms',
-    USERS= 'users',
-    CUSTOMERS= 'customers',
-    OTHERS= 'others'
+    ROOMS = 'rooms',
+    USERS = 'users',
+    CUSTOMERS = 'customers',
+    RESERVATIONs = 'reservations',
+    OTHERS = 'others'
 }
 
 function unhandledChoice(): never {
@@ -19,13 +22,13 @@ function unhandledChoice(): never {
 }
 
 export function selectInitialState(
-    { 
+    {
         key,
         params
     }: {
         key: enumParams;
         params: CustomerParams | RoomParams | UserParams
-    }): any  {
+    }): any {
 
 
     switch (key) {

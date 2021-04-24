@@ -1,16 +1,20 @@
 
 import { createContext, ReactNode, useContext, useEffect, useState } from "react"
-import { useHistory } from 'react-router-dom'
+import { useHistory, useLocation } from 'react-router-dom'
 import { History } from 'history'
 
 import { useDataFetch } from '../services/helpers'
 import api from "../services/api"
 import { RoutesContext } from "./RoutesContext"
+import { UserContext } from "./UserContext"
 
 interface ListTypeProps {
+    state: any,
+    maxPages: number,
     handleEditClick: (event: React.MouseEvent<HTMLButtonElement>) => void,
     handleDeleteClick: (event: React.MouseEvent<HTMLButtonElement>) => void,
-    state: any
+    handlePagination: (event: React.MouseEvent<HTMLButtonElement>) => void,
+    setIsOutdated: any
 }
 
 export const ListContext = createContext({} as ListTypeProps)
@@ -24,18 +28,34 @@ export default function ListProvider({ children }: { children: ReactNode }) {
         hasData: false,
         dataConf: false
     })
-    const { routeKey, params } = useContext(RoutesContext)
+    const [maxPages, setMaxPages] = useState<number>(1)
+
+    const { routeKey,
+        activePage,
+        setActivePage,
+        isOutdated,
+        setIsOutdated
+    } = useContext(RoutesContext)
+
+    const { auth } = useContext(UserContext)
+
+    async function CallData() {
+        const data = await useDataFetch(`${routeKey}/?page=${activePage}`)
+        setState(data)
+    }
 
     useEffect(() => {
-        async function CallData() {
-            const data = await useDataFetch(`${routeKey}`)
-            setState(data)
+        if (isOutdated && auth) {
+            CallData()
+            setIsOutdated(false)
         }
-        console.log(params)
-        CallData()
-        console.log('list')
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [routeKey])
+    }, [routeKey, activePage, isOutdated])
+    useEffect(() => {
+        if (state.hasData) {
+            setMaxPages(Math.floor(state.count / state.limit) + 1)
+        }
+    }, [state])
 
     function handleEditClick(event: React.MouseEvent<HTMLButtonElement>) {
         editClick(event, routeKey, history)
@@ -43,14 +63,24 @@ export default function ListProvider({ children }: { children: ReactNode }) {
 
     function handleDeleteClick(event: React.MouseEvent<HTMLButtonElement>) {
         deleteClick(event, routeKey, history)
+        setIsOutdated(true)
+    }
+
+    function handlePagination(event: React.MouseEvent<HTMLButtonElement>) {
+        const pageNumber = Number(event.currentTarget.innerText)
+        //history.push(`/${routeKey}?page=${pageNumber}`)
+        setActivePage(pageNumber)
     }
 
     return (
         <>
             <ListContext.Provider value={{
+                state: state,
+                maxPages: maxPages,
                 handleDeleteClick: handleDeleteClick,
                 handleEditClick: handleEditClick,
-                state: state
+                handlePagination: handlePagination,
+                setIsOutdated: setIsOutdated
             }}>
                 {children}
             </ListContext.Provider>
@@ -75,3 +105,4 @@ export function deleteClick(event: React.MouseEvent<HTMLButtonElement>, key: Str
     deleteData()
     history.push(`/${key}`)
 }
+

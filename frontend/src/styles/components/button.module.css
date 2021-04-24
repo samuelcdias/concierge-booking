@@ -1,14 +1,12 @@
 .customButton button {
-  background: var(--primary);
   border-radius: 6px;
   border: none;
-  padding: 0 1rem;
   width: 15.75rem;
   height: 3.5rem;
   color: var(--background);
   font-weight: 700;
   font-size: 1.25rem;
-  margin-top: 1rem;
+  margin: 0.25rem 0;
   transition: background 0.2s;
 }
 

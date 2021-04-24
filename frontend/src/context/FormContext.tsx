@@ -3,7 +3,7 @@ import { History } from 'history'
 import { useHistory } from "react-router-dom";
 
 import { useDataFetch } from '../services/helpers'
-import { selectInitialState } from '../services/initialStates'
+import { enumParams, selectInitialState } from '../services/initialStates'
 
 import api from "../services/api"
 import { RoutesContext } from "./RoutesContext";
@@ -20,7 +20,7 @@ export const FormContext = createContext({} as FormContextProps)
 
 export function FormProvider({ children }: { children: ReactNode }) {
     const history = useHistory()
-    const { routeKey, params } = useContext(RoutesContext)
+    const { routeKey, params, setIsOutdated } = useContext(RoutesContext)
 
     const [state, setState] = useState(selectInitialState({ key: routeKey, params: params }))
     const [stateProps, setStateProps] = useState({
@@ -28,22 +28,28 @@ export function FormProvider({ children }: { children: ReactNode }) {
         dataConf: false
     })
 
-    useEffect(() => {
-        async function CallData() {
-
-            const data = await useDataFetch(`${routeKey}/${params.id}`)
-            setState(data.data)
-            setStateProps({
-                hasData: data.hasData,
-                dataConf: data.dataConf
-            })
+    async function CallData() {
+        if (params.id === undefined) {
+            params.id = routeKey === enumParams.ROOMS ? params.numero : "1"
         }
-        if (params.id) {
-            if (params.id !== 'new') {
-                CallData()
-                console.log('form')
 
+        const data = await useDataFetch(`${routeKey}/${params.id}`)
+        setState(data.data)
+        setStateProps({
+            hasData: data.hasData,
+            dataConf: data.dataConf
+        })
+    }
+
+    useEffect(() => {
+        if (params.id || params.numero) {
+            if (params.id !== 'new' || params.numero !== 'new') {
+                CallData()
+            } else {
+                setState(selectInitialState({ key: routeKey, params: {} }))
             }
+        } else {
+            setState(selectInitialState({ key: routeKey, params: {} }))
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [routeKey, params.id])
@@ -54,6 +60,7 @@ export function FormProvider({ children }: { children: ReactNode }) {
 
     async function handleSubmit(event: FormEvent) {
         handleSubmitClick(event, state, routeKey, history)
+        setIsOutdated(true)
     }
 
     return (<>
@@ -68,6 +75,7 @@ export function FormProvider({ children }: { children: ReactNode }) {
     </>)
 }
 
+
 export function handleInputChange(event: ChangeEvent<HTMLInputElement>, setState: any, state: any) {
     const target = event.target
     const value = target.type === 'checkbox' ? target.checked : target.value
@@ -78,6 +86,7 @@ export function handleInputChange(event: ChangeEvent<HTMLInputElement>, setState
         [name]: value
     })
 }
+
 
 export async function handleSubmitClick(event: FormEvent, data: any, key: string, history: History) {
     event.preventDefault()

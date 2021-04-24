@@ -10,35 +10,47 @@ import { RoutesContext } from "../context/RoutesContext"
 import ListEntries from "../components/listTables/CustomerTableList"
 
 import { FiPlus } from "react-icons/fi";
+import Button from "../components/Button"
 import colors from "../styles/colors.json"
-import styles from "../styles/components/button.module.css"
+import PaginationItem from "../components/Pagination"
 
 export default function CustomerList() {
     const history = useHistory()
 
     const {
+        query,
         routeKey,
         setRouteKey,
+        setActivePage
     } = useContext(RoutesContext)
+    const { handleDeleteClick, handleEditClick, state, setIsOutdated } = useContext(ListContext)
 
     useEffect(() => {
-        setRouteKey(enumParams.CUSTOMERS)
+        if (routeKey !== enumParams.CUSTOMERS) {
+            setRouteKey(enumParams.CUSTOMERS)
+            setIsOutdated(true)
+        }
+        setActivePage(Number(query) === 0 ? 1 : Number(query))
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [routeKey])
-    const { handleDeleteClick, handleEditClick, state } = useContext(ListContext)
 
     return (
         <div>
             <Container>
-                <Row className="text-top-100 start-100 translate-middle">
+                <Row className="text-center align-content-center">
                     <h1 >Clientes</h1>
                 </Row>
                 <Row>
                     <Col sm={11}></Col>
-                    <Col sm={1} className={styles.customButton} >
-                        <button type="button" onClick={() => history.push(`/${routeKey}/new`)}>
+                    <Col sm={1} >
+                        <Button
+                            type="button"
+                            width="2.5rem"
+                            height="2.5rem"
+                            padding={false}
+                            onClick={() => history.push(`/${routeKey}/new`)}>
                             <FiPlus size={23} color={colors.background} />
-                        </button>
+                        </Button>
                     </Col>
                 </Row>
                 <Row className="justify-content-center">
@@ -47,9 +59,12 @@ export default function CustomerList() {
                         handleDeleteClick={handleDeleteClick}
                         state={state}
                     />
+
+                </Row>
+                <Row>
+                    <PaginationItem routeKey={enumParams.CUSTOMERS} />
                 </Row>
             </Container>
         </div>
     )
 }
-

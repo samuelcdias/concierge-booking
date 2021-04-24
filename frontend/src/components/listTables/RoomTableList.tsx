@@ -1,7 +1,14 @@
-import { RoomFetch, RoomModel } from "../../interfaces/RoomInterfaces"
-import { Button, Table } from 'react-bootstrap'
 import { useContext } from "react"
+
+import { RoomFetch, RoomModel } from "../../interfaces/RoomInterfaces"
 import { UserContext } from "../../context/UserContext"
+
+import Button from "../Button"
+import { Table } from 'react-bootstrap'
+import { FiEdit, FiTrash2 } from "react-icons/fi"
+import colors from "../../styles/colors.json"
+import styles from "../../styles/list.module.css"
+
 
 interface RoomTableListItems {
     state: RoomFetch
@@ -14,7 +21,7 @@ export default function RoomTableList({ state, handleDeleteClick, handleEditClic
 
     if (state.hasData) {
         return (<>
-            <Table striped borderless hover size="sm" responsive="lg">
+            <Table className={styles.table} striped borderless hover size="sm" responsive="md">
                 <thead>
                     <tr>
                         <th>Número</th>
@@ -33,15 +40,26 @@ export default function RoomTableList({ state, handleDeleteClick, handleEditClic
                                 <td >
                                     <Button
                                         type="button"
-                                        value={room.room_number}
+                                        variant="second"
+                                        value={room.id}
+                                        padding={false}
+                                        width="2.25rem"
+                                        height="2.25rem"
                                         onClick={handleEditClick}
-                                    >editar</Button>{' '}
+                                    >
+                                        <FiEdit size={19} color={colors.background} />
+                                    </Button>
                                     <Button
                                         type="button"
                                         variant="danger"
-                                        value={room.room_number}
+                                        padding={false}
+                                        width="2.25rem"
+                                        height="2.25rem"
+                                        value={room.id}
                                         onClick={handleDeleteClick}
-                                    >excluir</Button>
+                                    >
+                                        <FiTrash2 size={19} color={colors.background} />
+                                    </Button>
                                 </td>
                             )}
                         </tr>
