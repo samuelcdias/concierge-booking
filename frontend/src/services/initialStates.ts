@@ -1,5 +1,5 @@
 import { CustomerModel, CustomerParams } from "../interfaces/CustomerInterfaces"
-import { ReservationFormProps } from "../interfaces/ReservationInterfaces"
+import { ReservationModel, ReservationParams } from "../interfaces/ReservationInterfaces"
 import { RoomModel, RoomParams } from "../interfaces/RoomInterfaces"
 import { UserModel, UserParams } from "../interfaces/UserInterfaces"
 
@@ -27,7 +27,7 @@ export function selectInitialState(
         params
     }: {
         key: enumParams;
-        params: CustomerParams | RoomParams | UserParams
+        params: CustomerParams | RoomParams | UserParams | ReservationParams
     }): any {
 
 
@@ -52,7 +52,7 @@ export function selectInitialState(
                 username: '',
                 email: '',
                 password: '',
-                confirmpassword: ''
+                confirmPassword: ''
             }
             return userObj
         case enumParams.CUSTOMERS:
@@ -75,6 +75,19 @@ export function selectInitialState(
                 meio_transporte: undefined
             }
             return customerObj
+        case enumParams.RESERVATIONs:
+            const reservationObj: ReservationModel = {
+                codigo: params.codigo!,
+                dt_entrada_reserva: new Date(),
+                dt_saida_reserva: new Date(),
+                hora_entrada: null,
+                hora_saida: null,
+                forma_pagamento: "CC",
+                tarifa: 100,
+                no_show: false,
+                obs: "",
+            }
+            return reservationObj
         default:
             return unhandledChoice()
     }

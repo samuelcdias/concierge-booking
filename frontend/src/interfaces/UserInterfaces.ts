@@ -12,11 +12,12 @@ export interface UserModel {
     username: string,
     email?: string,
     password?: string,
-    confirmpassword?: string,
+    confirmPassword?: string,
     admin?: boolean,      
   }
 
 export interface UserParams {
 	id?: string,
   numero?: undefined
+	codigo?: undefined,
 }

@@ -27,6 +27,24 @@ a {
   text-decoration: none;
 }
 
+p {
+  margin: 0.5rem 0;
+}
+
+legend {
+  display: flex;
+  justify-content: space-around;
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  display: block;
+  justify-content: space-around;
+  margin: 0;
+  padding: 0;
+}
+
 #root > div > div > .container-page-content {
   min-height: calc(100vh - 95px);
   background: #ffffff;
@@ -41,10 +59,12 @@ a {
 }
 
 .container {
-  height: 100vh -70px -30px;
-  margin-top: 30px;
   display: flex;
   flex-direction: column;
+  justify-content: space-around;
+  margin-top: 30px;
+  overflow: hidden;
+  overflow-y: scroll;
 }
 
 :root {

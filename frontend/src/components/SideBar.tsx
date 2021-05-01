@@ -17,7 +17,7 @@ export default function Sidebar() {
                     <Nav.Link as={NavLink} to="/customers/">Clientes</Nav.Link>
                     <Nav.Link as={NavLink} to="/rooms/">Quartos</Nav.Link>
                     {admin && <Nav.Link as={NavLink} to="/users/">Usuários</Nav.Link>}
-                    <Nav.Link as={NavLink} to="/reservations/new">Reserva</Nav.Link>
+                    <Nav.Link as={NavLink} to="/reservations/">Reserva</Nav.Link>
                 </Nav>
             </div>
         )}

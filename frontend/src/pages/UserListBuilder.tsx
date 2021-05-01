@@ -32,9 +32,9 @@ export default function CustomerList() {
     }, [routeKey])
 
     return (
-        <div>
+        <>
             <Container>
-                <Row>
+                <Row d-flex justify-content-around>
                     <h1>Usuários</h1>
                 </Row>
                 <Row>
@@ -58,7 +58,7 @@ export default function CustomerList() {
                     />
                 </Row>
             </Container>
-        </div>
+        </>
     )
 }
 

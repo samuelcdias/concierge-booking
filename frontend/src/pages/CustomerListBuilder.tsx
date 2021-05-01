@@ -35,10 +35,10 @@ export default function CustomerList() {
     }, [routeKey])
 
     return (
-        <div>
+        <>
             <Container>
-                <Row className="text-center align-content-center">
-                    <h1 >Clientes</h1>
+                <Row d-flex justify-content-around>
+                    <h1>Clientes</h1>
                 </Row>
                 <Row>
                     <Col sm={11}></Col>
@@ -65,6 +65,6 @@ export default function CustomerList() {
                     <PaginationItem routeKey={enumParams.CUSTOMERS} />
                 </Row>
             </Container>
-        </div>
+        </>
     )
 }

@@ -2,16 +2,16 @@ import { ChangeEvent, FormEvent, useEffect, useState } from "react"
 import { useHistory } from 'react-router-dom'
 import { Form, Col, Container } from "react-bootstrap"
 
-import { ReservationFormProps } from "../../interfaces/ReservationInterfaces"
-import { CustomerModel } from "../../interfaces/CustomerInterfaces"
+import { ReservationFormProps } from "../interfaces/ReservationInterfaces"
+import { CustomerModel } from "../interfaces/CustomerInterfaces"
 
-import api from '../../services/api'
-import { handleInputChange, handleSubmitClick } from '../../context/FormContext'
-import Button from "../../components/Button"
-import CustomerForm from "../../components/formsFields/CustomerBaseFields"
-import PickIntervalDate from "../../components/PickIntervalDate"
-import RadioButtons from "../../components/RadioButtons"
-import ShowImg from "../../components/ShowImg"
+import api from '../services/api'
+import { handleInputChange, handleSubmitClick } from '../context/FormContext'
+import Button from "../components/Button"
+import CustomerForm from "../components/formsFields/CustomerBaseFields"
+import PickIntervalDate from "../components/PickIntervalDate"
+import RadioButtons from "../components/RadioButtons"
+import ShowImg from "../components/ShowImg"
 
 export default function ReservationForm() {
     const key = 'reservations'
@@ -20,6 +20,7 @@ export default function ReservationForm() {
     const [dataInicial, setDataInicial] = useState(new Date())
     const [dataFinal, setDataFinal] = useState(new Date())
     const [hasData, setHasData] = useState(false)
+    const [status, setStatus] = useState<number>(0)
     const [state, setState] = useState<ReservationFormProps>({
         reservation: {
             codigo: generateCodeByDate(today),
@@ -66,6 +67,7 @@ export default function ReservationForm() {
         }
         if (getDate(dataFinal) !== getDate(today)) {
             handlePeriod()
+            if (status < 1) setStatus(1)
         }
         setToday(new Date())
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -86,13 +88,9 @@ export default function ReservationForm() {
         handleSubmitClick(event, state, key, history)
     }
 
-    function handleChange(event: ChangeEvent<HTMLInputElement>) {
-        handleInputChange(event, setState, state)
-
-    }
     function handleChangeCustomer(event: ChangeEvent<HTMLInputElement>) {
         handleInputChange(event, setCustomer, customer)
-
+        if (status < 3) setStatus(3)
     }
     function handleChoiceClick(event: any) {
         console.log(event.target)
@@ -100,6 +98,7 @@ export default function ReservationForm() {
             ...state,
             roomSelected: event.target.value
         })
+        if (status < 2) setStatus(2)
     }
 
     return (
@@ -140,12 +139,13 @@ export default function ReservationForm() {
                         </Col>
                     }
 
-                    <Button
+                    {(status === 3) && <Button
                         type="submit"
                         padding={false}
                         width="7rem"
                         height="2.5rem"
                     > Cadastrar</Button>
+                    }
                 </Form>
             </Container>
         </>
@@ -159,7 +159,9 @@ function getDate(date: Date): string {
 function generateCodeByDate(date: Date): string {
     return String(date.getFullYear()) +
         String(date.getMonth()) +
-        String(date.getDate()) + 'RS' +
-        String(date.getTime())
+        String(date.getUTCDate()) + "RS" +
+        String(date.getUTCHours()) +
+        String(date.getUTCMinutes()) + "HR" +
+        String(date.getMilliseconds())
 }
 

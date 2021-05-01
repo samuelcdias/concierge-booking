@@ -21,6 +21,7 @@ export interface RoomModel {
 export interface RoomParams {
 	id?: string,
   numero?: string,
+  codigo?: undefined,
 }
 export interface roomProps {
   type_of_room: string,

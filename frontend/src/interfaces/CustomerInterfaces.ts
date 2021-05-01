@@ -35,4 +35,5 @@ export interface CustomerModel {
 export interface CustomerParams {
     id: string,
 	numero?: undefined,
+	codigo?: undefined,
 }
