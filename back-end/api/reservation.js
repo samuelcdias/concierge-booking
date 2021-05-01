@@ -66,6 +66,7 @@ module.exports = (app) => {
       .db(key)
       .select(
         "codigo",
+        "room_number",
         "dt_entrada_reserva",
         "dt_saida_reserva",
         "hora_entrada",
