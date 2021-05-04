@@ -20,14 +20,15 @@ interface ListTypeProps {
 export const ListContext = createContext({} as ListTypeProps)
 
 export default function ListProvider({ children }: { children: ReactNode }) {
-    const history = useHistory()
-    const [state, setState] = useState({
+    const initialState = {
         data: [{}],
         count: 0,
         limit: 10,
         hasData: false,
         dataConf: false
-    })
+    }
+    const history = useHistory()
+    const [state, setState] = useState(initialState)
     const [maxPages, setMaxPages] = useState<number>(1)
 
     const { routeKey,
@@ -40,6 +41,7 @@ export default function ListProvider({ children }: { children: ReactNode }) {
     const { auth } = useContext(UserContext)
 
     async function CallData() {
+        setState(initialState)
         const data = await useDataFetch(`${routeKey}/?page=${activePage}`)
         setState(data)
     }
@@ -88,21 +90,21 @@ export default function ListProvider({ children }: { children: ReactNode }) {
     )
 }
 
-export function editClick(event: React.MouseEvent<HTMLButtonElement>, key: String, history: History) {
+export function editClick(event: React.MouseEvent<HTMLButtonElement>, routeKey: String, history: History) {
     const index = event.currentTarget.getAttribute('value');
-    history.push(`/${key}/${index}`)
+    history.push(`/${routeKey}/${index}`)
 }
 
-export function deleteClick(event: React.MouseEvent<HTMLButtonElement>, key: String, history: History) {
+export function deleteClick(event: React.MouseEvent<HTMLButtonElement>, routeKey: String, history: History) {
     async function deleteData() {
         const index = event.currentTarget.getAttribute('value')
         try {
-            await api.delete(`/${key}/${index}`)
+            await api.delete(`/${routeKey}/${index}`)
         } catch (error) {
             alert("Ocorreu um erro, tente novamente mais tarde!")
         }
     }
     deleteData()
-    history.push(`/${key}`)
+    history.push(`/${routeKey}`)
 }
 

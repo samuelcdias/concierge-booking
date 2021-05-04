@@ -45,11 +45,7 @@ export default function ReservationForm() {
         description: "",
         image_url: ""
     }])
-    const [customer, setCustomer] = useState<CustomerModel>({
-        nome: '',
-        cpf: '',
-        dt_nascimento: '',
-    })
+    const [customer, setCustomer] = useState<CustomerModel>(state.customerList[0])
 
     useEffect(() => {
         async function handlePeriod() {
@@ -72,6 +68,7 @@ export default function ReservationForm() {
         setToday(new Date())
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dataFinal])
+
     useEffect(() => {
         const reservation = state.reservation
         reservation.dt_entrada_reserva = dataInicial
@@ -81,6 +78,7 @@ export default function ReservationForm() {
             reservation: reservation
         })
     }, [dataInicial, dataFinal])
+
 
 
     async function handleSubmit(event: FormEvent) {
@@ -93,7 +91,6 @@ export default function ReservationForm() {
         if (status < 3) setStatus(3)
     }
     function handleChoiceClick(event: any) {
-        console.log(event.target)
         setState({
             ...state,
             roomSelected: event.target.value
@@ -140,10 +137,11 @@ export default function ReservationForm() {
                     }
 
                     {(status === 3) && <Button
-                        type="submit"
+                        type="button"
                         padding={false}
                         width="7rem"
                         height="2.5rem"
+                        onClick={handleSubmit}
                     > Cadastrar</Button>
                     }
                 </Form>
@@ -158,10 +156,9 @@ function getDate(date: Date): string {
 
 function generateCodeByDate(date: Date): string {
     return String(date.getFullYear()) +
-        String(date.getMonth()) +
+        String(date.getMonth() + 1) +
         String(date.getUTCDate()) + "RS" +
         String(date.getUTCHours()) +
         String(date.getUTCMinutes()) + "HR" +
         String(date.getMilliseconds())
 }
-

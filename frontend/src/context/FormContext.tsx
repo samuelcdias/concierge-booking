@@ -88,13 +88,13 @@ export function handleInputChange(event: ChangeEvent<HTMLInputElement>, setState
 }
 
 
-export async function handleSubmitClick(event: FormEvent, data: any, key: string, history: History) {
+export async function handleSubmitClick(event: FormEvent, data: any, routeKey: string, history: History) {
     event.preventDefault()
     try {
-        await api.post(`/${key}`, data)
+        await api.post(`/${routeKey}`, data)
 
         alert('Cadastro realizado com sucesso!')
-        history.push(`/${key}`)
+        history.push(`/${routeKey}`)
     } catch (err) {
         alert("Houve um problema, verifique se os dados estão corretos.")
     }

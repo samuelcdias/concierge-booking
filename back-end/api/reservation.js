@@ -44,8 +44,8 @@ module.exports = (app) => {
           room_type,
           JSON.stringify(customers_list),
         ])
+        .debug()
         .then((result) => {
-          console.log(result);
           if (result.rows[0].sp_make_reservation) {
             res.status(204).end();
           } else {
@@ -102,19 +102,19 @@ module.exports = (app) => {
   };
 
   const remove = async (req, res) => {
-    try {
-      const rowsDeleted = await app.db(key).where({ id: req.params.id }).del();
-
-      try {
-        existsOrError(rowsDeleted, "Reserva não encontrada");
-      } catch (msg) {
-        return res.status(400).send(msg);
-      }
-
-      res.status(204).send();
-    } catch (msg) {
-      res.status(500).send(msg);
-    }
+    console.log(req.params);
+    app.db
+      .raw("SELECT sp_delete_reservation(?);", [req.params.data])
+      .debug()
+      .then((result) => {
+        console.log(result);
+        if (result.rows[0].sp_delete_reservation) {
+          res.status(204).send();
+        } else {
+          res.status(400).send("Código inválido! Tente novamente.");
+        }
+      })
+      .catch((err) => res.status(500).send(err));
   };
 
   const filterByDate = async (req, res) => {
