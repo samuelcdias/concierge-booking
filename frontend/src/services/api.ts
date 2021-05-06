@@ -2,7 +2,7 @@ import axios from 'axios'
 import { getToken } from "./auth"
 
 const api = axios.create({
-    baseURL: 'http://localhost:3150',
+    baseURL: process.env.BASE_URL || 'http://localhost:3150',
     headers: {
         'X-Requested-With': 'XMLHttpRequest',
         },

@@ -1,0 +1,62 @@
+.shadow {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  padding-left: 30px;
+  padding-right: 30px;
+
+  -webkit-box-shadow: 0 3px 5px rgba(57, 63, 72, 0.3);
+  -moz-box-shadow: 0 3px 5px rgba(57, 63, 72, 0.3);
+  box-shadow: 0 3px 5px rgba(57, 63, 72, 0.3);
+}
+
+img {
+  padding: 4px;
+}
+
+.logo {
+  margin: auto 0;
+}
+
+.title {
+  display: block;
+  text-align: center;
+  margin: auto 0;
+  font-family: Nunito;
+  font-style: normal;
+  font-weight: 900;
+  font-size: 2.25rem;
+  line-height: 49px;
+  letter-spacing: 0.12em;
+}
+
+.userStatus {
+  display: flex;
+  flex-direction: column;
+  margin: auto 0;
+}
+.userLogo {
+  display: flex;
+  flex-direction: row;
+}
+
+.loginName {
+  margin-left: 6px;
+  margin-top: 0.1875rem;
+  margin-bottom: 0;
+  font-size: 1.125rem;
+  font-weight: normal;
+}
+
+.userAction {
+  display: flex;
+  flex-direction: row;
+
+  padding-left: 30px;
+  font-size: 0.875rem;
+  text-decoration: underline;
+}
+
+.userAction a {
+  padding: 0;
+}

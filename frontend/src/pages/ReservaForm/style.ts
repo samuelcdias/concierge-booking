@@ -1,9 +1,8 @@
-import styled from "styled-components";
 import colors from "../../styles/colors.json"
 
 const isHidden: boolean = true
 
-export const BlockContent = styled.fieldset`
+export const BlockContent = `
   background: transparent;
   padding: 6px 0px;
   display: flex;
@@ -33,7 +32,7 @@ export const BlockContent = styled.fieldset`
   
 `;
 
-export const FormStyle = styled.form`
+export const FormStyle = `
   box-sizing: border-box;
   padding: 40px 30px;
   margin-top: 50px;
@@ -63,7 +62,7 @@ export const FormStyle = styled.form`
       z-index: 2;
   }
   `
-export const Content = styled.div`
+export const Content = `
   height: 100%;
 `
 

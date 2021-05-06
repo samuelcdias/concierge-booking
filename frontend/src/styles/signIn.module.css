@@ -1,0 +1,46 @@
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  place-content: center;
+  width: 100%;
+}
+
+.content form {
+  background: white;
+  border-radius: 6px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  padding: 40px 30px;
+  margin-top: 50px;
+  width: 340px;
+  text-align: center;
+}
+
+.content form h1 {
+  margin-bottom: 24px;
+  color: var(--textColour);
+}
+
+.content form div {
+  max-width: 100%;
+}
+
+.content form .div-button {
+  position: relative;
+  bottom: 0;
+}
+.content form a {
+  color: var(--third);
+  text-decoration: none;
+  font-size: 18px;
+  margin-top: 24px;
+  display: block;
+  transition: color 0.2s;
+}
+
+.content > a {
+  display: flex;
+  align-items: center;
+  color: #ff9000;
+  text-decoration: none;
+}

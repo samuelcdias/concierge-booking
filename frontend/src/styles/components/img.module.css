@@ -1,0 +1,14 @@
+.content {
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+  max-width: 500px;
+  max-height: 500px;
+}
+.contentImg {
+  display: block;
+  margin: 0 auto;
+  width: 50%;
+  border: 2px solid var(--primary);
+  border-radius: 6px;
+}

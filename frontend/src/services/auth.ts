@@ -1,6 +1,6 @@
 export const TOKEN_KEY = "@Acesso-Token"
-export const isAuthenticated = () => localStorage.getItem(TOKEN_KEY) !== null
-export const getToken = () => localStorage.getItem(TOKEN_KEY)
+export const isAuthenticated = () => sessionStorage.getItem(TOKEN_KEY) !== null
+export const getToken = () => sessionStorage.getItem(TOKEN_KEY)
 
 interface userData {
   id: number,
@@ -13,10 +13,10 @@ interface userData {
 }
 
 export const login = (token: userData ) => {
-  localStorage.setItem(TOKEN_KEY, JSON.stringify(token))
+  sessionStorage.setItem(TOKEN_KEY, JSON.stringify(token))
 }
 
 export const logout = () => {
-  localStorage.removeItem(TOKEN_KEY)
+  sessionStorage.removeItem(TOKEN_KEY)
   return '/home'
 };

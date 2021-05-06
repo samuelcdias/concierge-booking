@@ -6,6 +6,7 @@
 /node_modules
 /.pnp
 .pnp.js
+/Entity
 
 # testing
 /coverage
@@ -23,3 +24,4 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+.eslintcache
