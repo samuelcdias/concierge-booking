@@ -1,6 +1,5 @@
 import { createContext, ReactNode, useState } from "react";
 import { useLocation } from "react-router-dom";
-import Notification from "../components/notifications";
 import { enumParams, ParamsType } from "../services/initialStates";
 import { FormProvider } from "./FormContext";
 import ListProvider from "./ListContext";
@@ -43,7 +42,7 @@ export function RoutesProvider({ children }: { children: ReactNode }) {
             }}>
                 <ListProvider>
                     <FormProvider >
-                        <Notification />
+
 
                         {children}
 

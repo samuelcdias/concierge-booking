@@ -11,6 +11,7 @@ import api from '../services/api'
 import { login } from '../services/auth'
 import { handleInputChange } from '../context/FormContext'
 import { UserContext } from '../context/UserContext'
+import { addNotification } from '../components/notifications'
 
 function SignIn() {
     const history = useHistory()
@@ -31,12 +32,14 @@ function SignIn() {
         try {
             const response = await api.post("/signin", data)
             login(response.data)
-
+            setAuth(true)
+            history.push("/home")
+            const msg = "Login efetuado com sucesso."
+            addNotification({ title: "Login - sucesso", message: msg, type: "success" })
         } catch (err) {
-            alert("Houve um problema, verifique se os dados estão corretos.")
+            const msg = "Houve um problema, verifique se os dados estão corretos."
+            addNotification({ title: "Login - erro", message: msg, type: "warning" })
         }
-        setAuth(true)
-        history.push("/home")
     }
 
     return (

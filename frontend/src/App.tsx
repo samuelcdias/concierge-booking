@@ -5,7 +5,7 @@ import Footer from './components/Footer'
 import Header from './components/Header'
 import Sidebar from './components/SideBar'
 import Routes from './routes'
-
+import Notification from "./components/notifications"
 import { UserProvider } from './context/UserContext'
 
 function App() {
@@ -20,6 +20,8 @@ function App() {
                             />
                         </Row>
                         <Row className="container-page-content">
+                            <Notification />
+
                             <Col md={1}>
                                 <Sidebar />
                             </Col>

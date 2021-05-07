@@ -7,6 +7,7 @@ import { useDataFetch } from '../services/helpers'
 import api from "../services/api"
 import { RoutesContext } from "./RoutesContext"
 import { UserContext } from "./UserContext"
+import { addNotification } from "../components/notifications"
 
 interface ListTypeProps {
     state: any,
@@ -100,8 +101,11 @@ export function deleteClick(event: React.MouseEvent<HTMLButtonElement>, routeKey
         const index = event.currentTarget.getAttribute('value')
         try {
             await api.delete(`/${routeKey}/${index}`)
+            const msg = "O item foi deletado."
+            addNotification({ title: "Ok", message: msg, type: "info" })
         } catch (error) {
-            alert("Ocorreu um erro, tente novamente mais tarde!")
+            const msg = "Houve um problema, verifique se os dados estão corretos."
+            addNotification({ title: "Erro", message: msg, type: "danger" })
         }
     }
     deleteData()

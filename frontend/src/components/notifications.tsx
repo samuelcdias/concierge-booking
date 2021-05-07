@@ -26,7 +26,7 @@ export function addNotification({
         container: "top-right",
         animationIn: ["animate__animated", "animate__fadeIn"],
         animationOut: ["animate__animated", "animate__fadeOut"],
-        width: 400,
+        width: 350,
         dismiss: {
             duration: 3000,
             pauseOnHover: true,

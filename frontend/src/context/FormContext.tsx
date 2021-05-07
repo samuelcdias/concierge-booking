@@ -95,10 +95,10 @@ export async function handleSubmitClick(event: FormEvent, data: any, routeKey: s
         await api.post(`/${routeKey}`, data)
 
         const msg = "Cadastro realizado com sucesso!"
-        addNotification({ title: "cadastroSucesso", message: msg, type: "warning" })
+        addNotification({ title: "Sucesso", message: msg, type: "success" })
         history.push(`/${routeKey}`)
     } catch (err) {
         const msg = "Houve um problema, verifique se os dados estão corretos."
-        addNotification({ title: "cadastroErro", message: msg, type: "warning" })
+        addNotification({ title: "Erro", message: msg, type: "warning" })
     }
 }
