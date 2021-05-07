@@ -23,7 +23,7 @@ function radioButtons({ hasData, state, rooms, handleChange }: radioButtonsProps
                             id={String(idx)}
                             type="radio"
                             name={`roomSelected`}
-                            checked={state.roomSelected == room.type_of_room}
+                            checked={state.roomSelected === room.type_of_room}
                             value={room.type_of_room}
                             onChange={handleChange}
                         />

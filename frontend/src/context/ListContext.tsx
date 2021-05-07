@@ -1,6 +1,6 @@
 
 import { createContext, ReactNode, useContext, useEffect, useState } from "react"
-import { useHistory, useLocation } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import { History } from 'history'
 
 import { useDataFetch } from '../services/helpers'
@@ -70,7 +70,7 @@ export default function ListProvider({ children }: { children: ReactNode }) {
 
     function handlePagination(event: React.MouseEvent<HTMLButtonElement>) {
         const pageNumber = Number(event.currentTarget.innerText)
-        //history.push(`/${routeKey}?page=${pageNumber}`)
+        history.push(`/${routeKey}?page=${pageNumber}`)
         setActivePage(pageNumber)
     }
 
