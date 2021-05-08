@@ -74,7 +74,6 @@ export default function ReservationTableList({ state, handleDeleteClick, handleE
 
 function formatDate(date: string): string {
     const dateObject = new Date(date)
-    console.log(dateObject)
     const dateString = String(dateObject.getDate()) + "/" +
         String(dateObject.getMonth()) + "/" +
         String(dateObject.getFullYear())

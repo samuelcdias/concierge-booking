@@ -7,6 +7,7 @@ import { enumParams, selectInitialState } from '../services/initialStates'
 
 import api from "../services/api"
 import { RoutesContext } from "./RoutesContext";
+import { addNotification } from "../components/notifications";
 
 interface FormContextProps {
     state: any,
@@ -88,14 +89,16 @@ export function handleInputChange(event: ChangeEvent<HTMLInputElement>, setState
 }
 
 
-export async function handleSubmitClick(event: FormEvent, data: any, key: string, history: History) {
+export async function handleSubmitClick(event: FormEvent, data: any, routeKey: string, history: History) {
     event.preventDefault()
     try {
-        await api.post(`/${key}`, data)
+        await api.post(`/${routeKey}`, data)
 
-        alert('Cadastro realizado com sucesso!')
-        history.push(`/${key}`)
+        const msg = "Cadastro realizado com sucesso!"
+        addNotification({ title: "Sucesso", message: msg, type: "success" })
+        history.push(`/${routeKey}`)
     } catch (err) {
-        alert("Houve um problema, verifique se os dados estão corretos.")
+        const msg = "Houve um problema, verifique se os dados estão corretos."
+        addNotification({ title: "Erro", message: msg, type: "warning" })
     }
 }

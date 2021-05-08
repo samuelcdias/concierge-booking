@@ -1,5 +1,6 @@
 import { getToken } from "./auth"
 import api from './api'
+import { addNotification } from "../components/notifications"
 
 interface Data {
   dataConf: boolean,
@@ -23,7 +24,8 @@ export async function useDataFetch(key: string):Promise<Data> {
     limit = response.data.limit === undefined ? 10 : response.data.limit
     hasData = (count === 0 ? false : true)
   } catch (e) {
-    alert("Ocorreu um erro, tente novamente mais tarde!")
+    const msg = "Ocorreu um erro, tente novamente mais tarde!"
+    addNotification({title: "getData", message: msg, type: "warning"})
   }
 
   return {
