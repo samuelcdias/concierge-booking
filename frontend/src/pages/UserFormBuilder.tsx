@@ -1,4 +1,4 @@
-import { Button, Form } from 'react-bootstrap'
+import { Form } from 'react-bootstrap'
 import { FormEvent, useContext, useEffect } from "react"
 import { useParams } from "react-router-dom";
 
@@ -6,6 +6,7 @@ import { enumParams, ParamsType } from "../services/initialStates";
 import { FormContext } from "../context/FormContext";
 import { RoutesContext } from "../context/RoutesContext";
 import UserFormEntries from "../components/formsFields/UserFormEntries"
+import Button from "../components/Button"
 
 import "../styles/form.css"
 
@@ -40,9 +41,16 @@ export default function CustomerForm() {
 
                 <UserFormEntries state={state} params={paramsProvided} handleChange={handleChange} />
 
-                <Button type="submit">
-                    Cadastrar
+                <div className="d-flex justify-content-center">
+                    <Button
+                        type="submit"
+                        width="7rem"
+                        height="2.5rem"
+                        padding={false}
+                    >
+                        Cadastrar
                 </Button>
+                </div>
             </Form>
         </div>
     )

@@ -1,15 +1,16 @@
 import { useContext, useEffect } from "react"
-
-import { RoutesContext } from "../context/RoutesContext";
-import { Button, Form } from 'react-bootstrap'
-import { enumParams, ParamsType } from "../services/initialStates";
-import CustomerFormEntries from "../components/formsFields/CustomerFormEntries"
-import { FormContext } from "../context/FormContext";
 import { useParams } from "react-router-dom";
+import { Form } from 'react-bootstrap'
+
+import Button from "../components/Button"
+import CustomerFormEntries from "../components/formsFields/CustomerFormEntries"
+import { enumParams, ParamsType } from "../services/initialStates";
+import { FormContext } from "../context/FormContext";
+import { RoutesContext } from "../context/RoutesContext";
 
 import "../styles/form.css"
 
-export default function CustomerForm(){
+export default function CustomerForm() {
     const {
         params,
         routeKey,
@@ -18,23 +19,35 @@ export default function CustomerForm(){
     } = useContext(RoutesContext)
     const paramsProvided = useParams<ParamsType>()
 
-    useEffect(() =>{
-        setRouteKey(enumParams.CUSTOMERS)  
+    useEffect(() => {
+        setRouteKey(enumParams.CUSTOMERS)
         setParams(paramsProvided)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [routeKey, params])
     const { state, stateProps, handleChange, handleSubmit } = useContext(FormContext)
 
-    return(
+    return (
         <div className="container">
             <Form onSubmit={handleSubmit}>
                 <legend> Cadastrar Clientes </legend>
-                
-                <CustomerFormEntries state={state} stateProps={stateProps} handleChange={handleChange} />
-    
-                <Button type="submit">
-                    Cadastrar
-                </Button>
+
+                <CustomerFormEntries
+                    state={state}
+                    stateProps={stateProps}
+                    handleChange={handleChange}
+                />
+
+                <div className="d-flex justify-content-center">
+                    <Button
+                        type="submit"
+                        width="7rem"
+                        height="2.5rem"
+                        padding={false}
+                    >
+                        Cadastrar
+                    </Button>
+                </div>
+
             </Form>
         </div>
     )

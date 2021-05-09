@@ -1,6 +1,6 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from "react"
 import { useHistory } from 'react-router-dom'
-import { Form, Col, Container } from "react-bootstrap"
+import { Form, Col } from "react-bootstrap"
 
 import { ReservationFormProps } from "../interfaces/ReservationInterfaces"
 import { CustomerModel } from "../interfaces/CustomerInterfaces"
@@ -12,6 +12,7 @@ import CustomerForm from "../components/formsFields/CustomerBaseFields"
 import PickIntervalDate from "../components/PickIntervalDate"
 import RadioButtons from "../components/RadioButtons"
 import ShowImg from "../components/ShowImg"
+import FormGroup from "../components/FormGroup"
 
 export default function ReservationForm() {
     const key = 'reservations'
@@ -101,19 +102,21 @@ export default function ReservationForm() {
 
     return (
         <>
-            <Container className="text-center align-content-center" >
+            <div>
                 <Form onSubmit={handleSubmit}>
                     <legend>Nova reserva</legend>
-                    <p className="text-muted">
-                        Escolha um período de estadia
-                    </p>
 
-                    <PickIntervalDate
-                        startDate={dataInicial}
-                        endDate={dataFinal}
-                        setStartDate={setDataInicial}
-                        setEndDate={setDataFinal}
-                    />
+                    <FormGroup
+                        text="Escolha um período de estadia"
+                    >
+                        <PickIntervalDate
+                            startDate={dataInicial}
+                            endDate={dataFinal}
+                            setStartDate={setDataInicial}
+                            setEndDate={setDataFinal}
+                        />
+                    </FormGroup>
+
 
                     <RadioButtons
                         hasData={hasData}
@@ -146,7 +149,7 @@ export default function ReservationForm() {
                     > Cadastrar</Button>
                     }
                 </Form>
-            </Container>
+            </div>
         </>
     )
 }

@@ -26,7 +26,7 @@ export function FormProvider({ children }: { children: ReactNode }) {
     const [state, setState] = useState(selectInitialState({ key: routeKey, params: params }))
     const [stateProps, setStateProps] = useState({
         hasData: false,
-        dataConf: false
+        dataConf: true
     })
 
     async function CallData() {

@@ -1,10 +1,11 @@
-import { Button, Form } from 'react-bootstrap'
 import { useContext, useEffect } from "react"
 import { useParams } from "react-router-dom";
+import { Form } from 'react-bootstrap'
 
 import { enumParams, ParamsType } from "../services/initialStates";
 import { FormContext } from "../context/FormContext";
 import { RoutesContext } from "../context/RoutesContext";
+import Button from "../components/Button"
 import RoomFormEntries from "../components/formsFields/RoomFormEntries"
 
 import "../styles/form.css"
@@ -33,11 +34,17 @@ export default function RoomForm() {
 
                 <RoomFormEntries state={state} handleChange={handleChange} />
 
-                <Button type="submit">
-                    Cadastrar
+                <div className="d-flex justify-content-center">
+                    <Button
+                        type="submit"
+                        width="7rem"
+                        height="2.5rem"
+                        padding={false}>
+                        Cadastrar
                 </Button>
+                </div>
             </Form>
-        </div>
+        </div >
     )
 }
 
