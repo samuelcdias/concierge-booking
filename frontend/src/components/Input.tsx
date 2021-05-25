@@ -6,8 +6,9 @@ import styles from '../styles/components/input.module.css'
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
     name: string;
-    className: string;
+    className?: string;
     textLabel?: string;
+    width?: string
     icon?: React.ComponentType<IconBaseProps>;
 }
 
@@ -18,7 +19,11 @@ const Input: React.FC<InputProps> = ({ icon: Icon, ...rest }) => {
             <label htmlFor={rest.id}>{rest.textLabel}</label>
             <div className={styles.iconInput}>
                 {Icon && <Icon size={23} color={colors.primary} />}
-                <input{...rest} />
+                <input
+                    style={
+                        (rest.width) ? { width: rest.width } : { width: "217px" }
+                    } {...rest}
+                />
             </div>
         </div>
 

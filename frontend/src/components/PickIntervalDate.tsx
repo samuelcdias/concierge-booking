@@ -1,5 +1,5 @@
-import { Col, Row } from "react-bootstrap"
-import PickDate from "./selectDate"
+import PickDate, { selectedList } from "./selectDate"
+import styles from "../styles/components/fields.module.css"
 
 interface pickIntervalDateProps {
     startDate: Date,
@@ -14,28 +14,26 @@ export default function PickIntervalDate({
     setStartDate,
     setEndDate }: pickIntervalDateProps) {
     return (
-        <Row lg={4} md={2}>
-            <Col className="text-center" lg={{ span: 3, offset: 3 }}>
+        <div className={styles.displayLine}>
 
+            <div className={styles.pickDateNormalizer}>
                 <PickDate
-                    selected="start"
+                    selected={selectedList.START}
                     startDate={startDate}
                     endDate={endDate}
                     setStartDate={setStartDate}
                     setEndDate={setEndDate}
                 />
-
-            </Col>
-
-            <Col className="text-center" lg={{ span: 3 }}>
+            </div>
+            <div className={styles.pickDateNormalizer}>
                 <PickDate
-                    selected="end"
+                    selected={selectedList.END}
                     startDate={startDate}
                     endDate={endDate}
                     setStartDate={setStartDate}
                     setEndDate={setEndDate}
                 />
-            </Col>
-        </Row>
+            </div>
+        </div >
     )
 }

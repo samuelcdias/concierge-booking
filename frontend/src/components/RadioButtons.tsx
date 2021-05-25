@@ -1,6 +1,7 @@
 import styles from "../styles/components/radioButtons.module.css"
 import { ReservationFormProps } from "../interfaces/ReservationInterfaces"
 import { roomProps } from "../interfaces/RoomInterfaces"
+import FormGroup from "./FormGroup"
 
 interface radioButtonsProps {
     hasData: boolean,
@@ -12,10 +13,9 @@ interface radioButtonsProps {
 function radioButtons({ hasData, state, rooms, handleChange }: radioButtonsProps) {
     if (hasData) {
         return (<>
-            <p className="text-muted">
-                Escolha o quarto
-            </p>
-            <div >
+            <FormGroup
+                text="Escolha o quarto"
+            >
                 {rooms.map((room, idx: number) => (
                     <div className={styles.content}>
                         <input
@@ -36,7 +36,7 @@ function radioButtons({ hasData, state, rooms, handleChange }: radioButtonsProps
                     </div>
                 )
                 )}
-            </div>
+            </FormGroup>
         </>)
     } else return (<></>)
 }
