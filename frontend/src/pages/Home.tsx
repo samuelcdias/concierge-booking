@@ -1,4 +1,3 @@
-import { addNotification } from "../components/notifications";
 
 export default function Home() {
    return <div className="container" >

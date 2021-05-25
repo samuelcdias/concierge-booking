@@ -1,7 +1,7 @@
 import Input from "../Input"
 import InputMask from "../InputMask"
 import { CustomerModel } from "../../interfaces/CustomerInterfaces"
-import { ChangeEvent, useEffect, useState } from "react"
+import { ChangeEvent, useState } from "react"
 import { Col, Row } from "react-bootstrap"
 import FormGroup from "../FormGroup"
 import PickDate from "../selectDate"
@@ -73,8 +73,4 @@ export default function CustomerBaseForm(params: Params) {
             </Col>
         </Row>
     </>)
-}
-
-function getDateFormatted(date: Date): string {
-    return date.getUTCDate() + "/" + date.getUTCMonth + "/" + date.getUTCFullYear
 }
