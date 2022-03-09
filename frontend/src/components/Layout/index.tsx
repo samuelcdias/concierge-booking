@@ -1,7 +1,7 @@
 import { NextComponentType } from "next";
 import SignIn from "../SignIn";
 
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col } from "@components/index";
 import Footer from "@components/Footer";
 import Header from "@components/Header";
 import Sidebar from "@components/SideBar";

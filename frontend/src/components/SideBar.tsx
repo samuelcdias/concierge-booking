@@ -1,27 +1,27 @@
-import { useContext } from 'react'
-import { NavLink } from 'react-router-dom'
+import { useContext } from "react";
 
-import { Nav } from 'react-bootstrap'
+import { Nav } from "react-bootstrap";
 
-import styles from "../styles/components/sideBar.module.css"
-import { UserContext } from '../context/UserContext'
+import styles from "@styles/components/sideBar.module.css";
+import { UserContext } from "@contexts/UserContext";
+import Link from "next/link";
 
 export default function Sidebar() {
-    const { auth, admin } = useContext(UserContext)
+  const { auth, admin } = useContext(UserContext);
 
-    return (<>
-        {auth && (
-            <div className={styles.sideBar}>
-                <Nav defaultActiveKey="/home" className="flex-column">
-                    <Nav.Link as={NavLink} to="/home">Home</Nav.Link>
-                    <Nav.Link as={NavLink} to="/customers/">Clientes</Nav.Link>
-                    <Nav.Link as={NavLink} to="/rooms/">Quartos</Nav.Link>
-                    {admin && <Nav.Link as={NavLink} to="/users/">Usuários</Nav.Link>}
-                    <Nav.Link as={NavLink} to="/reservations/">Reserva</Nav.Link>
-                </Nav>
-            </div>
-        )}
+  return (
+    <>
+      {auth && (
+        <div className={styles.sideBar}>
+          <Nav defaultActiveKey="/home" className="flex-column">
+            <Link href="/home">Home</Link>
+            <Link href="/customers/">Clientes</Link>
+            <Link href="/rooms/">Quartos</Link>
+            {admin && <Link href="/users/">Usuários</Link>}
+            <Link href="/reservations/">Reserva</Link>
+          </Nav>
+        </div>
+      )}
     </>
-    )
+  );
 }
-
