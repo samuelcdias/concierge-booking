@@ -452,7 +452,7 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react-notifications-component@^3.1.0":
+"@types/react-notifications-component@^3.4.1":
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/@types/react-notifications-component/-/react-notifications-component-3.1.1.tgz#85691cb425e266eeda1c82b67ca95b36a6566e86"
   integrity sha512-1b8yPkEOS266q1I5QebG4pcP437Nn9rQ/w8pcHF9kISLbU39HrpFilu9Lmg45FOpskowNzOkKyl/yh71FJwfzg==
