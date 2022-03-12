@@ -1,0 +1,14 @@
+version: "3.4"
+
+services:
+  app:
+    build:
+      context: .
+      target: development
+    environment:
+      - NODE_ENV=development
+    entrypoint: sh -c "yarn install && yarn next dev"
+    ports:
+      - 3000:3000
+    volumes:
+      - ../.:/home/node/app
