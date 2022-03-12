@@ -1,3 +1,3 @@
-export function Col({ children }: { children: Element }) {
-  return <div>{children}</div>;
+export function Col({ children }: { children: JSX.Element }) {
+  return <div>{children}</div>
 }

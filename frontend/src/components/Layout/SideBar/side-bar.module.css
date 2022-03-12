@@ -1,0 +1,7 @@
+.root {
+  @apply h-full mt-8;
+}
+
+.link {
+  @apply color-[var(--primary)] mt-4 font-bold hover:color-(--primary);
+}
